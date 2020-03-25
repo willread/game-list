@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/api/*", "dest": "/api/*" }
+  ],
+  "env": {
+    "MONGODB_CONNECTION_STRING": "@MONGODB_CONNECTION_STRING",
+    "GIANTBOMB_API_KEY": "@GIANTBOMB_API_KEY"
+  }
+}

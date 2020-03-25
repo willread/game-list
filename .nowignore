@@ -1,0 +1,12 @@
+node_modules
+.next
+.env
+.cache
+public
+dist
+out
+build
+.DS_Store
+yarn-error.log
+locale/_build
+locale/*/*.js
