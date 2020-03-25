@@ -11,8 +11,25 @@ handler.get(async (req, res) => {
     const session = await auth0.getSession(req);
 
     if (session) {
-        let doc = await req.db.collection('lists').findOne({ user: session.user.sub });
-        res.status(200).json(doc);
+        let doc = await req.db.collection('lists').findOneAndUpdate(
+            { user: session.user.sub },
+            {
+                $setOnInsert: {
+                    user: session.user.sub,
+                    games: []
+                }
+            },
+            {
+                returnNewDocument: true,
+                upsert: true
+            }
+        );
+
+        if (doc.ok) {
+            res.status(200).json(doc.value);
+        } else {
+            res.status(500).json({error: ''});
+        }
     } else {
         res.status(500).json({error: ''});
     }

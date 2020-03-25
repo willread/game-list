@@ -14,7 +14,7 @@ function User() {
 
   return (
     <Layout user={user} loading={loading}>
-      { data ? data.games : 'loading' }
+      { data ? data.games.join(', ') : 'loading' }
     </Layout>
   )
 }
