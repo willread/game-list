@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   auth0ClientId: 'l9LkEGvVPchq4TdtCxaJg6rNr4YWLB9m',
   auth0Domain: 'willread.auth0.com',
+  auth0ApiIdentifier: 'https://game-list-api'
 };
 
 /*

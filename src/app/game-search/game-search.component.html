@@ -1,0 +1,7 @@
+<input (keyup)="search($event)">
+
+<ul *ngIf="results">
+  <li *ngFor="let result of results">
+    <img [src]="result.image.icon_url">
+  </li>
+</ul>

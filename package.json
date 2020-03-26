@@ -22,6 +22,8 @@
     "@angular/router": "~9.0.6",
     "@auth0/auth0-spa-js": "^1.6.5",
     "@now/node": "^1.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

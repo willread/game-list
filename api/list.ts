@@ -2,9 +2,7 @@
 import auth0 from '../../lib/auth0'
 import db from '../../lib/db';
 
-const handler = nextConnect();
-
-handler.use(db);
+const user = 'google-oauth2|101459134272835055552';
 
 handler.get(async (req, res) => {
     const session = await auth0.getSession(req);
@@ -35,15 +33,7 @@ handler.get(async (req, res) => {
 });
 
 handler.post(async (req, res) => {
-    const session = await auth0.getSession(req);
-
-    if (session) {
-        await req.db.collection('lists').update({ user: session.user.sub }, { $push: { games: req.body.game }});
-
-        res.status(200).json({});
-    } else {
-        res.status(500).json({error: ''});
-    }
+  await req.db.collection('lists').update({ user: session.user.sub }, { $push: { games: req.body.game }});
 });
 
 export default handler;
