@@ -18,4 +18,7 @@ export class ApiService {
     return this.http.get(`/api/games?query=${query}`);
   }
 
+  getList$(): any {
+    return this.http.get(`/api/list`);
+  }
 }
