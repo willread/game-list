@@ -20,9 +20,7 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.auth.getTokenSilently$({
-      algorithm: ['RS256']
-    }).pipe(
+    return this.auth.getTokenSilently$().pipe(
       mergeMap(token => {
         const tokenReq = req.clone({
           setHeaders: { Authorization: `Bearer ${token}` }

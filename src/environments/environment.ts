@@ -7,7 +7,7 @@ export const environment = {
   apiPath: 'https://gamelist-api.haqt.com',
   auth0ClientId: 'l9LkEGvVPchq4TdtCxaJg6rNr4YWLB9m',
   auth0Domain: 'willread.auth0.com',
-  auth0ApiIdentifier: 'https://game-list-api'
+  auth0ApiIdentifier: 'https://gamelist-api.haqt.com'
 };
 
 /*
