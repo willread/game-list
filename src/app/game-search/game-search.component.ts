@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap, map } from 'rxjs/operators';
 
 import { ApiService } from '../api.service';
+import { ListService } from '../list.service';
 
 @Component({
   selector: 'app-game-search',
@@ -15,24 +16,35 @@ export class GameSearchComponent implements OnInit {
   private results$: Observable<any>
 
   results: any[]
+  loading: boolean
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private listService: ListService
   ) { }
 
   ngOnInit(): void {
     this.results$ = this.subject.pipe(
       debounceTime(1000),
       switchMap(q => {
-        this.results = [];
+        this.loading = true
         return this.api.search$(q)
       })
     )
 
-    this.results$.subscribe((r: any[]) => this.results = r)
+    this.results$.subscribe((r: any[]) => {
+      this.loading = false
+      this.results = r
+    })
   }
 
   search(e) {
     this.subject.next(e.target.value)
   }
+
+  add(game) {
+    this.listService.addToList(game);
+    this.results = [];
+  }
+
 }

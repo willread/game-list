@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from '../api.service';
+import { ListService } from '../list.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -8,12 +9,14 @@ import { ApiService } from '../api.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-
   constructor(
-    private api: ApiService
+    public listService: ListService
   ) { }
 
   ngOnInit(): void {
   }
 
+  remove(game: any) {
+    this.listService.removeFromList(game);
+  }
 }
