@@ -19,16 +19,4 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
-  testAuth() {
-    this.api.authTest$().subscribe(
-      res => {
-        this.responseJson = res;
-      },
-
-      err => {
-        this.responseJson = err;
-      }
-    )
-  }
-
 }

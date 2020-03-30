@@ -7,7 +7,3 @@
   <a routerLink="list" *ngIf="auth.loggedIn">List</a>
 </header>
 
-<button (click)="testAuth()">Test API</button>
-<pre *ngIf="responseJson">
-  <code>{{ responseJson | json }}</code>
-</pre>

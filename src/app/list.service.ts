@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http'
 import { Observable, Subject } from 'rxjs'
 import { tap, map, take, throwIfEmpty } from 'rxjs/operators'
 
+import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +22,7 @@ export class ListService {
   }
 
   updateList(): void {
-    this.http.get(`/api/list`)
+    this.http.get(`${environment.apiPath}/lists`)
       .pipe(
         tap(list => this.subject.next(list))
       )
@@ -30,16 +32,12 @@ export class ListService {
   addToList(game: any) {
     this.list.games.push(game);
     this.subject.next(this.list);
-    this.http.post(`/api/list/add`, { game }).subscribe(
-      () => this.updateList()
-    )
+    this.http.post(`${environment.apiPath}/lists/add`, { game }).subscribe(); // Silently update
   }
 
   removeFromList(game: any) {
     this.list.games = this.list.games.filter(g => g.id !== game.id);
     this.subject.next(this.list);
-    this.http.delete(`/api/list/${game.id}`).subscribe(
-      () => this.updateList()
-    )
+    this.http.delete(`${environment.apiPath}/lists/${game.id}`).subscribe(); // Silently update
   }
 }
