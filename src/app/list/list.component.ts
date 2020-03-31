@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ListService } from '../list.service';
-import { Observable } from 'rxjs';
+import { ListService, Game } from '../list.service';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +15,7 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  remove(game: any) {
+  remove(game: Game) {
     this.listService.removeFromList(game);
   }
 }

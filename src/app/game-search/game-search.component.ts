@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { debounceTime, switchMap, map } from 'rxjs/operators';
 
 import { ApiService } from '../api.service';
-import { ListService } from '../list.service';
+import { ListService, Game, SearchGame } from '../list.service';
 
 @Component({
   selector: 'app-game-search',
@@ -13,9 +13,9 @@ import { ListService } from '../list.service';
 export class GameSearchComponent implements OnInit {
   private query: String
   private subject = new Subject<String>()
-  private results$: Observable<any>
+  private results$: Observable<SearchGame[]>
 
-  results: any[]
+  results: SearchGame[]
   loading: boolean
 
   constructor(
@@ -23,7 +23,7 @@ export class GameSearchComponent implements OnInit {
     private listService: ListService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.results$ = this.subject.pipe(
       debounceTime(1000),
       switchMap(q => {
@@ -32,7 +32,7 @@ export class GameSearchComponent implements OnInit {
       })
     )
 
-    this.results$.subscribe((r: any[]) => {
+    this.results$.subscribe((r: SearchGame[]) => {
       this.loading = false
       this.results = r
     })
@@ -42,8 +42,8 @@ export class GameSearchComponent implements OnInit {
     this.subject.next(e.target.value)
   }
 
-  add(game) {
-    this.listService.addToList(game);
+  add(game: SearchGame, platform: String) {
+    this.listService.addToList(game, platform);
     this.results = [];
   }
 

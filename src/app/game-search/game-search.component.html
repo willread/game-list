@@ -4,16 +4,12 @@
   <ul *ngIf="results">
     <li *ngFor="let result of results">
       <h1>{{ result.name }}</h1>
-      <img [src]="result.image.icon_url">
-      <button *ngFor="let platform of result.platforms" (click)="add(result)">
-        {{ platform.name }}
+      <img [src]="result.images.icon">
+      <button *ngFor="let platform of result.platforms" (click)="add(result, platform)">
+        {{ platform }}
       </button>
     </li>
   </ul>
-
-  <code *ngIf="results">
-    {{ results | json }}
-  </code>
 </div>
 <div *ngIf="loading">
   Loading...

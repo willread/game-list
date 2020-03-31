@@ -3,11 +3,8 @@
 <ul>
   <li *ngFor="let game of (listService.list$ | async)?.games ">
     <h1>{{ game.name }}</h1>
-    <img [src]="game.image.icon_url">
+    <h2>{{ game.platform }}</h2>
+    <img [src]="game.images.icon">
     <button (click)="remove(game)">X</button>
   </li>
 </ul>
-
-<code>
-  {{ listService.list$ | async | json }}
-</code>
