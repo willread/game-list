@@ -1,10 +1,22 @@
-curl --header "Content-Type: application/json" \
-  --request PUT \
-  --data '{"terms":"sonic adventure 2 dreamcast"}' \
-  -b "" \
-  http://localhost:3000/api/list
-
-  curl --header "Content-Type: application/json" \
-  --request GET \
-  -b "" \
-  http://localhost:5000/api/auth-test
+- Filter for friendly platform names
+- Time logging
+  - Add logs
+  - Delete logs
+  - Show total time
+- Finished toggle
+- Price paid
+- Physical / digital copy flag
+- List filtering
+  - Platform
+  - Search
+  - Finished / not
+  - Genre
+- List sorting
+  - Time played
+  - Name
+  - Price paid
+  - Ascending / descending
+- Public lists
+- Profile management
+  - ???
+- Graphs!!

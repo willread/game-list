@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, switchMap, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ApiService } from '../api.service';
 import { ListService, Game, SearchGame } from '../list.service';
@@ -11,7 +13,7 @@ import { ListService, Game, SearchGame } from '../list.service';
   styleUrls: ['./game-search.component.scss']
 })
 export class GameSearchComponent implements OnInit {
-  private query: String
+  public query: FormControl = new FormControl()
   private subject = new Subject<String>()
   private results$: Observable<SearchGame[]>
 
@@ -20,7 +22,8 @@ export class GameSearchComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private listService: ListService
+    private listService: ListService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -36,15 +39,19 @@ export class GameSearchComponent implements OnInit {
       this.loading = false
       this.results = r
     })
+
+    this.query.valueChanges.subscribe(query => this.search(query))
   }
 
-  search(e) {
-    this.subject.next(e.target.value)
+  search(query) {
+    this.subject.next(query)
   }
 
-  add(game: SearchGame, platform: String) {
-    this.listService.addToList(game, platform);
-    this.results = [];
+  add(game: SearchGame) {
+    this.listService.addToList(game);
+    this.results = []
+    this.query.setValue('')
+    this.snackBar.open(`${game.name} added!`, undefined, { duration: 1000 })
   }
 
 }

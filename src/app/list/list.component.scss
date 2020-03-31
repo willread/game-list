@@ -1,0 +1,91 @@
+section[fxLayout] {
+  padding-left: 10px;
+
+  mat-card {
+    flex: 0 1 calc(25% - 10px);
+    margin: 0 10px 10px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    overflow: hidden;
+
+    mat-card-actions {
+      visibility: hidden;
+      opacity: 0;
+      transform: translate(0, 10px);
+      transition: opacity 0.15s, transform 0.15s, visibility 0s 0.15s;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    mat-card-content {
+      flex: 1;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.7497373949579832) 0%, rgba(0,0,0,0.7497373949579832) 35%, rgba(0,0,0,0) 100%);
+    }
+
+    mat-card-header, mat-card-actions, mat-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    mat-card-header {
+      mat-card-title {
+        color: #fff;
+      }
+    }
+
+    &:hover {
+      mat-card-actions {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+        transform: translate(0, 0);
+      }
+    }
+  }
+}
+
+app-game-search {
+  width: 50%;
+}
+
+@media (max-width: 1100px) {
+  section[fxLayout] {
+    mat-card {
+      flex: 0 1 calc(33.3% - 10px);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  section[fxLayout] {
+    mat-card {
+      flex: 0 1 calc(50% - 10px);
+    }
+  }
+
+  app-game-search {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  section[fxLayout] {
+    mat-card {
+      flex: 0 1 calc(100% - 10px);
+    }
+  }
+}

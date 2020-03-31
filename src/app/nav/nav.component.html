@@ -1,9 +1,14 @@
-<header>
-  <button (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
-  <button (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button>
+<mat-toolbar color="primary">
+  <span>
+    <a routerLink="/" class="logo">Gamelist</a>
+  </span>
 
-  <a routerLink="/">Home</a> |
-  <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a> |
-  <a routerLink="list" *ngIf="auth.loggedIn">List</a>
-</header>
+  <span class="fill-remaining"></span>
+
+  <a mat-button routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
+  <a mat-button routerLink="list" *ngIf="auth.loggedIn">List</a>
+
+  <button mat-flat-button (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
+  <button mat-flat-button (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button>
+</mat-toolbar>
 

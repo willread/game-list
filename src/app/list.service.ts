@@ -10,8 +10,8 @@ import { environment } from '../environments/environment'
 })
 export class ListService {
   private subject = new Subject()
-  private list;
 
+  public list;
   public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn))
 
   constructor(
@@ -29,8 +29,8 @@ export class ListService {
       .subscribe()
   }
 
-  addToList(game: SearchGame, platform: String) {
-    this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform })
+  addToList(game: SearchGame) {
+    this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform: game.platform })
       .subscribe((newGame: Game) => {
         this.list.games.push(newGame);
         this.subject.next(this.list);
@@ -51,11 +51,16 @@ export interface List {
 export interface SearchGame {
   id: String,
   name: String,
-  platforms: Array<String>,
+  platform: String,
   images: {
     icon: String
   }
 };
+
+export interface TimeLogEntry {
+  date: Date,
+  time: Number
+}
 
 export interface Game {
   _id: String,
@@ -63,5 +68,9 @@ export interface Game {
   platform: String,
   images: {
     icon: String
-  }
+  },
+  timeLog: TimeLogEntry[],
+  finished: Boolean,
+  dateFinished: Date,
+  pricePaid: Number
 }

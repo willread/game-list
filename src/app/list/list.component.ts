@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
 
-import { ListService, Game } from '../list.service';
+import { GameComponent } from '../game/game.component'
+import { ListService, Game } from '../list.service'
 
 @Component({
   selector: 'app-list',
@@ -9,13 +11,18 @@ import { ListService, Game } from '../list.service';
 })
 export class ListComponent implements OnInit {
   constructor(
-    public listService: ListService
+    public listService: ListService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
   }
 
   remove(game: Game) {
-    this.listService.removeFromList(game);
+    this.listService.removeFromList(game)
+  }
+
+  showGame(game: Game) {
+    this.dialog.open(GameComponent, { data: game })
   }
 }

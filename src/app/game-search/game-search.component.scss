@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+mat-form-field {
+  display: block;
+  width: 100%;
+}
+
+mat-option {
+  img {
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+  }
+}

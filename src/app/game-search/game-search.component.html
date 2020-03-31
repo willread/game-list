@@ -1,16 +1,10 @@
-<input (keyup)="search($event)">
+<mat-form-field>
+  <input matInput [formControl]="query" [matAutocomplete]="auto" placeholder="Search for a game...">
+</mat-form-field>
 
-<div *ngIf="!loading">
-  <ul *ngIf="results">
-    <li *ngFor="let result of results">
-      <h1>{{ result.name }}</h1>
-      <img [src]="result.images.icon">
-      <button *ngFor="let platform of result.platforms" (click)="add(result, platform)">
-        {{ platform }}
-      </button>
-    </li>
-  </ul>
-</div>
-<div *ngIf="loading">
-  Loading...
-</div>
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let result of results" (click)="add(result)">
+    <img [src]="result.images.icon">
+    <span>{{ result.name }} ({{ result.platform }})</span>
+  </mat-option>
+</mat-autocomplete>

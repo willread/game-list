@@ -1,10 +1,23 @@
 <app-game-search></app-game-search>
 
-<ul>
-  <li *ngFor="let game of (listService.list$ | async)?.games ">
-    <h1>{{ game.name }}</h1>
-    <h2>{{ game.platform }}</h2>
-    <img [src]="game.images.icon">
-    <button (click)="remove(game)">X</button>
-  </li>
-</ul>
+<section fxLayout="row wrap">
+  <mat-card
+    *ngFor="let game of (listService.list)?.games"
+    [style.background-image]="'url(' + game.images.icon + ')'"
+    (click)="showGame(game)"
+    >
+    <mat-card-header>
+      <img mat-card-avatar [src]="game.images.icon">
+      <mat-card-title>{{ game.name}}</mat-card-title>
+      <mat-card-subtitle>
+        <mat-chip-list>
+          <mat-chip>{{ game.platform }}</mat-chip>
+        </mat-chip-list>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content></mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="remove(game)">X</button>
+    </mat-card-actions>
+  </mat-card>
+</section>
