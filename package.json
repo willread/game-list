@@ -26,6 +26,7 @@
     "@now/node": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.5",
+    "ng2-search-filter": "^0.5.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

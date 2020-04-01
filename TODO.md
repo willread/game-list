@@ -1,4 +1,5 @@
-- Filter for friendly platform names
+- Pipe for friendly platform names
+- Better images
 - Time logging
   - Add logs
   - Delete logs
@@ -7,8 +8,6 @@
 - Price paid
 - Physical / digital copy flag
 - List filtering
-  - Platform
-  - Search
   - Finished / not
   - Genre
 - List sorting
@@ -20,3 +19,4 @@
 - Profile management
   - ???
 - Graphs!!
+- Notes

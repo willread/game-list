@@ -1,8 +1,23 @@
 <app-game-search></app-game-search>
 
+<header>
+  <mat-form-field>
+    <input matInput [formControl]="query" placeholder="Search games...">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [formControl]="platform">
+      <mat-option [value]="''">All Platforms</mat-option>
+      <mat-option *ngFor="let platform of listService.platforms" [value]="platform">
+          {{ platform }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</header>
+
 <section fxLayout="row wrap">
   <mat-card
-    *ngFor="let game of (listService.list)?.games"
+    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value}"
     [style.background-image]="'url(' + game.images.icon + ')'"
     (click)="showGame(game)"
     >

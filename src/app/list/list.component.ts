@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 import { GameComponent } from '../game/game.component'
 import { ListService, Game } from '../list.service'
+import { FilterGamesPipe } from '../filter-games.pipe';
+
 
 @Component({
   selector: 'app-list',
@@ -10,12 +14,25 @@ import { ListService, Game } from '../list.service'
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+  public platform = new FormControl('');
+  public query = new FormControl('');
+
   constructor(
     public listService: ListService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private filterGames: FilterGamesPipe,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe(params => {
+      this.platform.setValue(params.get('platform') || '');
+      this.query.setValue(params.get('query') || '');
+    });
+
+    this.platform.valueChanges.subscribe(platform => this.updateQueryParam('platform', platform));
+    this.query.valueChanges.subscribe(query => this.updateQueryParam('query', query));
   }
 
   remove(game: Game) {
@@ -24,5 +41,15 @@ export class ListComponent implements OnInit {
 
   showGame(game: Game) {
     this.dialog.open(GameComponent, { data: game })
+  }
+
+  updateQueryParam(key, value) {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: { [key]: value === '' ? null : value },
+        queryParamsHandling: 'merge'
+      });
   }
 }

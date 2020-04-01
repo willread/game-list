@@ -11,9 +11,11 @@ import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import  { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { GameSearchComponent } from './game-search/game-search.component';
 import { ListComponent } from './list/list.component';
 import { GameComponent } from './game/game.component';
+import { FilterGamesPipe } from './filter-games.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,8 @@ import { GameComponent } from './game/game.component';
     ProfileComponent,
     GameSearchComponent,
     ListComponent,
-    GameComponent
+    GameComponent,
+    FilterGamesPipe
   ],
   imports: [
     BrowserModule,
@@ -39,6 +43,7 @@ import { GameComponent } from './game/game.component';
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    Ng2SearchPipeModule,
 
     // Material
 
@@ -52,9 +57,12 @@ import { GameComponent } from './game/game.component';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [
+    FilterGamesPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

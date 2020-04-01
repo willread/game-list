@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, Subject } from 'rxjs'
-import { tap, map, take, throwIfEmpty } from 'rxjs/operators'
+import { tap, distinct } from 'rxjs/operators'
 
 import { environment } from '../environments/environment'
 
@@ -11,14 +11,16 @@ import { environment } from '../environments/environment'
 export class ListService {
   private subject = new Subject()
 
-  public list;
+  public list: List;
   public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn))
+  public platforms: String[];
 
   constructor(
     private http: HttpClient
   ) {
-    this.list = this.list$.subscribe(list => this.list = list)
-    this.updateList();
+    this.list$.subscribe(list => this.list = list)
+    this.list$.subscribe(list => this.platforms = Array.from(new Set(list.games.map(game => game.platform))))
+    this.updateList()
   }
 
   updateList(): void {
