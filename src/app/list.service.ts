@@ -14,13 +14,23 @@ export class ListService {
   public list: List;
   public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn))
   public platforms: String[];
+  public genres: String[];
 
   constructor(
     private http: HttpClient
   ) {
-    this.list$.subscribe(list => this.list = list)
-    this.list$.subscribe(list => this.platforms = Array.from(new Set(list.games.map(game => game.platform))))
-    this.updateList()
+    this.list$.subscribe(list => this.list = list);
+    this.list$.subscribe(list => this.platforms = Array.from(new Set(list.games.map(game => game.platform))));
+    this.list$.subscribe(list => this.genres = Array.from(
+      new Set(
+        list.games.map(game => {
+          return game.genres;
+        }).reduce((a, b) => {
+          return a.concat(b)
+        }, [])
+      )
+    ));
+    this.updateList();
   }
 
   updateList(): void {
@@ -28,7 +38,7 @@ export class ListService {
       .pipe(
         tap(list => this.subject.next(list))
       )
-      .subscribe()
+      .subscribe();
   }
 
   addToList(game: SearchGame) {
@@ -55,7 +65,9 @@ export interface SearchGame {
   name: String,
   platform: String,
   images: {
-    icon: String
+    icon: String,
+    original: String,
+    thumbnail: String
   }
 };
 
@@ -70,7 +82,10 @@ export interface Game {
   platform: String,
   images: {
     icon: String
+    original: String,
+    thumbnail: String
   },
+  genres: String[]
   timeLog: TimeLogEntry[],
   finished: Boolean,
   dateFinished: Date,

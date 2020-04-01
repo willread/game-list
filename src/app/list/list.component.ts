@@ -2,6 +2,7 @@ import { Component, OnInit, Pipe, PipeTransform } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 import { GameComponent } from '../game/game.component'
 import { ListService, Game } from '../list.service'
@@ -15,6 +16,7 @@ import { FilterGamesPipe } from '../filter-games.pipe';
 })
 export class ListComponent implements OnInit {
   public platform = new FormControl('');
+  public genre = new FormControl('');
   public query = new FormControl('');
 
   constructor(
@@ -26,12 +28,14 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParamMap.subscribe(params => {
+    this.activatedRoute.queryParamMap.pipe(first()).subscribe(params => {
       this.platform.setValue(params.get('platform') || '');
       this.query.setValue(params.get('query') || '');
+      this.genre.setValue(params.get('genre' || ''));
     });
 
     this.platform.valueChanges.subscribe(platform => this.updateQueryParam('platform', platform));
+    this.genre.valueChanges.subscribe(genre => this.updateQueryParam('genre', genre));
     this.query.valueChanges.subscribe(query => this.updateQueryParam('query', query));
   }
 

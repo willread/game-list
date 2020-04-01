@@ -13,12 +13,21 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [formControl]="genre">
+      <mat-option [value]="''">All Genres</mat-option>
+      <mat-option *ngFor="let genre of listService.genres" [value]="genre">
+          {{ genre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </header>
 
 <section fxLayout="row wrap">
   <mat-card
-    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value}"
-    [style.background-image]="'url(' + game.images.icon + ')'"
+    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value}"
+    [style.background-image]="'url(' + game.images.original + ')'"
     (click)="showGame(game)"
     >
     <mat-card-header>
