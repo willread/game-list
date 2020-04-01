@@ -15,6 +15,7 @@ export class ListService {
   public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn))
   public platforms: String[];
   public genres: String[];
+  public statuses: GameStatus[] = [GameStatus.Finished, GameStatus.Playing, GameStatus.Stopped, GameStatus.Unplayed];
 
   constructor(
     private http: HttpClient
@@ -54,6 +55,18 @@ export class ListService {
     this.subject.next(this.list);
     this.http.delete(`${environment.apiPath}/list/games/${game._id}`).subscribe(); // Silently update
   }
+
+  setStatus(game: Game, status: GameStatus) {
+    try {
+      this.list.games.find(g => g._id === game._id).status = status;
+      this.list.games = [... this.list.games]; // Trigger change detection
+      this.subject.next(this.list);
+    } catch(e) {
+      // TODO
+    } finally {
+      this.http.patch(`${environment.apiPath}/list/games/${game._id}`, { status }).subscribe();
+    }
+  }
 }
 
 export interface List {
@@ -87,7 +100,14 @@ export interface Game {
   },
   genres: String[]
   timeLog: TimeLogEntry[],
-  finished: Boolean,
+  status: GameStatus,
   dateFinished: Date,
   pricePaid: Number
+}
+
+export enum GameStatus {
+  Finished = 'finished',
+  Unplayed = 'unplayed',
+  Stopped = 'stopped',
+  Playing = 'playing'
 }

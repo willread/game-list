@@ -18,6 +18,7 @@ export class ListComponent implements OnInit {
   public platform = new FormControl('');
   public genre = new FormControl('');
   public query = new FormControl('');
+  public status = new FormControl('');
 
   constructor(
     public listService: ListService,
@@ -31,16 +32,18 @@ export class ListComponent implements OnInit {
     this.activatedRoute.queryParamMap.pipe(first()).subscribe(params => {
       this.platform.setValue(params.get('platform') || '');
       this.query.setValue(params.get('query') || '');
-      this.genre.setValue(params.get('genre' || ''));
+      this.genre.setValue(params.get('genre') || '');
+      this.status.setValue(params.get('status') || '');
     });
 
     this.platform.valueChanges.subscribe(platform => this.updateQueryParam('platform', platform));
     this.genre.valueChanges.subscribe(genre => this.updateQueryParam('genre', genre));
     this.query.valueChanges.subscribe(query => this.updateQueryParam('query', query));
+    this.status.valueChanges.subscribe(status => this.updateQueryParam('status', status));
   }
 
   remove(game: Game) {
-    this.listService.removeFromList(game)
+    this.listService.removeFromList(game);
   }
 
   showGame(game: Game) {

@@ -62,6 +62,10 @@ app-game-search {
   width: 50%;
 }
 
+header {
+  padding: 10px;
+}
+
 @media (max-width: 1100px) {
   section[fxLayout] {
     mat-card {

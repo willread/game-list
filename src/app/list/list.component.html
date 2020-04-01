@@ -22,11 +22,20 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [formControl]="status">
+      <mat-option [value]="''">All Statues</mat-option>
+      <mat-option *ngFor="let status of listService.statuses" [value]="status">
+          {{ status }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </header>
 
 <section fxLayout="row wrap">
   <mat-card
-    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value}"
+    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value}"
     [style.background-image]="'url(' + game.images.original + ')'"
     (click)="showGame(game)"
     >

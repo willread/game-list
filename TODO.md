@@ -1,5 +1,7 @@
-- Pipe for friendly platform names
-- Better images
+- Enforce code standards
+- Loading indicator for list view
+- Fetch platforms dynamically
+- Pipe for friendly platform names / statuses
 - Time logging
   - Add logs
   - Delete logs
@@ -9,7 +11,6 @@
 - Physical / digital copy flag
 - List filtering
   - Finished / not
-  - Genre
 - List sorting
   - Time played
   - Name
@@ -20,3 +21,7 @@
   - ???
 - Graphs!!
 - Notes
+- Update mongodb password
+- Prevent duplicate games / platforms
+- Games not showing after adding until refresh / change filters
+- MongoDB validations
