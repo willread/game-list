@@ -1,22 +1,22 @@
-- Loading indicator for list view
-- List sorting
-  - Time played
-  - Price paid
-- Fetch platforms dynamically
-- Pipe for friendly platform names / statuses
 - Time logging
   - Add logs
   - Delete logs
   - Show total time
-- Finished toggle
+- Finished toggle / date
 - Price paid
 - Physical / digital copy flag
+- List sorting
+  - Time played
+  - Price paid
 - List filtering
   - Finished / not
 - Public lists
 - Profile management
   - ???
-- Graphs!!
+- Graphs / data
+  - Collection value by platform / genre
+  - Play time by platform / genre
+  - Play time by month / year / week / day
 - Notes
 - Update mongodb password
 - Prevent duplicate games / platforms
@@ -25,3 +25,6 @@
 - Better add game UI (dialog?)
 - Lazy load images
 - List performance with lots of entries?
+- Fetch platforms dynamically
+- Pipe for friendly platform names / statuses
+- Share games across lists so we build up our own data set

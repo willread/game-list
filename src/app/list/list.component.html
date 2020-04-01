@@ -30,7 +30,7 @@
       <mat-select [formControl]="status">
         <mat-option [value]="''">All Statues</mat-option>
         <mat-option *ngFor="let status of listService.statuses" [value]="status">
-            {{ status }}
+            {{ status | titlecase }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -48,7 +48,7 @@
 
   <section fxLayout="row wrap" >
     <mat-card
-      *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value.key} | sortGames: sort.value.key: sort.value.desc"
+      *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value} | sortGames: sort.value.key: sort.value.desc"
       (click)="showGame(game)"
       >
       <div class="background" [style.background-image]="'url()'" [lazyLoad]="game.images.thumbnail"></div>
