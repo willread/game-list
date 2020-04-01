@@ -73,6 +73,18 @@ export class ListService {
       this.http.patch(`${environment.apiPath}/list/games/${game._id}`, { status }).subscribe();
     }
   }
+
+  logTime(game: Game, seconds: number) {
+    try {
+      this.list.games.find(g => g._id === game._id).secondsPlayed = (game.secondsPlayed || 0) + seconds;
+      this.list.games = [... this.list.games]; // Trigger change detection
+      this.subject.next(this.list);
+    } catch (e) {
+      // TODO
+    } finally {
+      this.http.put(`${environment.apiPath}/list/games/${game._id}/time`, { seconds }).subscribe();
+    }
+  }
 }
 
 export interface List {
@@ -90,11 +102,6 @@ export interface SearchGame {
   };
 }
 
-export interface TimeLogEntry {
-  date: Date;
-  time: number;
-}
-
 export interface Game {
   _id: string;
   name: string;
@@ -105,7 +112,7 @@ export interface Game {
     thumbnail: string
   };
   genres: string[];
-  timeLog: TimeLogEntry[];
+  secondsPlayed: number;
   status: GameStatus;
   dateFinished: Date;
   pricePaid: number;

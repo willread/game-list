@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +52,7 @@ import { SortGamesPipe } from './sort-games.pipe';
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
     }),
+    StorageServiceModule,
 
     // Material
 
