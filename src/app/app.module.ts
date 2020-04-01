@@ -15,7 +15,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,6 +48,9 @@ import { SortGamesPipe } from './sort-games.pipe';
     ReactiveFormsModule,
     FlexLayoutModule,
     Ng2SearchPipeModule,
+    LazyLoadImageModule.forRoot({
+      preset: intersectionObserverPreset
+    }),
 
     // Material
 
@@ -60,7 +65,8 @@ import { SortGamesPipe } from './sort-games.pipe';
     MatAutocompleteModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     FilterGamesPipe,

@@ -1,7 +1,7 @@
+- Loading indicator for list view
 - List sorting
   - Time played
   - Price paid
-- Loading indicator for list view
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses
 - Time logging

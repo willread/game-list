@@ -8,10 +8,26 @@ section[fxLayout] {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background-size: cover;
-    background-position: center;
     z-index: 0;
     overflow: hidden;
+    position: relative;
+
+    .background {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 0.5s;
+
+      &.ng-lazyloaded {
+        opacity: 1;
+      }
+    }
 
     mat-card-actions {
       visibility: hidden;

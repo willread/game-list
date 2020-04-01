@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 export class ListService {
   private subject = new Subject();
 
+  public loading: boolean = false;
   public list: List;
   public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn));
   public platforms: string[];
@@ -35,9 +36,14 @@ export class ListService {
   }
 
   updateList(): void {
+    this.loading = true;
+
     this.http.get(`${environment.apiPath}/list`)
       .pipe(
-        tap(list => this.subject.next(list))
+        tap(list => {
+          this.loading = false;
+          this.subject.next(list);
+        })
       )
       .subscribe();
   }

@@ -1,64 +1,70 @@
-<app-game-search></app-game-search>
+<mat-progress-spinner mode="indeterminate" *ngIf="listService.loading"></mat-progress-spinner>
 
-<header>
-  <mat-form-field>
-    <input matInput [formControl]="query" placeholder="Search games...">
-  </mat-form-field>
+<section *ngIf="!listService.loading">
+  <app-game-search></app-game-search>
 
-  <mat-form-field>
-    <mat-select [formControl]="platform">
-      <mat-option [value]="''">All Platforms</mat-option>
-      <mat-option *ngFor="let platform of listService.platforms" [value]="platform">
-          {{ platform }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <header>
+    <mat-form-field>
+      <input matInput [formControl]="query" placeholder="Search games...">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-select [formControl]="genre">
-      <mat-option [value]="''">All Genres</mat-option>
-      <mat-option *ngFor="let genre of listService.genres" [value]="genre">
-          {{ genre }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select [formControl]="platform">
+        <mat-option [value]="''">All Platforms</mat-option>
+        <mat-option *ngFor="let platform of listService.platforms" [value]="platform">
+            {{ platform }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-select [formControl]="status">
-      <mat-option [value]="''">All Statues</mat-option>
-      <mat-option *ngFor="let status of listService.statuses" [value]="status">
-          {{ status }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select [formControl]="genre">
+        <mat-option [value]="''">All Genres</mat-option>
+        <mat-option *ngFor="let genre of listService.genres" [value]="genre">
+            {{ genre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-select [formControl]="sort">
-      <mat-option *ngFor="let sort of sortOptions" [value]="sort">
-          {{ sort.label }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</header>
+    <mat-form-field>
+      <mat-select [formControl]="status">
+        <mat-option [value]="''">All Statues</mat-option>
+        <mat-option *ngFor="let status of listService.statuses" [value]="status">
+            {{ status }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<section fxLayout="row wrap">
-  <mat-card
-    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value.key} | sortGames: sort.value.key: sort.value.desc"
-    [style.background-image]="'url(' + game.images.original + ')'"
-    (click)="showGame(game)"
-    >
-    <mat-card-header>
-      <img mat-card-avatar [src]="game.images.icon">
-      <mat-card-title>{{ game.name}}</mat-card-title>
-      <mat-card-subtitle>
-        <mat-chip-list>
-          <mat-chip>{{ game.platform }}</mat-chip>
-        </mat-chip-list>
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content></mat-card-content>
-    <mat-card-actions>
-      <button mat-flat-button color="primary" (click)="remove(game)">X</button>
-    </mat-card-actions>
-  </mat-card>
+    <mat-form-field>
+      <mat-select [formControl]="sort">
+        <mat-option *ngFor="let sort of sortOptions" [value]="sort">
+            {{ sort.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </header>
+
+
+
+  <section fxLayout="row wrap" >
+    <mat-card
+      *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value.key} | sortGames: sort.value.key: sort.value.desc"
+      (click)="showGame(game)"
+      >
+      <div class="background" [style.background-image]="'url()'" [lazyLoad]="game.images.thumbnail"></div>
+      <mat-card-header>
+        <img mat-card-avatar [lazyLoad]="game.images.icon">
+        <mat-card-title>{{ game.name}}</mat-card-title>
+        <mat-card-subtitle>
+          <mat-chip-list>
+            <mat-chip>{{ game.platform }}</mat-chip>
+          </mat-chip-list>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content></mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="remove(game)">X</button>
+      </mat-card-actions>
+    </mat-card>
+  </section>
 </section>
