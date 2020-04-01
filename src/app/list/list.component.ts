@@ -1,11 +1,11 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { GameComponent } from '../game/game.component'
-import { ListService, Game } from '../list.service'
+import { GameComponent } from '../game/game.component';
+import { ListService, Game } from '../list.service';
 import { FilterGamesPipe } from '../filter-games.pipe';
 
 
@@ -47,7 +47,7 @@ export class ListComponent implements OnInit {
   }
 
   showGame(game: Game) {
-    this.dialog.open(GameComponent, { data: game })
+    this.dialog.open(GameComponent, { data: game });
   }
 
   updateQueryParam(key, value) {

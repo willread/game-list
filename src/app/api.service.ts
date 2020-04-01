@@ -12,7 +12,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  search$(query: String): Observable<SearchGame[]> {
+  search$(query: string): Observable<SearchGame[]> {
     return this.http.get<SearchGame[]>(`${environment.apiPath}/games?query=${query}`);
   }
 }

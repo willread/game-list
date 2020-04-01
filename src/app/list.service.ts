@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { Observable, Subject } from 'rxjs'
-import { tap, distinct } from 'rxjs/operators'
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { tap, distinct } from 'rxjs/operators';
 
-import { environment } from '../environments/environment'
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ListService {
-  private subject = new Subject()
+  private subject = new Subject();
 
   public list: List;
-  public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn))
-  public platforms: String[];
-  public genres: String[];
+  public list$: Observable<List> = new Observable(fn => this.subject.subscribe(fn));
+  public platforms: string[];
+  public genres: string[];
   public statuses: GameStatus[] = [GameStatus.Finished, GameStatus.Playing, GameStatus.Stopped, GameStatus.Unplayed];
 
   constructor(
@@ -27,7 +27,7 @@ export class ListService {
         list.games.map(game => {
           return game.genres;
         }).reduce((a, b) => {
-          return a.concat(b)
+          return a.concat(b);
         }, [])
       )
     ));
@@ -47,7 +47,7 @@ export class ListService {
       .subscribe((newGame: Game) => {
         this.list.games.push(newGame);
         this.subject.next(this.list);
-      })
+      });
   }
 
   removeFromList(game: Game) {
@@ -61,7 +61,7 @@ export class ListService {
       this.list.games.find(g => g._id === game._id).status = status;
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
-    } catch(e) {
+    } catch (e) {
       // TODO
     } finally {
       this.http.patch(`${environment.apiPath}/list/games/${game._id}`, { status }).subscribe();
@@ -70,39 +70,39 @@ export class ListService {
 }
 
 export interface List {
-  games: Array<Game>
+  games: Array<Game>;
 }
 
 export interface SearchGame {
-  id: String,
-  name: String,
-  platform: String,
+  id: string;
+  name: string;
+  platform: string;
   images: {
-    icon: String,
-    original: String,
-    thumbnail: String
-  }
-};
+    icon: string,
+    original: string,
+    thumbnail: string
+  };
+}
 
 export interface TimeLogEntry {
-  date: Date,
-  time: Number
+  date: Date;
+  time: number;
 }
 
 export interface Game {
-  _id: String,
-  name: String,
-  platform: String,
+  _id: string;
+  name: string;
+  platform: string;
   images: {
-    icon: String
-    original: String,
-    thumbnail: String
-  },
-  genres: String[]
-  timeLog: TimeLogEntry[],
-  status: GameStatus,
-  dateFinished: Date,
-  pricePaid: Number
+    icon: string
+    original: string,
+    thumbnail: string
+  };
+  genres: string[];
+  timeLog: TimeLogEntry[];
+  status: GameStatus;
+  dateFinished: Date;
+  pricePaid: number;
 }
 
 export enum GameStatus {

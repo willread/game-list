@@ -25,3 +25,6 @@
 - Prevent duplicate games / platforms
 - Games not showing after adding until refresh / change filters
 - MongoDB validations
+- Better add game UI (dialog?)
+- Lazy load images
+- List performance with lots of entries?

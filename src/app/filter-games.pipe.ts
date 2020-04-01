@@ -5,19 +5,19 @@ import { isArray } from 'util';
   name: 'filterGames'
 })
 export class FilterGamesPipe implements PipeTransform {
-  public transform(games, filters: Object) {
+  public transform(games, filters: object) {
     return (games || []).filter(game => {
       return Object.keys(filters || {}).every(key => {
         if (typeof filters[key] === 'undefined' || filters[key] === '') {
           return true;
         }
 
-        if (isArray(game[key])) {
+        if (Array.isArray(game[key])) {
           return game[key].includes(filters[key]);
         }
 
         return game[key] === filters[key];
       });
-    })
+    });
   }
 }
