@@ -31,11 +31,19 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [formControl]="sort">
+      <mat-option *ngFor="let sort of sortOptions" [value]="sort">
+          {{ sort.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </header>
 
 <section fxLayout="row wrap">
   <mat-card
-    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value}"
+    *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value.key} | sortGames: sort.value.key: sort.value.desc"
     [style.background-image]="'url(' + game.images.original + ')'"
     (click)="showGame(game)"
     >

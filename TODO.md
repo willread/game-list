@@ -1,4 +1,6 @@
-- Enforce code standards
+- List sorting
+  - Time played
+  - Price paid
 - Loading indicator for list view
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses
@@ -11,11 +13,6 @@
 - Physical / digital copy flag
 - List filtering
   - Finished / not
-- List sorting
-  - Time played
-  - Name
-  - Price paid
-  - Ascending / descending
 - Public lists
 - Profile management
   - ???

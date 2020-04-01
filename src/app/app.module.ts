@@ -25,6 +25,7 @@ import { GameSearchComponent } from './game-search/game-search.component';
 import { ListComponent } from './list/list.component';
 import { GameComponent } from './game/game.component';
 import { FilterGamesPipe } from './filter-games.pipe';
+import { SortGamesPipe } from './sort-games.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FilterGamesPipe } from './filter-games.pipe';
     GameSearchComponent,
     ListComponent,
     GameComponent,
-    FilterGamesPipe
+    FilterGamesPipe,
+    SortGamesPipe
   ],
   imports: [
     BrowserModule,
@@ -61,7 +63,8 @@ import { FilterGamesPipe } from './filter-games.pipe';
     MatSelectModule
   ],
   providers: [
-    FilterGamesPipe
+    FilterGamesPipe,
+    SortGamesPipe
   ],
   bootstrap: [AppComponent]
 })
