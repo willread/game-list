@@ -28,7 +28,7 @@
 
     <mat-form-field>
       <mat-select [formControl]="status">
-        <mat-option [value]="''">All Statues</mat-option>
+        <mat-option [value]="''">All Statuses</mat-option>
         <mat-option *ngFor="let status of listService.statuses" [value]="status">
             {{ status | titlecase }}
         </mat-option>
