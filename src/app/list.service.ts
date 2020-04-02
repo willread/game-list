@@ -85,6 +85,18 @@ export class ListService {
       this.http.put(`${environment.apiPath}/list/games/${game._id}/time`, { seconds }).subscribe();
     }
   }
+
+  updateTime(game: Game, secondsPlayed: number) {
+    try {
+      this.list.games.find(g => g._id === game._id).secondsPlayed = secondsPlayed;
+      this.list.games = [... this.list.games]; // Trigger change detection
+      this.subject.next(this.list);
+    } catch (e) {
+      // TODO
+    } finally {
+      this.http.patch(`${environment.apiPath}/list/games/${game._id}`, { secondsPlayed }).subscribe();
+    }
+  }
 }
 
 export interface List {

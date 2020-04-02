@@ -29,6 +29,7 @@ import { ListComponent } from './list/list.component';
 import { GameComponent } from './game/game.component';
 import { FilterGamesPipe } from './filter-games.pipe';
 import { SortGamesPipe } from './sort-games.pipe';
+import { TimePlayedComponent } from './time-played/time-played.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SortGamesPipe } from './sort-games.pipe';
     ListComponent,
     GameComponent,
     FilterGamesPipe,
-    SortGamesPipe
+    SortGamesPipe,
+    TimePlayedComponent
   ],
   imports: [
     BrowserModule,

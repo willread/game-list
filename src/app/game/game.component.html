@@ -17,9 +17,6 @@
 
 <h2>Log Time:</h2>
 
-<div>{{ game.secondsPlayed }} seconds played</div>
-
 <div>
-  <button *ngIf="!playStartTime" mat-flat-button color="primary" (click)="startPlaying()">Start Playing</button>
-  <button *ngIf="playStartTime" mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
+  <app-time-played [game]="game" (finishedPlaying)="logTime($event)" (secondsChanged)="updateTime($event)"></app-time-played>
 </div>

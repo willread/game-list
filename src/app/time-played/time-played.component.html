@@ -1,0 +1,18 @@
+<div>
+  <mat-form-field>
+    <input matInput [formControl]="hours" placeholder="Hours" min="0" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [formControl]="minutes" placeholder="Minutes" min="0" max="60" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [formControl]="seconds" placeholder="Seconds" min="0" max="60" type="number">
+  </mat-form-field>
+</div>
+
+<div>
+  <button *ngIf="!playStartTime" mat-flat-button color="primary" (click)="startPlaying()">Start Playing</button>
+  <button *ngIf="playStartTime" mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
+</div>

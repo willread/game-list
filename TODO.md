@@ -1,19 +1,19 @@
-- Edit time played (hours / minutes)
-- Finished toggle / date
+- Prevent entering more than 60 seconds or minutes
+- Graphs / data
+  - Collection value by platform / genre
+  - Play time by platform / genre
+  - Play time by month / year / week / day
+- Activity log
+  - Log time
+  - Add game
 - Price paid
 - Physical / digital copy flag
 - List sorting
   - Time played
   - Price paid
-- List filtering
-  - Finished / not
 - Public lists
 - Profile management
   - ???
-- Graphs / data
-  - Collection value by platform / genre
-  - Play time by platform / genre
-  - Play time by month / year / week / day
 - Notes
 - Update mongodb password
 - Prevent duplicate games / platforms
