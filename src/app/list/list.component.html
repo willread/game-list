@@ -51,7 +51,7 @@
       *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value} | sortGames: sort.value.key: sort.value.desc"
       (click)="showGame(game)"
       >
-      <div class="background" [style.background-image]="'url()'" [lazyLoad]="game.images.thumbnail"></div>
+      <div class="background" [style.background-image]="'url()'" [lazyLoad]="game.images.original"></div>
       <mat-card-header>
         <img mat-card-avatar [lazyLoad]="game.images.icon">
         <mat-card-title>{{ game.name}}</mat-card-title>

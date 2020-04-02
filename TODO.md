@@ -1,7 +1,4 @@
-- Time logging
-  - Add logs
-  - Delete logs
-  - Show total time
+- Edit time played (hours / minutes)
 - Finished toggle / date
 - Price paid
 - Physical / digital copy flag
