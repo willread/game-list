@@ -5,8 +5,11 @@
 
   <span class="fill-remaining"></span>
 
-  <a mat-button routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
-  <a mat-button routerLink="list" *ngIf="auth.loggedIn">List</a>
+  <ng-container *ngIf="auth.loggedIn">
+    <a mat-button [routerLink]="['/user/' + (auth.profile$ | async).alias]" *ngIf="auth.profile$ | async">My Page</a>
+    <a mat-button routerLink="/profile">Profile</a>
+    <a mat-button routerLink="list">List</a>
+  </ng-container>
 
   <button mat-flat-button (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
   <button mat-flat-button (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button>

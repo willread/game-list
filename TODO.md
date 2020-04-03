@@ -1,8 +1,11 @@
-- Prevent entering more than 60 seconds or minutes
-- Graphs / data
-  - Collection value by platform / genre
-  - Play time by platform / genre
-  - Play time by month / year / week / day
+- Add usernames / other profile fields to users
+- Profile
+  - Friendly URL
+  - Stats ??
+  - Graphs
+    - Collection value by platform / genre
+    - Play time by month / year / week / day
+    - Play time by platform / genre
 - Activity log
   - Log time
   - Add game
@@ -24,4 +27,5 @@
 - List performance with lots of entries?
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses
+- Prevent entering more than 60 seconds or minutes
 - Share games across lists so we build up our own data set

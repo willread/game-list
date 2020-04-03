@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ListComponent } from './list/list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserComponent } from './user/user.component';
 import { AuthGuard } from './auth.guard';
 import { InterceptorService } from './interceptor.service';
 
@@ -17,6 +18,10 @@ const routes: Routes = [
     path: 'list',
     component: ListComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'user/:id',
+    component: UserComponent
   }
 ];
 

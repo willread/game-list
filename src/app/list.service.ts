@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { tap, distinct } from 'rxjs/operators';
 
+import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -19,7 +20,8 @@ export class ListService {
   public statuses: GameStatus[] = [GameStatus.Finished, GameStatus.Playing, GameStatus.Stopped, GameStatus.Unplayed];
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {
     this.list$.subscribe(list => this.list = list);
     this.list$.subscribe(list => this.platforms = Array.from(new Set(list.games.map(game => game.platform))));
@@ -32,7 +34,14 @@ export class ListService {
         }, [])
       )
     ));
-    this.updateList();
+
+    this.authService.isAuthenticated$.pipe(
+      tap(authenticated => {
+        if (authenticated) {
+          this.updateList();
+        }
+      })
+    ).subscribe();
   }
 
   updateList(): void {
@@ -46,6 +55,10 @@ export class ListService {
         })
       )
       .subscribe();
+  }
+
+  getList(id: string): Observable<List> {
+    return this.http.get<List>(`${environment.apiPath}/list/${id}`);
   }
 
   addToList(game: SearchGame) {

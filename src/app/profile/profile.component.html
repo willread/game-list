@@ -1,3 +1,10 @@
-<pre *ngIf="auth.userProfile$ | async as profile">
-  <code>{{ profile | json }}</code>
-</pre>
+<mat-progress-spinner mode="indeterminate" *ngIf="!(authService.profile$ | async)"></mat-progress-spinner>
+
+<section *ngIf="authService.profile$ | async">
+  <mat-form-field>
+    <input matInput [formControl]="alias">
+    <mat-error *ngIf="error?.errors.alias">{{ error?.errors.alias}}</mat-error>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" (click)="update()">Update</button>
+</section>

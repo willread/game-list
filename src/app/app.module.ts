@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { GameComponent } from './game/game.component';
 import { FilterGamesPipe } from './filter-games.pipe';
 import { SortGamesPipe } from './sort-games.pipe';
 import { TimePlayedComponent } from './time-played/time-played.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { TimePlayedComponent } from './time-played/time-played.component';
     GameComponent,
     FilterGamesPipe,
     SortGamesPipe,
-    TimePlayedComponent
+    TimePlayedComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ import { TimePlayedComponent } from './time-played/time-played.component';
       preset: intersectionObserverPreset
     }),
     StorageServiceModule,
+    ChartsModule,
 
     // Material
 

@@ -27,7 +27,9 @@ export class InterceptorService implements HttpInterceptor {
         });
         return next.handle(tokenReq);
       }),
-      catchError(err => throwError(err))
+      catchError(() => {
+        return next.handle(req);
+      })
     );
   }
 }
