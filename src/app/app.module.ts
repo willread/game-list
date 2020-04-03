@@ -16,6 +16,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { StorageServiceModule } from 'ngx-webstorage-service';
@@ -74,7 +75,8 @@ import { UserComponent } from './user/user.component';
     MatSnackBarModule,
     MatDialogModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     FilterGamesPipe,

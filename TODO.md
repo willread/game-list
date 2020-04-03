@@ -1,11 +1,12 @@
-- Add usernames / other profile fields to users
 - Profile
-  - Friendly URL
   - Stats ??
+  - Most recently played
   - Graphs
     - Collection value by platform / genre
     - Play time by month / year / week / day
     - Play time by platform / genre
+    - Games by genre
+  - Activity log
 - Activity log
   - Log time
   - Add game

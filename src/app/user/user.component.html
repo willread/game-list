@@ -1,1 +1,28 @@
-{{ list | json }}
+<mat-progress-spinner mode="indeterminate" *ngIf="!list"></mat-progress-spinner>
+
+<ng-container *ngIf="list">
+  <section class="graphs">
+    <mat-tab-group>
+      <mat-tab label="Genres">
+        <div style="display: block;">
+          <canvas baseChart
+            [data]="genreCounts"
+            [labels]="genreLabels"
+            chartType="doughnut">
+          </canvas>
+        </div>
+      </mat-tab>
+      <mat-tab label="Platforms">
+        <div style="display: block;">
+          <canvas baseChart
+            [data]="platformCounts"
+            [labels]="platformLabels"
+            chartType="doughnut">
+          </canvas>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </section>>
+
+  {{ list | json }}
+</ng-container>
