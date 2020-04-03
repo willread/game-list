@@ -1,6 +1,20 @@
 <mat-progress-spinner mode="indeterminate" *ngIf="!list"></mat-progress-spinner>
 
 <ng-container *ngIf="list">
+  <app-game-filter [games]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+
+  <section class="stats">
+    <div class="stat">
+      <h1>{{ list.games.length }}</h1>
+      <h2>Games In Collection</h2>
+    </div>
+
+    <div class="stat">
+      <h1>{{ (secondsPlayed / 60 / 60).toPrecision(2) }}</h1>
+      <h2>Hours Played</h2>
+    </div>
+  </section>
+
   <section class="graphs">
     <mat-tab-group>
       <mat-tab label="Genres">
@@ -22,7 +36,11 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-  </section>>
+  </section>
 
-  {{ list | json }}
+  <section class="games">
+    <div class="game" *ngFor="let game of list.games | filterGames: filter">
+      {{ game.name }}
+    </div>
+  </section>
 </ng-container>

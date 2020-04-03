@@ -2,53 +2,11 @@
 
 <section *ngIf="!listService.loading">
   <app-game-search></app-game-search>
-
-  <header>
-    <mat-form-field>
-      <input matInput [formControl]="query" placeholder="Search games...">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select [formControl]="platform">
-        <mat-option [value]="''">All Platforms</mat-option>
-        <mat-option *ngFor="let platform of listService.platforms" [value]="platform">
-            {{ platform }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select [formControl]="genre">
-        <mat-option [value]="''">All Genres</mat-option>
-        <mat-option *ngFor="let genre of listService.genres" [value]="genre">
-            {{ genre }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select [formControl]="status">
-        <mat-option [value]="''">All Statuses</mat-option>
-        <mat-option *ngFor="let status of listService.statuses" [value]="status">
-            {{ status | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select [formControl]="sort">
-        <mat-option *ngFor="let sort of sortOptions" [value]="sort">
-            {{ sort.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </header>
-
-
+  <app-game-filter [games]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
 
   <section fxLayout="row wrap" >
     <mat-card
-      *ngFor="let game of (listService.list)?.games | filter: query.value | filterGames:{platform: platform.value, genres: genre.value, status: status.value} | sortGames: sort.value.key: sort.value.desc"
+      *ngFor="let game of (listService.list)?.games | filterGames: filter"
       (click)="showGame(game)"
       >
       <div class="background" [style.background-image]="'url()'" [lazyLoad]="game.images.original"></div>

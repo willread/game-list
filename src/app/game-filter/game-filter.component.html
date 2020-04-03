@@ -1,0 +1,40 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <input matInput formControlName="query" placeholder="Search games...">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select formControlName="platform">
+      <mat-option [value]="''">All Platforms</mat-option>
+      <mat-option *ngFor="let platform of platforms" [value]="platform">
+          {{ platform }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select formControlName="genre">
+      <mat-option [value]="''">All Genres</mat-option>
+      <mat-option *ngFor="let genre of genres" [value]="genre">
+          {{ genre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select formControlName="status">
+      <mat-option [value]="''">All Statuses</mat-option>
+      <mat-option *ngFor="let status of listService.statuses" [value]="status">
+          {{ status | titlecase }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select formControlName="sort">
+      <mat-option *ngFor="let sort of sortOptions" [value]="sort">
+          {{ sort.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

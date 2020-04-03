@@ -24,8 +24,8 @@ export class ListService {
     private authService: AuthService
   ) {
     this.list$.subscribe(list => this.list = list);
-    this.list$.subscribe(list => this.platforms = this.getPlatformsForList(list));
-    this.list$.subscribe(list => this.genres = this.getGenresForList(list));
+    this.list$.subscribe(list => this.platforms = this.getPlatformsForGames(list.games));
+    this.list$.subscribe(list => this.genres = this.getGenresForGames(list.games));
 
     this.authService.isAuthenticated$.pipe(
       tap(authenticated => {
@@ -36,10 +36,10 @@ export class ListService {
     ).subscribe();
   }
 
-  getGenresForList(list: List): string[] {
+  public getGenresForGames(games: Game[]): string[] {
     return Array.from(
       new Set(
-        list.games.map(game => {
+        games.map(game => {
           return game.genres;
         }).reduce((a, b) => {
           return a.concat(b);
@@ -48,8 +48,8 @@ export class ListService {
     );
   }
 
-  getPlatformsForList(list: List): string[] {
-    return Array.from(new Set(list.games.map(game => game.platform)));
+  public getPlatformsForGames(games: Game[]): string[] {
+    return Array.from(new Set(games.map(game => game.platform)));
   }
 
   updateList(): void {

@@ -17,7 +17,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { Ng2SearchPipeModule, Ng2SearchPipe } from 'ng2-search-filter';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { ChartsModule } from 'ng2-charts';
@@ -33,6 +33,7 @@ import { FilterGamesPipe } from './filter-games.pipe';
 import { SortGamesPipe } from './sort-games.pipe';
 import { TimePlayedComponent } from './time-played/time-played.component';
 import { UserComponent } from './user/user.component';
+import { GameFilterComponent } from './game-filter/game-filter.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { UserComponent } from './user/user.component';
     FilterGamesPipe,
     SortGamesPipe,
     TimePlayedComponent,
-    UserComponent
+    UserComponent,
+    GameFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { UserComponent } from './user/user.component';
   ],
   providers: [
     FilterGamesPipe,
-    SortGamesPipe
+    SortGamesPipe,
+    Ng2SearchPipe
   ],
   bootstrap: [AppComponent]
 })
