@@ -30,3 +30,4 @@
 - Pipe for friendly platform names / statuses
 - Prevent entering more than 60 seconds or minutes
 - Share games across lists so we build up our own data set
+- Choose a random game
