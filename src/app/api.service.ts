@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../environments/environment';
-import { SearchGame } from './list.service';
+import { SearchGame, Game } from './list.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,14 @@ export class ApiService {
   updateProfile$(updates: any): Observable<Profile> {
     return this.http.patch<Profile>(`${environment.apiPath}/profile`, updates);
   }
+
+  getActivitiesForUser$(idOrAlias: string): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${environment.apiPath}/activity/user/${idOrAlias}`);
+  }
+
+  getActivities$(): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${environment.apiPath}/activity`);
+  }
 }
 
 export interface ApiError {
@@ -35,3 +43,12 @@ export interface ApiError {
 export interface Profile {
   alias: string
 }
+
+export interface Activity {
+  profile: Profile,
+  action: 'log-time' | 'update-status' |'add-game',
+  meta: any,
+  createdAt: string,
+  updatedAt: string,
+  game?: Game
+};

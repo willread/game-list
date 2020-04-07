@@ -34,6 +34,10 @@ import { SortGamesPipe } from './sort-games.pipe';
 import { TimePlayedComponent } from './time-played/time-played.component';
 import { UserComponent } from './user/user.component';
 import { GameFilterComponent } from './game-filter/game-filter.component';
+import { RelativeTimePipe } from './relative-time.pipe';
+import { ActivityListComponent } from './activity-list/activity-list.component';
+import { HomeComponent } from './home/home.component';
+import { SecondsToTimePipe } from './seconds-to-time.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,11 @@ import { GameFilterComponent } from './game-filter/game-filter.component';
     SortGamesPipe,
     TimePlayedComponent,
     UserComponent,
-    GameFilterComponent
+    GameFilterComponent,
+    RelativeTimePipe,
+    ActivityListComponent,
+    HomeComponent,
+    SecondsToTimePipe
   ],
   imports: [
     BrowserModule,

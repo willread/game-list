@@ -5,10 +5,15 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ListComponent } from './list/list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserComponent } from './user/user.component';
+import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
 import { InterceptorService } from './interceptor.service';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
   {
     path: 'profile',
     component: ProfileComponent,

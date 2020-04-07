@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { SingleDataSet, Label } from 'ng2-charts';
 
+import { ApiService, Activity } from '../api.service';
 import { List, ListService } from '../list.service';
 import { FilterGamesPipe, GamesFilter } from '../filter-games.pipe';
 
@@ -19,11 +20,13 @@ export class UserComponent implements OnInit {
   public platformCounts: SingleDataSet;
   public platformLabels: Label[];
   public secondsPlayed: number;
+  public activities: Activity[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private listService: ListService,
-    private filterGames: FilterGamesPipe
+    private filterGames: FilterGamesPipe,
+    private apiService: ApiService
   ) {}
 
   ngOnInit() {
@@ -34,7 +37,13 @@ export class UserComponent implements OnInit {
 
           this.updateGraphs();
         });
+
+        this.apiService.getActivitiesForUser$(params.get('id'))
+          .subscribe(activities => {
+            this.activities = activities;
+          });
     });
+
   }
 
   updateFilter(filter: GamesFilter) {
@@ -55,7 +64,5 @@ export class UserComponent implements OnInit {
     this.platformLabels = platforms;
 
     this.secondsPlayed = filteredGames.reduce((total, game) => game.secondsPlayed + total, 0);
-
-    console.log('update graphs', filteredGames);
   }
 }

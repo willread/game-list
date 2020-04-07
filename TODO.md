@@ -1,3 +1,4 @@
+- Games should their own table, with games in a given list stored separately
 - Profile
   - Stats ??
   - Most recently played
@@ -7,9 +8,6 @@
     - Play time by platform / genre
     - Games by genre
   - Activity log
-- Activity log
-  - Log time
-  - Add game
 - Price paid
 - Physical / digital copy flag
 - List sorting
@@ -31,3 +29,5 @@
 - Prevent entering more than 60 seconds or minutes
 - Share games across lists so we build up our own data set
 - Choose a random game
+- Show time played / currently playing / status in main list view
+- Move pipes / services to folders

@@ -4,9 +4,8 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 import { Game } from '../list.service';
+import { SECONDS_IN_HOUR, SECONDS_IN_MINUTE, HoursMinutesSeconds, UtilitiesService } from '../utilities.service';
 
-const SECONDS_IN_HOUR = 3600;
-const SECONDS_IN_MINUTE = 60;
 const PLAY_START_TIMES_KEY = 'play-start-times';
 const UPDATE_DEBOUNCE_TIME = 500;
 
@@ -30,7 +29,8 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   private _playStartTime;
 
   constructor(
-    @Inject(LOCAL_STORAGE) private storage: StorageService
+    @Inject(LOCAL_STORAGE) private storage: StorageService,
+    private utilities: UtilitiesService
   ) { }
 
   ngOnInit(): void {
@@ -64,14 +64,6 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     this.hours.setValue(this.totalTime.hours);
     this.minutes.setValue(this.totalTime.minutes);
     this.seconds.setValue(this.totalTime.seconds);
-  }
-
-  timeFromSeconds(seconds: number): HoursMinutesSeconds {
-    const h = Math.floor(seconds / SECONDS_IN_HOUR);
-    const m = Math.floor((seconds - h * SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
-    const s = Math.floor((seconds - h * SECONDS_IN_HOUR - m * SECONDS_IN_MINUTE));
-
-    return { hours: h, minutes: m, seconds: s };
   }
 
   get secondsPlayed(): number {
@@ -114,7 +106,7 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   }
 
   get totalTime(): HoursMinutesSeconds {
-    return this.timeFromSeconds(this.totalSeconds);
+    return this.utilities.timeFromSeconds(this.totalSeconds);
   }
 
   get secondsPlayedSincePlayStarted(): number {
@@ -147,10 +139,4 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     this.storage.set(PLAY_START_TIMES_KEY, playStartTimes);
     this._playStartTime = date;
   }
-}
-
-interface HoursMinutesSeconds {
-  hours: number;
-  minutes: number;
-  seconds: number;
 }

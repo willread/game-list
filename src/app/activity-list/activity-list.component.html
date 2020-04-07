@@ -1,0 +1,14 @@
+<div *ngFor="let activity of activities">
+  <ng-container *ngIf="activity.action == 'add-game'">
+    {{ showUser ? activity.profile.alias : '' }}
+    added {{ activity.game.name }} {{ activity.createdAt | relativeTime}}
+  </ng-container>
+  <ng-container *ngIf="activity.action == 'update-status'">
+    {{ showUser ? activity.profile.alias : '' }}
+    changed status of {{ activity.game.name }} to <b>{{ activity.meta.status }}</b> {{ activity.createdAt | relativeTime}}
+  </ng-container>
+  <ng-container *ngIf="activity.action == 'log-time'">
+    {{ showUser ? activity.profile.alias : '' }}
+    played {{ activity.game.name }} for <b>{{ activity.meta.seconds | secondsToTime}}</b> {{ activity.createdAt | relativeTime}}
+  </ng-container>
+</div>
