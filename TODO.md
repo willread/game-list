@@ -1,33 +1,28 @@
-- Games should their own table, with games in a given list stored separately
+- Share games across lists so we build up our own data set
 - Profile
-  - Stats ??
   - Most recently played
   - Graphs
-    - Collection value by platform / genre
     - Play time by month / year / week / day
     - Play time by platform / genre
-    - Games by genre
-  - Activity log
-- Price paid
 - Physical / digital copy flag
 - List sorting
   - Time played
-  - Price paid
-- Public lists
 - Profile management
   - ???
-- Notes
 - Update mongodb password
-- Prevent duplicate games / platforms
+- Prevent duplicate games in a list
 - Games not showing after adding until refresh / change filters
 - MongoDB validations
 - Better add game UI (dialog?)
-- Lazy load images
 - List performance with lots of entries?
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses
 - Prevent entering more than 60 seconds or minutes
-- Share games across lists so we build up our own data set
 - Choose a random game
 - Show time played / currently playing / status in main list view
 - Move pipes / services to folders
+
+Future:
+
+- Price paid
+- Game notes
