@@ -48,10 +48,14 @@ export class GameSearchComponent implements OnInit {
   }
 
   add(game: SearchGame) {
-    this.listService.addToList(game);
+    this.listService.addToList$(game)
+      .subscribe(() => {
+        this.snackBar.open(`${game.name} added!`, undefined, { duration: 1000 });
+      }, error => {
+        this.snackBar.open(`${game.name} is already in your list.`, undefined, { duration: 1000 });
+      });
     this.results = [];
     this.query.setValue('');
-    this.snackBar.open(`${game.name} added!`, undefined, { duration: 1000 });
   }
 
 }

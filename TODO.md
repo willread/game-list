@@ -1,5 +1,7 @@
 - Prevent duplicate games in a list
+- Games not showing after adding until refresh / change filters
 - Cannot read property 'alias' of null error
+- Better add game UI (dialog?)
 
 - Revamp time logging
   - Need to minimize errors
@@ -16,9 +18,7 @@
 - Profile management
   - ???
 - Update mongodb password
-- Games not showing after adding until refresh / change filters
 - MongoDB validations
-- Better add game UI (dialog?)
 - List performance with lots of entries?
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses

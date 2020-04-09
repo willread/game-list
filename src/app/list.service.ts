@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { tap, distinct } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
@@ -69,12 +69,14 @@ export class ListService {
     return this.http.get<List>(`${environment.apiPath}/list/${id}`);
   }
 
-  addToList(game: SearchGame) {
-    this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform: game.platform })
-      .subscribe((newListGame: ListGame) => {
-        this.list.games.push(newListGame);
-        this.subject.next(this.list);
-      });
+  addToList$(game: SearchGame): Observable<any> {
+    return this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform: game.platform })
+      .pipe(
+        tap((newListGame: ListGame) => {
+          this.list.games.push(newListGame);
+          this.subject.next(this.list);
+        })
+      );
   }
 
   removeFromList(listGame: ListGame) {
