@@ -74,6 +74,7 @@ export class ListService {
       .pipe(
         tap((newListGame: ListGame) => {
           this.list.games.push(newListGame);
+          this.list.games = [... this.list.games]; // Trigger change detection
           this.subject.next(this.list);
         })
       );

@@ -1,5 +1,3 @@
-- Prevent duplicate games in a list
-- Games not showing after adding until refresh / change filters
 - Cannot read property 'alias' of null error
 - Better add game UI (dialog?)
 
