@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
-import { Game, ListService } from '../list.service';
+import { ListGame, ListService } from '../list.service';
 import { GamesFilter } from '../filter-games.pipe'
 
 @Component({
@@ -12,7 +12,7 @@ import { GamesFilter } from '../filter-games.pipe'
   styleUrls: ['./game-filter.component.scss']
 })
 export class GameFilterComponent implements OnInit {
-  @Input() games: Game[];
+  @Input() listGames: ListGame[];
   @Output() filterChanged = new EventEmitter<GamesFilter>();
 
   public genres: string[];
@@ -54,8 +54,8 @@ export class GameFilterComponent implements OnInit {
       this.updateFilter();
     });
 
-    this.platforms = this.listService.getPlatformsForGames(this.games);
-    this.genres = this.listService.getGenresForGames(this.games);
+    this.platforms = this.listService.getPlatformsForGames(this.listGames.map(g => g.game));
+    this.genres = this.listService.getGenresForGames(this.listGames.map(g => g.game));
 
     this.updateFilter();
   }

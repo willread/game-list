@@ -2,7 +2,7 @@ import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { GameComponent } from '../game/game.component';
-import { ListService, Game } from '../list.service';
+import { ListService, ListGame } from '../list.service';
 import { FilterGamesPipe, GamesFilter } from '../filter-games.pipe';
 
 @Component({
@@ -22,12 +22,12 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  remove(game: Game) {
-    this.listService.removeFromList(game);
+  remove(listGame: ListGame) {
+    this.listService.removeFromList(listGame);
   }
 
-  showGame(game: Game) {
-    this.dialog.open(GameComponent, { data: game });
+  showGame(listGame: ListGame) {
+    this.dialog.open(GameComponent, { data: listGame });
   }
 
   updateFilter(filter: GamesFilter) {

@@ -1,8 +1,8 @@
-<h1>{{ game.name }}</h1>
+<h1>{{ listGame.game.name }}</h1>
 
 <h2>Genres:</h2>
 <ul>
-  <li *ngFor="let genre of game.genres">{{ genre }}</li>
+  <li *ngFor="let genre of listGame.game.genres">{{ genre }}</li>
 </ul>
 
 <h2>Status:</h2>
@@ -18,5 +18,5 @@
 <h2>Log Time:</h2>
 
 <div>
-  <app-time-played [game]="game" (finishedPlaying)="logTime($event)" (secondsChanged)="updateTime($event)"></app-time-played>
+  <app-time-played [listGame]="listGame" (finishedPlaying)="logTime($event)" (secondsChanged)="updateTime($event)"></app-time-played>
 </div>

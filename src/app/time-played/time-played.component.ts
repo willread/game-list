@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-import { Game } from '../list.service';
+import { ListGame } from '../list.service';
 import { SECONDS_IN_HOUR, SECONDS_IN_MINUTE, HoursMinutesSeconds, UtilitiesService } from '../utilities.service';
 
 const PLAY_START_TIMES_KEY = 'play-start-times';
@@ -15,7 +15,7 @@ const UPDATE_DEBOUNCE_TIME = 500;
   styleUrls: ['./time-played.component.scss']
 })
 export class TimePlayedComponent implements OnInit, OnDestroy {
-  @Input() game: Game;
+  @Input() listGame: ListGame;
   @Output() finishedPlaying = new EventEmitter<number>();
   @Output() secondsChanged = new EventEmitter<number>();
 
@@ -102,7 +102,7 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   }
 
   get totalSeconds(): number {
-    return this.game.secondsPlayed + this.secondsPlayedSincePlayStarted;
+    return this.listGame.secondsPlayed + this.secondsPlayedSincePlayStarted;
   }
 
   get totalTime(): HoursMinutesSeconds {
@@ -121,8 +121,8 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
 
     const playStartTimes = this.storage.get(PLAY_START_TIMES_KEY) || {};
 
-    if (playStartTimes[this.game._id]) {
-      this._playStartTime = new Date(playStartTimes[this.game._id]);
+    if (playStartTimes[this.listGame._id]) {
+      this._playStartTime = new Date(playStartTimes[this.listGame._id]);
     }
 
     return this._playStartTime;
@@ -132,9 +132,9 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     const playStartTimes = this.storage.get(PLAY_START_TIMES_KEY) || {};
 
     if (date === null) {
-      delete playStartTimes[this.game._id];
+      delete playStartTimes[this.listGame._id];
     } else {
-      playStartTimes[this.game._id] = date.getTime();
+      playStartTimes[this.listGame._id] = date.getTime();
     }
     this.storage.set(PLAY_START_TIMES_KEY, playStartTimes);
     this._playStartTime = date;

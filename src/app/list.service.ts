@@ -24,8 +24,8 @@ export class ListService {
     private authService: AuthService
   ) {
     this.list$.subscribe(list => this.list = list);
-    this.list$.subscribe(list => this.platforms = this.getPlatformsForGames(list.games));
-    this.list$.subscribe(list => this.genres = this.getGenresForGames(list.games));
+    this.list$.subscribe(list => this.platforms = this.getPlatformsForGames(list.games.map(g => g.game)));
+    this.list$.subscribe(list => this.genres = this.getGenresForGames(list.games.map(g => g.game)));
 
     this.authService.isAuthenticated$.pipe(
       tap(authenticated => {
@@ -71,57 +71,57 @@ export class ListService {
 
   addToList(game: SearchGame) {
     this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform: game.platform })
-      .subscribe((newGame: Game) => {
-        this.list.games.push(newGame);
+      .subscribe((newListGame: ListGame) => {
+        this.list.games.push(newListGame);
         this.subject.next(this.list);
       });
   }
 
-  removeFromList(game: Game) {
-    this.list.games = this.list.games.filter(g => g._id !== game._id);
+  removeFromList(listGame: ListGame) {
+    this.list.games = this.list.games.filter(g => g._id !== listGame._id);
     this.subject.next(this.list);
-    this.http.delete(`${environment.apiPath}/list/games/${game._id}`).subscribe(); // Silently update
+    this.http.delete(`${environment.apiPath}/list/games/${listGame._id}`).subscribe(); // Silently update
   }
 
-  setStatus(game: Game, status: GameStatus) {
+  setStatus(listGame: ListGame, status: GameStatus) {
     try {
-      this.list.games.find(g => g._id === game._id).status = status;
+      this.list.games.find(g => g._id === listGame._id).status = status;
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
     } catch (e) {
       // TODO
     } finally {
-      this.http.patch(`${environment.apiPath}/list/games/${game._id}`, { status }).subscribe();
+      this.http.patch(`${environment.apiPath}/list/games/${listGame._id}`, { status }).subscribe();
     }
   }
 
-  logTime(game: Game, seconds: number) {
+  logTime(listGame: ListGame, seconds: number) {
     try {
-      this.list.games.find(g => g._id === game._id).secondsPlayed = (game.secondsPlayed || 0) + seconds;
+      this.list.games.find(g => g._id === listGame._id).secondsPlayed = (listGame.secondsPlayed || 0) + seconds;
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
     } catch (e) {
       // TODO
     } finally {
-      this.http.put(`${environment.apiPath}/list/games/${game._id}/time`, { seconds }).subscribe();
+      this.http.put(`${environment.apiPath}/list/games/${listGame._id}/time`, { seconds }).subscribe();
     }
   }
 
-  updateTime(game: Game, secondsPlayed: number) {
+  updateTime(listGame: ListGame, secondsPlayed: number) {
     try {
-      this.list.games.find(g => g._id === game._id).secondsPlayed = secondsPlayed;
+      this.list.games.find(g => g._id === listGame._id).secondsPlayed = secondsPlayed;
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
     } catch (e) {
       // TODO
     } finally {
-      this.http.patch(`${environment.apiPath}/list/games/${game._id}`, { secondsPlayed }).subscribe();
+      this.http.patch(`${environment.apiPath}/list/games/${listGame._id}`, { secondsPlayed }).subscribe();
     }
   }
 }
 
 export interface List {
-  games: Array<Game>;
+  games: Array<ListGame>;
 }
 
 export interface SearchGame {
@@ -135,6 +135,14 @@ export interface SearchGame {
   };
 }
 
+export interface ListGame {
+  _id: string;
+  list?: List;
+  game?: Game;
+  secondsPlayed: number;
+  status: GameStatus;
+}
+
 export interface Game {
   _id: string;
   name: string;
@@ -145,10 +153,6 @@ export interface Game {
     thumbnail: string
   };
   genres: string[];
-  secondsPlayed: number;
-  status: GameStatus;
-  dateFinished: Date;
-  pricePaid: number;
 }
 
 export enum GameStatus {

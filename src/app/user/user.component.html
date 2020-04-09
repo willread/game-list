@@ -1,7 +1,7 @@
 <mat-progress-spinner mode="indeterminate" *ngIf="!list"></mat-progress-spinner>
 
 <ng-container *ngIf="list">
-  <app-game-filter [games]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+  <app-game-filter [listGames]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
 
   <section class="stats">
     <div class="stat">
@@ -39,8 +39,9 @@
   </section>
 
   <section class="games">
-    <div class="game" *ngFor="let game of list.games | filterGames: filter">
-      {{ game.name }}
+    <h1>Games</h1>
+    <div class="game" *ngFor="let listGame of list.games | filterGames: filter">
+      {{ listGame.game.name }}
     </div>
   </section>
 

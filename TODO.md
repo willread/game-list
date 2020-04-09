@@ -1,4 +1,10 @@
-- Share games across lists so we build up our own data set
+- Prevent duplicate games in a list
+- Cannot read property 'alias' of null error
+
+- Revamp time logging
+  - Need to minimize errors
+  - Prevent entering more than 60 seconds or minutes
+
 - Profile
   - Most recently played
   - Graphs
@@ -10,14 +16,12 @@
 - Profile management
   - ???
 - Update mongodb password
-- Prevent duplicate games in a list
 - Games not showing after adding until refresh / change filters
 - MongoDB validations
 - Better add game UI (dialog?)
 - List performance with lots of entries?
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses
-- Prevent entering more than 60 seconds or minutes
 - Choose a random game
 - Show time played / currently playing / status in main list view
 - Move pipes / services to folders

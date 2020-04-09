@@ -53,14 +53,16 @@ export class UserComponent implements OnInit {
 
   updateGraphs() {
     const filteredGames = this.filterGames.transform(this.list.games, this.filter);
-    const genres = this.listService.getGenresForGames(filteredGames);
+    const genres = this.listService.getGenresForGames(filteredGames.map(g => g.game));
 
-    this.genreCounts = genres.map(genre => filteredGames.filter(game => game.genres.includes(genre)).length);
+    this.genreCounts = genres.map(genre => filteredGames
+      .map(g => g.game)
+      .filter(game => game.genres.includes(genre)).length);
     this.genreLabels = genres;
 
-    const platforms = this.listService.getPlatformsForGames(filteredGames);
+    const platforms = this.listService.getPlatformsForGames(filteredGames.map(g => g.game));
 
-    this.platformCounts = platforms.map(platform => filteredGames.filter(game => game.platform === platform).length);
+    this.platformCounts = platforms.map(platform => filteredGames.filter(g => g.game.platform === platform).length);
     this.platformLabels = platforms;
 
     this.secondsPlayed = filteredGames.reduce((total, game) => game.secondsPlayed + total, 0);

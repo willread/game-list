@@ -2,26 +2,26 @@
 
 <section *ngIf="!listService.loading">
   <app-game-search></app-game-search>
-  <app-game-filter [games]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+  <app-game-filter [listGames]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
 
   <section fxLayout="row wrap" >
     <mat-card
-      *ngFor="let game of (listService.list)?.games | filterGames: filter"
-      (click)="showGame(game)"
+      *ngFor="let listGame of (listService.list)?.games | filterGames: filter"
+      (click)="showGame(listGame)"
       >
-      <div class="background" [style.background-image]="'url()'" [lazyLoad]="game.images.original"></div>
+      <div class="background" [style.background-image]="'url()'" [lazyLoad]="listGame.game.images.original"></div>
       <mat-card-header>
-        <img mat-card-avatar [lazyLoad]="game.images.icon">
-        <mat-card-title>{{ game.name}}</mat-card-title>
+        <img mat-card-avatar [lazyLoad]="listGame.game.images.icon">
+        <mat-card-title>{{ listGame.game.name}}</mat-card-title>
         <mat-card-subtitle>
           <mat-chip-list>
-            <mat-chip>{{ game.platform }}</mat-chip>
+            <mat-chip>{{ listGame.game.platform }}</mat-chip>
           </mat-chip-list>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content></mat-card-content>
       <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="remove(game)">X</button>
+        <button mat-flat-button color="primary" (click)="remove(listGame)">X</button>
       </mat-card-actions>
     </mat-card>
   </section>
