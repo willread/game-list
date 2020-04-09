@@ -1,4 +1,3 @@
-- Cannot read property 'alias' of null error
 - Better add game UI (dialog?)
 
 - Revamp time logging
