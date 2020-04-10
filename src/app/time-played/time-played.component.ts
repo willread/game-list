@@ -122,6 +122,6 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
 
   cancelUpdatingSeconds() {
     this.updatedSeconds = null;
-    this.updateInputs(fase);
+    this.updateInputs();
   }
 }

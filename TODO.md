@@ -21,6 +21,7 @@
 - Move pipes / services to folders
 - Make time inputs limited to proper values
 - Move delete to game view
+- Starting playing a new game before a previous game is done makes secondsPlayed out of sync
 
 Future:
 
