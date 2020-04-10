@@ -27,7 +27,7 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
 
   private profile: Profile;
   private playTimeUpdateInterval: any;
-  private updatedSeconds: number;
+  public updatedSeconds: number;
 
   constructor(
     private utilities: UtilitiesService,
