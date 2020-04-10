@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
-import { SearchGame, Game } from './list.service';
+import { SearchGame, Game, ListGame } from './list.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,17 @@ export class ApiService {
     return this.http.patch<Profile>(`${environment.apiPath}/profile`, updates);
   }
 
+  startPlaying(listGame: ListGame): void {
+    this.http.put<any>(`${environment.apiPath}/profile/playing`, { listGame: listGame._id }).subscribe();
+  }
+
+  stopPlaying$(): Observable<number> {
+    return this.http.delete<any>(`${environment.apiPath}/profile/playing`)
+      .pipe(
+        map(response => response.secondsPlayed)
+      );
+  }
+
   getActivitiesForUser$(idOrAlias: string): Observable<Activity[]> {
     return this.http.get<Activity[]>(`${environment.apiPath}/activity/user/${idOrAlias}`);
   }
@@ -41,7 +53,11 @@ export interface ApiError {
 }
 
 export interface Profile {
-  alias: string
+  alias: string,
+  playing: {
+    listGame: string,
+    startedAt: string
+  }
 }
 
 export interface Activity {

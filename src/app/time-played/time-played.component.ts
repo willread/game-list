@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Output, Inject, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-import { ListGame } from '../list.service';
+import { ApiService, Profile } from '../api.service';
+import { ListGame, ListService } from '../list.service';
 import { SECONDS_IN_HOUR, SECONDS_IN_MINUTE, HoursMinutesSeconds, UtilitiesService } from '../utilities.service';
 
-const PLAY_START_TIMES_KEY = 'play-start-times';
 const UPDATE_DEBOUNCE_TIME = 500;
+const SECONDS_PLAYED_UPDATE_INTERVAL = 500;
 
 @Component({
   selector: 'app-time-played',
@@ -16,36 +16,50 @@ const UPDATE_DEBOUNCE_TIME = 500;
 })
 export class TimePlayedComponent implements OnInit, OnDestroy {
   @Input() listGame: ListGame;
-  @Output() finishedPlaying = new EventEmitter<number>();
-  @Output() secondsChanged = new EventEmitter<number>();
 
   public hours = new FormControl();
   public minutes = new FormControl();
   public seconds = new FormControl();
-  public totalSecondsPlayed: number;
   public playing: boolean = false;
+  public loading: boolean = true;
+  public secondsPlayed: number;
+  public startTime: Date;
 
-  private playTimeInputValueUpdateInterval;
-  private _playStartTime;
+  private profile: Profile;
+  private playTimeUpdateInterval: any;
+  private updatedSeconds: number;
 
   constructor(
-    @Inject(LOCAL_STORAGE) private storage: StorageService,
-    private utilities: UtilitiesService
+    private utilities: UtilitiesService,
+    private apiService: ApiService,
+    private listService: ListService
   ) { }
 
   ngOnInit(): void {
-    if (this.playStartTime) {
-      this.continuePlaying();
-    }
+    this.apiService.getProfile$().subscribe(
+      profile => {
+        this.profile = profile;
+
+        if (profile.playing) {
+          this.playing = profile.playing.listGame === this.listGame._id;
+
+          if (this.playing) {
+            this.startTime = new Date(profile.playing.startedAt);
+            this.startUpdatingSecondsPlayed();
+          }
+        }
+        this.loading = false;
+      }
+    );
 
     this.updateInputs();
-    this.hours.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.emitSecondsIfEnabled());
-    this.minutes.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.emitSecondsIfEnabled());
-    this.seconds.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.emitSecondsIfEnabled());
+    this.hours.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
+    this.minutes.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
+    this.seconds.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
   }
 
   ngOnDestroy() {
-    clearInterval(this.playTimeInputValueUpdateInterval);
+    this.stopUpdatingSecondsPlayed();
   }
 
   disableInputs() {
@@ -61,82 +75,53 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   }
 
   updateInputs() {
-    this.hours.setValue(this.totalTime.hours);
-    this.minutes.setValue(this.totalTime.minutes);
-    this.seconds.setValue(this.totalTime.seconds);
-  }
+    const time = this.utilities.timeFromSeconds(this.listGame.secondsPlayed);
 
-  get secondsPlayed(): number {
-    return this.hours.value * SECONDS_IN_HOUR + this.minutes.value * SECONDS_IN_MINUTE + this.seconds.value;
+    this.hours.setValue(time.hours, { emitEvent: false });
+    this.minutes.setValue(time.minutes, { emitEvent: false });
+    this.seconds.setValue(time.seconds, { emitEvent: false });
   }
 
   startPlaying() {
-    this.playStartTime = new Date();
-    this.continuePlaying();
-  }
-
-  continuePlaying() {
+    this.apiService.startPlaying(this.listGame);
     this.playing = true;
-    this.disableInputs();
-
-    this.playTimeInputValueUpdateInterval = setInterval(() => {
-      if (this.playStartTime) {
-        this.updateInputs();
-      }
-    }, 1000);
+    this.startTime = new Date();
+    this.startUpdatingSecondsPlayed();
   }
 
   stopPlaying() {
-    this.finishedPlaying.emit(this.secondsPlayedSincePlayStarted);
-    this.playStartTime = null;
-    clearInterval(this.playTimeInputValueUpdateInterval);
-
-    setTimeout(() => this.enableInputs());
+    this.apiService.stopPlaying$()
+      .subscribe(secondsPlayed => {
+        this.listGame.secondsPlayed = secondsPlayed;
+        this.updateInputs();
+      });
+    this.playing = false;
+    this.stopUpdatingSecondsPlayed();
   }
 
-  emitSecondsIfEnabled() {
-    if (this.hours.enabled) {
-      const seconds = this.hours.value * SECONDS_IN_HOUR + this.minutes.value * SECONDS_IN_MINUTE + this.seconds.value;
-      this.secondsChanged.emit(seconds);
-    }
+  startUpdatingSecondsPlayed() {
+    this.playTimeUpdateInterval = setInterval(() => {
+      this.secondsPlayed =  Math.floor(((new Date()).getTime() - this.startTime.getTime()) / 1000);
+    }, SECONDS_PLAYED_UPDATE_INTERVAL);
   }
 
-  get totalSeconds(): number {
-    return this.listGame.secondsPlayed + this.secondsPlayedSincePlayStarted;
+  stopUpdatingSecondsPlayed() {
+    clearInterval(this.playTimeUpdateInterval);
   }
 
-  get totalTime(): HoursMinutesSeconds {
-    return this.utilities.timeFromSeconds(this.totalSeconds);
+  updateSeconds() {
+    const seconds = this.hours.value * SECONDS_IN_HOUR + this.minutes.value * SECONDS_IN_MINUTE + this.seconds.value;
+
+    this.updatedSeconds = seconds;
   }
 
-  get secondsPlayedSincePlayStarted(): number {
-    if (!this.playStartTime) { return 0; }
-    return Math.floor(((new Date()).getTime() - this.playStartTime.getTime()) / 1000);
+  saveUpdatedSeconds() {
+    this.listService.updateTime(this.listGame, this.updatedSeconds);
+    this.updatedSeconds = null;
   }
 
-  get playStartTime(): Date | undefined | null {
-    if (this._playStartTime) {
-      return this._playStartTime;
-    }
-
-    const playStartTimes = this.storage.get(PLAY_START_TIMES_KEY) || {};
-
-    if (playStartTimes[this.listGame._id]) {
-      this._playStartTime = new Date(playStartTimes[this.listGame._id]);
-    }
-
-    return this._playStartTime;
-  }
-
-  set playStartTime(date: Date | null) {
-    const playStartTimes = this.storage.get(PLAY_START_TIMES_KEY) || {};
-
-    if (date === null) {
-      delete playStartTimes[this.listGame._id];
-    } else {
-      playStartTimes[this.listGame._id] = date.getTime();
-    }
-    this.storage.set(PLAY_START_TIMES_KEY, playStartTimes);
-    this._playStartTime = date;
+  cancelUpdatingSeconds() {
+    this.updatedSeconds = null;
+    this.updateInputs(fase);
   }
 }

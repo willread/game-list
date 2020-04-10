@@ -98,18 +98,6 @@ export class ListService {
     }
   }
 
-  logTime(listGame: ListGame, seconds: number) {
-    try {
-      this.list.games.find(g => g._id === listGame._id).secondsPlayed = (listGame.secondsPlayed || 0) + seconds;
-      this.list.games = [... this.list.games]; // Trigger change detection
-      this.subject.next(this.list);
-    } catch (e) {
-      // TODO
-    } finally {
-      this.http.put(`${environment.apiPath}/list/games/${listGame._id}/time`, { seconds }).subscribe();
-    }
-  }
-
   updateTime(listGame: ListGame, secondsPlayed: number) {
     try {
       this.list.games.find(g => g._id === listGame._id).secondsPlayed = secondsPlayed;

@@ -24,12 +24,4 @@ export class GameComponent implements OnInit {
     this.status.setValue(this.listGame.status);
     this.status.valueChanges.subscribe(status => this.listService.setStatus(this.listGame, status));
   }
-
-  logTime(seconds: number) {
-    this.listService.logTime(this.listGame, seconds);
-  }
-
-  updateTime(seconds: number) {
-    this.listService.updateTime(this.listGame, seconds);
-  }
 }
