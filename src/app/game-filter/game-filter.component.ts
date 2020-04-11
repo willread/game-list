@@ -3,8 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
-import { ListGame, ListService } from '../list.service';
-import { GamesFilter } from '../filter-games.pipe'
+import { ListGame, ListService } from '../services/list.service';
+import { GamesFilter } from '../pipes/filter-games.pipe'
 
 @Component({
   selector: 'app-game-filter',

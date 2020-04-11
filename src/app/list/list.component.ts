@@ -2,8 +2,8 @@ import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { GameComponent } from '../game/game.component';
-import { ListService, ListGame } from '../list.service';
-import { FilterGamesPipe, GamesFilter } from '../filter-games.pipe';
+import { ListService, ListGame } from '../services/list.service';
+import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
 
 @Component({
   selector: 'app-list',

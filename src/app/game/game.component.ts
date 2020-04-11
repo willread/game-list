@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 
-import { ListGame, ListService } from '../list.service';
+import { ListGame, ListService } from '../services/list.service';
 
 @Component({
   selector: 'app-game',

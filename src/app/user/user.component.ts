@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { SingleDataSet, Label } from 'ng2-charts';
 
-import { ApiService, Activity } from '../api.service';
-import { List, ListService } from '../list.service';
-import { FilterGamesPipe, GamesFilter } from '../filter-games.pipe';
+import { ApiService, Activity } from '../services/api.service';
+import { List, ListService } from '../services/list.service';
+import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
 
 @Component({
   selector: 'app-user',

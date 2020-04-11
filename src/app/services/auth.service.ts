@@ -5,7 +5,7 @@ import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from
 import { tap, catchError, concatMap, shareReplay, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { ApiService } from './api.service';
 
 @Injectable({

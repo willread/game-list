@@ -4,8 +4,8 @@ import { Subject, Observable } from 'rxjs';
 import { debounceTime, switchMap, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { ApiService } from '../api.service';
-import { ListService, Game, SearchGame } from '../list.service';
+import { ApiService } from '../services/api.service';
+import { ListService, Game, SearchGame } from '../services/list.service';
 
 @Component({
   selector: 'app-game-search',

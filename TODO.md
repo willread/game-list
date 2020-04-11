@@ -1,4 +1,3 @@
-- Move pipes / services to folders
 - Move delete button to game view
 
 - Better add game UI (dialog?)

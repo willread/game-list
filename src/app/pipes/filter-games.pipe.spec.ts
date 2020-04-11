@@ -1,4 +1,4 @@
-import { FilterGamesPipe } from './filter-games.pipe';
+import { FilterGamesPipe } from './pipes/filter-games.pipe';
 
 describe('FilterGamesPipe', () => {
   it('create an instance', () => {

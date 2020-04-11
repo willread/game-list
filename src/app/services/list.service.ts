@@ -4,7 +4,7 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

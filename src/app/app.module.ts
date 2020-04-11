@@ -29,15 +29,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { GameSearchComponent } from './game-search/game-search.component';
 import { ListComponent } from './list/list.component';
 import { GameComponent } from './game/game.component';
-import { FilterGamesPipe } from './filter-games.pipe';
-import { SortGamesPipe } from './sort-games.pipe';
+import { FilterGamesPipe } from './pipes/filter-games.pipe';
+import { SortGamesPipe } from './pipes/sort-games.pipe';
 import { TimePlayedComponent } from './time-played/time-played.component';
 import { UserComponent } from './user/user.component';
 import { GameFilterComponent } from './game-filter/game-filter.component';
-import { RelativeTimePipe } from './relative-time.pipe';
+import { RelativeTimePipe } from './pipes/relative-time.pipe';
 import { ActivityListComponent } from './activity-list/activity-list.component';
 import { HomeComponent } from './home/home.component';
-import { SecondsToTimePipe } from './seconds-to-time.pipe';
+import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
 @NgModule({
   declarations: [

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Ng2SearchPipe } from 'ng2-search-filter';
 
-import { GameStatus, ListGame } from './list.service';
+import { GameStatus, ListGame } from './services/list.service';
 
 const filterValueMap = {
   platform: v => v.game,

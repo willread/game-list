@@ -2,9 +2,9 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-import { ApiService, Profile } from '../api.service';
-import { ListGame, ListService } from '../list.service';
-import { SECONDS_IN_HOUR, SECONDS_IN_MINUTE, HoursMinutesSeconds, UtilitiesService } from '../utilities.service';
+import { ApiService, Profile } from '../services/api.service';
+import { ListGame, ListService } from '../services/list.service';
+import { SECONDS_IN_HOUR, SECONDS_IN_MINUTE, HoursMinutesSeconds, UtilitiesService } from '../services/utilities.service';
 
 const UPDATE_DEBOUNCE_TIME = 500;
 const SECONDS_PLAYED_UPDATE_INTERVAL = 500;

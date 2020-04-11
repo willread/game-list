@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AuthService } from '../auth.service';
-import { ApiService, ApiError } from '../api.service';
+import { AuthService } from '../services/auth.service';
+import { ApiService, ApiError } from '../services/api.service';
 
 @Component({
   selector: 'app-profile',

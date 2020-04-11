@@ -7,7 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UserComponent } from './user/user.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
-import { InterceptorService } from './interceptor.service';
+import { InterceptorService } from './services/interceptor.service';
 
 const routes: Routes = [
   {
