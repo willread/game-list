@@ -22,10 +22,6 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  remove(listGame: ListGame) {
-    this.listService.removeFromList(listGame);
-  }
-
   showGame(listGame: ListGame) {
     this.dialog.open(GameComponent, { data: listGame });
   }

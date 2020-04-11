@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 
 import { ListGame, ListService } from '../services/list.service';
@@ -15,7 +15,8 @@ export class GameComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public listService: ListService
+    public listService: ListService,
+    public dialogRef: MatDialogRef<GameComponent>
   ) {
     this.listGame = data;
   }
@@ -23,5 +24,16 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     this.status.setValue(this.listGame.status);
     this.status.valueChanges.subscribe(status => this.listService.setStatus(this.listGame, status));
+  }
+
+  remove() {
+    if (confirm('Are you sure?')) {
+      this.listService.removeFromList(this.listGame);
+      this.close();
+    }
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 }
