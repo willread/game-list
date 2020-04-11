@@ -1,5 +1,5 @@
-- List sorting
-  - Time played
+- Move pipes / services to folders
+- Move delete button to game view
 
 - Better add game UI (dialog?)
 
@@ -17,11 +17,9 @@
 - Fetch platforms dynamically
 - Pipe for friendly platform names / statuses
 - Choose a random game
-- Show time played / currently playing / status in main list view
-- Move pipes / services to folders
 - Make time inputs limited to proper values
-- Move delete to game view
 - Starting playing a new game before a previous game is done makes secondsPlayed out of sync
+- Customize login page
 
 Future:
 

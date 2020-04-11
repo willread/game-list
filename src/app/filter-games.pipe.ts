@@ -42,7 +42,7 @@ export class FilterGamesPipe implements PipeTransform {
       const aValue = filterValueMap[key] ? filterValueMap[key](a)[key] : a[key];
       const bValue = filterValueMap[key] ? filterValueMap[key](b)[key] : b[key];
 
-      return aValue.toString().localeCompare(bValue.toString());
+      return aValue.toString().localeCompare(bValue.toString(), undefined, { numeric: true });
     });
 
     return filter.sort.desc ? sortedGames.reverse() : sortedGames;

@@ -32,8 +32,7 @@
 
   <mat-form-field>
     <mat-select formControlName="sort">
-      <mat-option *ngFor="let sort of sortOptions" [value]="sort">
-          {{ sort.label }}
+      <mat-option *ngFor="let sort of sortOptions" [value]="sort" [innerHtml]="sort.label">
       </mat-option>
     </mat-select>
   </mat-form-field>

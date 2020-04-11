@@ -27,9 +27,11 @@ export class GameFilterComponent implements OnInit {
   })
 
   public sortOptions = [
-    { id: 'name', key: 'name', label: 'Name (A-Z)', desc: false },
-    { id: 'name-desc', key: 'name', label: 'Name (Z-A)', desc: true },
-    { id: 'status', key: 'status', label: 'Status', desc: false }
+    { id: 'name', key: 'name', label: 'Name &#8593;', desc: false },
+    { id: 'name-desc', key: 'name', label: 'Name &#8595;', desc: true },
+    { id: 'status', key: 'status', label: 'Status', desc: false },
+    { id: 'time', key: 'secondsPlayed', label: 'Time Played &#8593;', desc: false },
+    { id: 'time-desc', key: 'secondsPlayed', label: 'Time Played &#8595;', desc: true }
   ];
 
   constructor(
