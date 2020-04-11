@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { UtilitiesService } from './services/utilities.service';
+import { UtilitiesService } from '../services/utilities.service';
 
 @Pipe({
   name: 'secondsToTime'
