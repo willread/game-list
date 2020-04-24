@@ -12,6 +12,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -85,6 +86,7 @@ import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
     MatSnackBarModule,
     MatDialogModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatProgressSpinnerModule,
     MatTabsModule
   ],

@@ -12,6 +12,8 @@ import { ListGame, ListService } from '../services/list.service';
 export class GameComponent implements OnInit {
   public listGame: ListGame;
   public status = new FormControl('');
+  public digitalCopy = new FormControl(false);
+  public physicalCopy = new FormControl(false);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -23,7 +25,13 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.status.setValue(this.listGame.status);
-    this.status.valueChanges.subscribe(status => this.listService.setStatus(this.listGame, status));
+    this.status.valueChanges.subscribe(status => this.listService.updateListGame(this.listGame, { status }));
+
+    this.digitalCopy.setValue(this.listGame.digitalCopy);
+    this.digitalCopy.valueChanges.subscribe(digitalCopy => this.listService.updateListGame(this.listGame, { digitalCopy }));
+
+    this.physicalCopy.setValue(this.listGame.physicalCopy);
+    this.physicalCopy.valueChanges.subscribe(physicalCopy => this.listService.updateListGame(this.listGame, { physicalCopy }));
   }
 
   remove() {

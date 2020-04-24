@@ -86,15 +86,16 @@ export class ListService {
     this.http.delete(`${environment.apiPath}/list/games/${listGame._id}`).subscribe(); // Silently update
   }
 
-  setStatus(listGame: ListGame, status: GameStatus) {
+  updateListGame(listGame: ListGame, updates: any) {
     try {
-      this.list.games.find(g => g._id === listGame._id).status = status;
+      const existingListGame = this.list.games.find(g => g._id === listGame._id);
+      Object.assign(existingListGame, updates);
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
     } catch (e) {
       // TODO
     } finally {
-      this.http.patch(`${environment.apiPath}/list/games/${listGame._id}`, { status }).subscribe();
+      this.http.patch(`${environment.apiPath}/list/games/${listGame._id}`, updates).subscribe();
     }
   }
 
@@ -132,6 +133,8 @@ export interface ListGame {
   game?: Game;
   secondsPlayed: number;
   status: GameStatus;
+  physicalCopy: boolean;
+  digitalCopy: boolean;
 }
 
 export interface Game {
