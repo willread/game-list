@@ -99,6 +99,15 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     this.stopUpdatingSecondsPlayed();
   }
 
+  cancelPlaying() {
+    this.apiService.cancelPlaying$()
+      .subscribe(() => {
+        this.playing = false;
+        this.stopUpdatingSecondsPlayed();
+        this.secondsPlayed = this.listGame.secondsPlayed;
+      });
+  }
+
   startUpdatingSecondsPlayed() {
     this.playTimeUpdateInterval = setInterval(() => {
       this.secondsPlayed =  Math.floor(((new Date()).getTime() - this.startTime.getTime()) / 1000);

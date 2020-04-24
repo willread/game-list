@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService, Activity } from '../services/api.service';
+import { ApiService, Activity, PopularListGame } from '../services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +9,7 @@ import { ApiService, Activity } from '../services/api.service';
 })
 export class HomeComponent implements OnInit {
   public activities: Activity[];
+  public popularListGames: PopularListGame[];
 
   constructor(
     private apiService: ApiService
@@ -16,9 +17,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getActivities$()
-      .subscribe(activities => {
-        this.activities = activities;
-      });
+      .subscribe(activities => this.activities = activities);
+
+    this.apiService.getPopularGames$()
+      .subscribe(popular => this.popularListGames = popular);
   }
 
 }

@@ -1,5 +1,5 @@
-- Move delete button to game view
 
+- Cancel playing a game
 - Better add game UI (dialog?)
 
 - Profile

@@ -1,2 +1,25 @@
-<h1>Activities</h1>
-<app-activity-list [activities]="activities" showUser="true"></app-activity-list>
+
+<mat-grid-list cols="3">
+  <mat-grid-tile colspan="3" rowHeight="fit">
+    <section class="home-banner"></section>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="2" rowHeight="fit">
+    <div>
+      <h1>Top Games</h1>
+      <div *ngFor="let popularListGame of popularListGames">
+        {{ popularListGame.game.name }}
+        ({{ popularListGame.count }})
+      </div>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="1" rowHeight="fit">
+    <div>
+      <h1>Latest Activity</h1>
+      <app-activity-list [activities]="activities" showUser="true"></app-activity-list>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+

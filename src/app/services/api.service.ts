@@ -17,6 +17,10 @@ export class ApiService {
     return this.http.get<SearchGame[]>(`${environment.apiPath}/games?query=${query}`);
   }
 
+  getPopularGames$(): Observable<[PopularListGame]> {
+    return this.http.get<[PopularListGame]>(`${environment.apiPath}/games/popular`);
+  }
+
   getProfile$(): Observable<Profile> {
     return this.http.get<Profile>(`${environment.apiPath}/profile`);
   }
@@ -34,6 +38,10 @@ export class ApiService {
       .pipe(
         map(response => response.secondsPlayed)
       );
+  }
+
+  cancelPlaying$(): Observable<void> {
+    return this.http.delete<any>(`${environment.apiPath}/profile/playing?cancel=true`);
   }
 
   getActivitiesForUser$(idOrAlias: string): Observable<Activity[]> {
@@ -67,4 +75,9 @@ export interface Activity {
   createdAt: string,
   updatedAt: string,
   game?: Game
+};
+
+export interface PopularListGame {
+  count: number,
+  game: ListGame
 };
