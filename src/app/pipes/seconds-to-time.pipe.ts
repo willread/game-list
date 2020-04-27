@@ -11,10 +11,7 @@ export class SecondsToTimePipe implements PipeTransform {
   ) {}
 
   transform(seconds: number): string {
-    const time = this.utilities.timeFromSeconds(seconds);
-    let formatted = `${time.hours}:${time.minutes}:${time.seconds}`;
-
-    return formatted;
+    return (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
   }
 
 }

@@ -1,25 +1,22 @@
+  <section class="home-banner">
+    <div class="text mat-body-1">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</div>
+    <div class="image" style="background-image: url(https://cdn-images.gamera.org/uploads/original/8/82063/3119387-doom64.jpg)"></div>
+  </section>
 
-<mat-grid-list cols="3">
-  <mat-grid-tile colspan="3" rowHeight="fit">
-    <section class="home-banner"></section>
-  </mat-grid-tile>
-
-  <mat-grid-tile colspan="2" rowHeight="fit">
-    <div>
-      <h1>Top Games</h1>
-      <div *ngFor="let popularListGame of popularListGames">
+  <section class="cols">
+    <div class="popular-games">
+      <h1 class="section-header"><span>Top</span> Games</h1>
+      <div *ngFor="let popularListGame of popularListGames; let i = index" class="popular-game" [style.background-image]="'url(' + popularListGame.game.images.thumbnail +  ')'">
+        <b>{{ i + 1 }}</b>
         {{ popularListGame.game.name }}
-        ({{ popularListGame.count }})
+        <span>/ on {{ popularListGame.count }} lists</span>
       </div>
     </div>
-  </mat-grid-tile>
 
-  <mat-grid-tile colspan="1" rowHeight="fit">
     <div>
-      <h1>Latest Activity</h1>
+      <h1 class="section-header">Latest <span>Activity</span></h1>
       <app-activity-list [activities]="activities" showUser="true"></app-activity-list>
     </div>
-  </mat-grid-tile>
-</mat-grid-list>
+  </section>
 
 

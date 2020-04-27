@@ -1,4 +1,4 @@
-<div *ngFor="let activity of activities">
+<div *ngFor="let activity of activities" class="activity">
   <ng-container *ngIf="activity.action == 'add-game'">
     {{ showUser ? activity.profile.alias : '' }}
     added {{ activity.game.name }} {{ activity.createdAt | relativeTime}}

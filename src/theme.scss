@@ -1,0 +1,81 @@
+@import '~@angular/material/theming';
+
+// Include non-theme styles for core.
+@include mat-core();
+
+$gamera: (
+  50: #e2e9ed,
+  100: #b6c8d3,
+  200: #85a4b5,
+  300: #547f97,
+  400: #306381,
+  500: #0b486b,
+  600: #0a4163,
+  700: #083858,
+  800: #06304e,
+  900: #03213c,
+  A100: #72b2ff,
+  A200: #3f96ff,
+  A400: #0c7aff,
+  A700: #006ef1,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$gamera-accent: (
+  50: #eff7f3,
+  100: #d7ebe1,
+  200: #bcdecd,
+  300: #a1d1b8,
+  400: #8dc7a9,
+  500: #79bd9a,
+  600: #71b792,
+  700: #66ae88,
+  800: #5ca67e,
+  900: #49986c,
+  A100: #f4fff9,
+  A200: #c1ffdc,
+  A400: #8effbf,
+  A700: #74ffb1,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+// Define your application's custom theme.
+$primary-palette: mat-palette($gamera);
+$accent-palette:  mat-palette($gamera-accent, A200, A100, A400);
+$theme: mat-dark-theme($primary-palette, $accent-palette);
+$primary: mat-color($primary-palette);
+$accent: mat-color($accent-palette);
+$background: #181C23;
+
+// Include theme styles for Angular Material components.
+@include angular-material-theme($theme);

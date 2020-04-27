@@ -79,5 +79,5 @@ export interface Activity {
 
 export interface PopularListGame {
   count: number,
-  game: ListGame
+  game: Game
 };

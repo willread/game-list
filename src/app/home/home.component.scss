@@ -1,0 +1,121 @@
+@use '../../theme' as theme;
+@import '~@angular/material/theming';
+
+.home-banner {
+  width: 100%;
+  height: 400px;
+  position: relative;
+
+  .image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent center / cover no-repeat;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-180deg, transparent 0%, rgba(theme.$background, 0.75) 35%, theme.$background 100%);
+    }
+  }
+
+  .text {
+    position: absolute;
+    right: 20px;
+    top: 85px;
+    bottom: 20px;
+    width: 400px;
+    background: rgba(theme.$background, 0.75);
+    z-index: 1;
+    color: #fff;
+    padding: 20px;
+  }
+}
+
+.popular-games {
+  .popular-game {
+    height: 40px;
+    background: transparent center / cover no-repeat;
+    position: relative;
+    filter: grayscale(75%);
+    padding: 0 20px;
+    color: rgba(#fff, 0.9);
+    text-shadow: 0 0 2px rgba(#fff, 0.3);
+    line-height: 40px;
+    font-weight: 900;
+    font-size: 15px;
+
+    & + .popular-game {
+      margin-top: 1px;
+    }
+
+    span {
+      font-weight: 200;
+      color: rgba(#fff, 0.75);
+    }
+
+    b {
+      font-size: 28px;
+      opacity: 0.3;
+      vertical-align: middle;
+      padding-right: 10px;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      left:0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(theme.$background, 0.8);
+      z-index: -1;
+    }
+
+  }
+}
+
+.section-header {
+  color: #fff;
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 18px;
+
+  &:after {
+    flex: 1 1 auto;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: mat-color(theme.$primary-palette, A700);
+    margin-left: 10px;
+  }
+
+  span {
+    color: mat-color(theme.$primary-palette, A100);
+  }
+}
+
+.cols {
+  display: flex;
+  margin: 20px;
+
+  > * {
+    flex: 1;
+
+    & + * {
+      margin-left: 20px;
+    }
+  }
+}

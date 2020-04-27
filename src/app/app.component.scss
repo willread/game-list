@@ -1,0 +1,22 @@
+@use '../theme' as theme;
+
+::ng-deep {
+  body {
+    background: theme.$background;
+  }
+
+  app-nav {
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+
+  router-outlet {
+    & ~ * {
+      display: block;
+      margin-top: -64px;
+      position: relative;
+      z-index: 0;
+    }
+  }
+}
