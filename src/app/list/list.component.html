@@ -14,9 +14,7 @@
         <img mat-card-avatar [lazyLoad]="listGame.game.images.icon">
         <mat-card-title>{{ listGame.game.name}}</mat-card-title>
         <mat-card-subtitle>
-          <mat-chip-list>
-            <mat-chip>{{ listGame.game.platform }}</mat-chip>
-          </mat-chip-list>
+          <app-platform-badge [platform]="listGame.game.platform"></app-platform-badge>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>

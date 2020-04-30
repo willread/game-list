@@ -39,6 +39,8 @@ import { RelativeTimePipe } from './pipes/relative-time.pipe';
 import { ActivityListComponent } from './activity-list/activity-list.component';
 import { HomeComponent } from './home/home.component';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
+import { PlatformPipe } from './pipes/platform.pipe';
+import { PlatformBadgeComponent } from './platform-badge/platform-badge.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
     RelativeTimePipe,
     ActivityListComponent,
     HomeComponent,
-    SecondsToTimePipe
+    SecondsToTimePipe,
+    PlatformPipe,
+    PlatformBadgeComponent
   ],
   imports: [
     BrowserModule,

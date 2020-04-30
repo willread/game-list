@@ -1,8 +1,40 @@
 .activity {
-  color: #fff;
   padding: 5px 20px;
+  background: rgba(#fff, 0.1);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+
+  app-platform-badge {
+    margin-left: 10px;
+  }
+
+  .text {
+    &, a {
+      color: #fff;
+    }
+
+    a {
+      display: inline-block;
+      border-bottom: 1px solid rgba(#fff, 0.1);
+      text-decoration: none;
+
+      &:hover {
+        border-bottom-color: #fff;
+      }
+    }
+  }
+
+  .time {
+    flex: 1;
+    align-content: flex-end;
+    margin-left: 10px;
+    font-size: 10px;
+    color: rgba(#fff, 0.75);
+    text-align: right;
+  }
 
   & + .activity {
-    border-top: 1px solid rgba(#fff, 0.15);
+    margin-top: 4px;
   }
 }

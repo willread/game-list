@@ -12,7 +12,6 @@
 - MongoDB validations
 - List performance with lots of entries?
 - Fetch platforms dynamically
-- Pipe for friendly platform names / statuses
 - Choose a random game
 - Make time inputs limited to proper values
 - Starting playing a new game before a previous game is done makes secondsPlayed out of sync

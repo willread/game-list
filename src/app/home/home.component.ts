@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getActivities$()
-      .subscribe(activities => this.activities = activities);
+      .subscribe(activities => this.activities = activities.slice(0, 10));
 
     this.apiService.getPopularGames$()
       .subscribe(popular => this.popularListGames = popular);
