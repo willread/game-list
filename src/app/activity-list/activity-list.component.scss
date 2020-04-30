@@ -26,12 +26,13 @@
   }
 
   .time {
-    flex: 1;
+    flex: 1 0 auto;
     align-content: flex-end;
     margin-left: 10px;
     font-size: 10px;
     color: rgba(#fff, 0.75);
     text-align: right;
+    white-space: nowrap;
   }
 
   & + .activity {

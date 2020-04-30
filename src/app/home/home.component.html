@@ -9,15 +9,19 @@
   <section class="cols">
     <div class="popular-games">
       <h1 class="section-header">Top <span>Games</span></h1>
+      <mat-progress-spinner mode="indeterminate" *ngIf="!popularListGames"></mat-progress-spinner>
       <div *ngFor="let popularListGame of popularListGames; let i = index" class="popular-game" [style.background-image]="'url(' + popularListGame.game.images.thumbnail +  ')'">
         <b>{{ i + 1 }}</b>
-        {{ popularListGame.game.name }}
-        <span>/ in {{ popularListGame.count }} collection{{ popularListGame.count > 1 ? 's' : ''}}</span>
+        <div class="label">
+          {{ popularListGame.game.name }}
+          <span>/ in {{ popularListGame.count }} collection{{ popularListGame.count > 1 ? 's' : ''}}</span>
+        </div>
       </div>
     </div>
 
     <div>
       <h1 class="section-header">Latest <span>Activity</span></h1>
+      <mat-progress-spinner mode="indeterminate" *ngIf="!activities"></mat-progress-spinner>
       <app-activity-list [activities]="activities" showUser="true"></app-activity-list>
     </div>
   </section>

@@ -46,16 +46,16 @@
 
 .popular-games {
   .popular-game {
-    height: 40px;
     background: transparent center / cover no-repeat;
     position: relative;
     filter: grayscale(75%);
-    padding: 0 20px;
+    padding: 5px 20px;
     color: rgba(#fff, 0.9);
     text-shadow: 0 0 2px rgba(#fff, 0.3);
-    line-height: 40px;
     font-weight: 900;
     font-size: 15px;
+    display: flex;
+    align-items: center;
 
     & + .popular-game {
       margin-top: 1px;
@@ -71,6 +71,7 @@
       opacity: 0.3;
       vertical-align: middle;
       padding-right: 10px;
+      line-height: 30px;
     }
 
     &:before {
@@ -124,5 +125,9 @@
     & + * {
       margin-left: 20px;
     }
+  }
+
+  mat-progress-spinner {
+    margin: 20px auto;
   }
 }
