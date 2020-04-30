@@ -12,7 +12,7 @@
       <div *ngFor="let popularListGame of popularListGames; let i = index" class="popular-game" [style.background-image]="'url(' + popularListGame.game.images.thumbnail +  ')'">
         <b>{{ i + 1 }}</b>
         {{ popularListGame.game.name }}
-        <span>/ on {{ popularListGame.count }} lists</span>
+        <span>/ in {{ popularListGame.count }} collection{{ popularListGame.count > 1 ? 's' : ''}}</span>
       </div>
     </div>
 
