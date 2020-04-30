@@ -1,9 +1,11 @@
-@use '../../theme' as theme;
-@import '~@angular/material/theming';
+@use '../../theme-constants' as theme;
+@use '../../utilities' as util;
 
-.home-banner {
+.banner {
+  @include util.clearfix;
+
   width: 100%;
-  height: 400px;
+  min-height: 400px;
   position: relative;
 
   .image {
@@ -27,15 +29,18 @@
   }
 
   .text {
-    position: absolute;
-    right: 20px;
-    top: 85px;
-    bottom: 20px;
+    margin: 85px 20px 20px 20px;
+    float: right;
     width: 400px;
     background: rgba(theme.$background, 0.75);
     z-index: 1;
     color: #fff;
     padding: 20px;
+    position: relative;
+
+    button {
+      margin-top: 20px;
+    }
   }
 }
 
@@ -98,12 +103,14 @@
     display: block;
     width: 100%;
     height: 2px;
-    background: mat-color(theme.$primary-palette, A700);
+    background: map-get(theme.$gamera, A700);
     margin-left: 10px;
   }
 
   span {
-    color: mat-color(theme.$primary-palette, A100);
+    color: map-get(theme.$gamera, A700);
+    display: inline-block;
+    margin-left: 5px;
   }
 }
 

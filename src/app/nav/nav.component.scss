@@ -1,5 +1,4 @@
-@use '~@angular/material/theming';
-@use '../../theme' as theme;
+@use '../../theme-constants' as theme;
 
 .fill-remaining {
   flex: 1 1 auto;
