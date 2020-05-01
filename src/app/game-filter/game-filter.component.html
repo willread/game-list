@@ -1,9 +1,9 @@
 <form [formGroup]="form">
-  <mat-form-field>
-    <input matInput formControlName="query" placeholder="Search games...">
+  <mat-form-field color="accent" class="search-field">
+    <input matInput formControlName="query" placeholder="Search games..." autocomplete="false" autocorrect="false" spellcheck="false" autocapitalize="false">
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-select formControlName="platform">
       <mat-option [value]="''">All Platforms</mat-option>
       <mat-option *ngFor="let platform of platforms" [value]="platform">
@@ -12,7 +12,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-select formControlName="genre">
       <mat-option [value]="''">All Genres</mat-option>
       <mat-option *ngFor="let genre of genres" [value]="genre">
@@ -21,7 +21,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-select formControlName="status">
       <mat-option [value]="''">All Statuses</mat-option>
       <mat-option *ngFor="let status of listService.statuses" [value]="status">
@@ -30,7 +30,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-select formControlName="sort">
       <mat-option *ngFor="let sort of sortOptions" [value]="sort" [innerHtml]="sort.label">
       </mat-option>

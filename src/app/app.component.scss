@@ -47,4 +47,8 @@
   .cdk-overlay-dark-backdrop {
     background-color: rgba(#000, 0.75) !important;
   }
+
+  mat-bottom-sheet-container {
+    overflow: hidden !important;
+  }
 }

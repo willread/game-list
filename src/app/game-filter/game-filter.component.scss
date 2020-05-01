@@ -1,0 +1,36 @@
+mat-form-field {
+  & + mat-form-field {
+    margin-left: 10px;
+  }
+}
+
+form {
+  display: flex;
+
+  .search-field {
+    flex: 1;
+  }
+}
+
+::ng-deep {
+  mat-bottom-sheet-container {
+    max-width: 250px !important;
+
+    app-game-filter {
+      padding: 20px;
+
+      form {
+        display: block !important;
+      }
+
+      mat-form-field  {
+        width: 100%;
+        margin-left: 0 !important;
+      }
+    }
+  }
+
+  .game-filter-backdrop {
+    background-color: transparent;
+  }
+}

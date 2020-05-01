@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, Input, Optional, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { first } from 'rxjs/operators';
 
 import { ListGame, ListService } from '../services/list.service';
@@ -37,10 +38,14 @@ export class GameFilterComponent implements OnInit {
   constructor(
     public listService: ListService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) private bottomSheetData
   ) { }
 
   ngOnInit(): void {
+    if (this.bottomSheetData) {
+      this.listGames = this.bottomSheetData.listGames;
+    }
     this.activatedRoute.queryParamMap.pipe(first()).subscribe(params => {
       this.form.setValue({
         platform: params.get('platform') || '',

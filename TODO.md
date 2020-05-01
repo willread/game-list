@@ -1,11 +1,9 @@
-- Styles for list view / game dialog
-- Format play time in list view
 - Default to previous filters when visiting a page
-
 - Empty list message
-- Customize auth0 UI
 - Notes for games
 - Price paid field (don't show)
+
+- Customize auth0 UI
 - Profile
   - Most recently played
   - Graphs

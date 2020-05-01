@@ -1,7 +1,14 @@
 <mat-progress-spinner mode="indeterminate" *ngIf="listService.loading"></mat-progress-spinner>
 
-<section *ngIf="!listService.loading">
-  <app-game-filter [listGames]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+<section class="wrapper" *ngIf="!listService.loading">
+  <div class="game-filter">
+    <app-game-filter [listGames]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+  </div>
+
+  <button mat-stroked-button class="filter-button" color="accent" (click)="openFilterBottomSheet()">
+    <mat-icon>filter_list</mat-icon>
+    <span>Filter Collection</span>
+  </button>
 
   <section fxLayout="row wrap" >
     <mat-card
