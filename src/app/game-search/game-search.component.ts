@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject, Observable } from 'rxjs';
-import { debounceTime, switchMap, map } from 'rxjs/operators';
+import { debounceTime, throttleTime, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ApiService } from '../services/api.service';
@@ -23,12 +24,15 @@ export class GameSearchComponent implements OnInit {
   constructor(
     private api: ApiService,
     private listService: ListService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<GameSearchComponent>
   ) { }
 
   ngOnInit() {
     this.results$ = this.subject.pipe(
-      debounceTime(1000),
+      debounceTime(500),
+      // throttleTime(1000, undefined, { leading: true, trailing: true }),
       switchMap(q => {
         this.loading = true;
         return this.api.search$(q);
@@ -56,6 +60,10 @@ export class GameSearchComponent implements OnInit {
       });
     this.results = [];
     this.query.setValue('');
+    this.close();
   }
 
+  close() {
+    this.dialogRef.close();
+  }
 }

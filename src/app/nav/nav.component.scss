@@ -13,7 +13,7 @@
   &:hover {
     span {
       display: inline-block;
-      animation: bump 0.15s ease-in-out;
+      animation: bump 0.15s ease-in-out alternate infinite ;
     }
 
     span:nth-child(1) { animation-delay: 0s; }

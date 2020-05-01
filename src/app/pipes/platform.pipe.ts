@@ -65,7 +65,8 @@ const platforms: Platform[] = [
   },
   {
     abbreviation: 'MAC',
-    name: 'Mac'
+    name: 'Mac',
+    color: '#4B63C6'
   },
   {
     abbreviation: 'PSP',
@@ -125,7 +126,8 @@ const platforms: Platform[] = [
   },
   {
     abbreviation: 'XBOX',
-    name: 'Xbox'
+    name: 'Xbox',
+    color: '#56A610'
   },
   {
     abbreviation: 'NGE',

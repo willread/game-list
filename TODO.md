@@ -1,6 +1,10 @@
-- Better add game UI (dialog?)
+- Add game dialog
+  - Faster initial search results
+- Custom scrollbars to dialogs
 - Styles for list view / dialog
+- Format play time in list view
 
+- Empty list message
 - Customize auth0 UI
 - Notes for games
 - Price paid field (don't show)
@@ -11,6 +15,9 @@
     - Play time by platform / genre
 - Profile management
   - ???
+  - Profile link not showing up in menu until alias set?
+    - Probably related to duplicate error when no alias is set on more than one profile
+- Add aria properties to all buttons, etc..
 - Blurb for homepage / link to login / signup
 - Update mongodb password
 - MongoDB validations

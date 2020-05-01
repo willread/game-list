@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GameComponent } from '../game/game.component';
 import { ListService, ListGame } from '../services/list.service';
 import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
+import { GameSearchComponent } from '../game-search/game-search.component';
 
 @Component({
   selector: 'app-list',
@@ -28,5 +29,9 @@ export class ListComponent implements OnInit {
 
   updateFilter(filter: GamesFilter) {
     this.filter = filter;
+  }
+
+  addGame() {
+    this.dialog.open(GameSearchComponent);
   }
 }

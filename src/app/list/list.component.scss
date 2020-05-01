@@ -90,6 +90,12 @@ header {
   padding: 10px;
 }
 
+.add-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
 @media (max-width: 1100px) {
   section[fxLayout] {
     mat-card {

@@ -1,7 +1,6 @@
 <mat-progress-spinner mode="indeterminate" *ngIf="listService.loading"></mat-progress-spinner>
 
 <section *ngIf="!listService.loading">
-  <app-game-search></app-game-search>
   <app-game-filter [listGames]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
 
   <section fxLayout="row wrap" >
@@ -23,4 +22,8 @@
       <mat-card-actions></mat-card-actions>
     </mat-card>
   </section>
+
+  <button mat-fab aria-label="Search for a new game" class="add-button" (click)="addGame()">
+    <mat-icon>add</mat-icon>
+  </button>
 </section>

@@ -13,7 +13,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -92,7 +91,6 @@ import { FooterComponent } from './footer/footer.component';
     MatCardModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatAutocompleteModule,
     MatSnackBarModule,
     MatDialogModule,
     MatSelectModule,
