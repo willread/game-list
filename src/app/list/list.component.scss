@@ -11,6 +11,7 @@ section[fxLayout] {
     z-index: 0;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
 
     .background {
       position: absolute;
@@ -22,10 +23,16 @@ section[fxLayout] {
       opacity: 0;
       background-size: cover;
       background-position: center;
-      transition: opacity 0.5s;
+      transition: opacity 0.5s, transform 0.5s;
 
       &.ng-lazyloaded {
         opacity: 1;
+      }
+    }
+
+    &:hover {
+      .background {
+        transform: scale(1.1);
       }
     }
 
@@ -42,6 +49,8 @@ section[fxLayout] {
     mat-card-content {
       flex: 1;
       color: #fff;
+      display: flex;
+      align-items: flex-end;
       text-shadow:
         -1px -1px 1px rgba(#000, 0.75),
         1px -1px 1px rgba(#000, 0.75),
