@@ -1,17 +1,24 @@
 <h1 mat-dialog-title>Add a Game</h1>
 
 <mat-form-field color="accent">
-  <input matInput [formControl]="query" placeholder="Search for a game..." autocomplete="false" autocorrect="false">
+  <input matInput [formControl]="query" placeholder="Search for a game..." autocomplete="false" autocorrect="false" spellcheck="false" autocapitalize="false">
 </mat-form-field>
 
 <mat-dialog-content>
-  <ul class="results">
-    <li *ngFor="let result of results" (click)="add(result)">
-      <img [src]="result.images.icon">
-      <span>{{ result.name }}</span>
-      <app-platform-badge [platform]="result.platform"></app-platform-badge>
-    </li>
-  </ul>
+  <ng-container *ngIf="results">
+    <ul class="results">
+      <li *ngFor="let result of results" (click)="add(result)">
+        <img [src]="result.images.icon">
+        <span>{{ result.name }}</span>
+        <app-platform-badge [platform]="result.platform"></app-platform-badge>
+      </li>
+    </ul>
+
+    <h4 class="no-results" *ngIf="results.length == 0">
+      <mat-icon>warning</mat-icon>
+      <span>No games found...</span>
+    </h4>
+  </ng-container>
 </mat-dialog-content>
 
 <button mat-icon-button class="close-button" (click)="close()">

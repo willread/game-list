@@ -1,8 +1,6 @@
-- Add game dialog
-  - Faster initial search results
-- Custom scrollbars to dialogs
-- Styles for list view / dialog
+- Styles for list view / game dialog
 - Format play time in list view
+- Default to previous filters when visiting a page
 
 - Empty list message
 - Customize auth0 UI

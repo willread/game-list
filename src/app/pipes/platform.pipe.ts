@@ -307,7 +307,8 @@ const platforms: Platform[] = [
   },
   {
     abbreviation: 'PS3N',
-    name: 'PlayStation Network (PS3)'
+    name: 'PlayStation Network (PS3)',
+    friendlyAbbreviation: 'PSN'
   },
   {
     abbreviation: 'LEAP',
