@@ -49,7 +49,7 @@
     background: transparent center / cover no-repeat;
     position: relative;
     filter: grayscale(75%);
-    padding: 5px 20px;
+    padding: 5px 20px 5px 5px;
     color: rgba(#fff, 0.9);
     text-shadow: 0 0 2px rgba(#fff, 0.3);
     font-weight: 900;
@@ -72,6 +72,8 @@
       vertical-align: middle;
       padding-right: 10px;
       line-height: 30px;
+      flex: 0 0 50px;
+    text-align: right;
     }
 
     &:before {
@@ -133,6 +135,14 @@
 }
 
 @media (max-width: 768px) {
+  .banner {
+    min-height: auto;
+
+    .text {
+      width: auto;
+    }
+  }
+
   .cols {
     display: block;
 
