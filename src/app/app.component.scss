@@ -12,7 +12,7 @@
   }
 
   router-outlet {
-    & ~ * {
+    & + * {
       display: block;
       margin-top: -64px;
       position: relative;

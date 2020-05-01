@@ -1,6 +1,7 @@
-- Blurb for homepage / link to login / signup
-- Customize auth0 UI
 - Better add game UI (dialog?)
+- Styles for list view / dialog
+
+- Customize auth0 UI
 - Notes for games
 - Price paid field (don't show)
 - Profile
@@ -10,6 +11,7 @@
     - Play time by platform / genre
 - Profile management
   - ???
+- Blurb for homepage / link to login / signup
 - Update mongodb password
 - MongoDB validations
 - List performance with lots of entries?

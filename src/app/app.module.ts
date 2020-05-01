@@ -44,6 +44,7 @@ import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 import { PlatformPipe } from './pipes/platform.pipe';
 import { PlatformBadgeComponent } from './platform-badge/platform-badge.component';
 import { LightOrDarkPipe } from './pipes/light-or-dark.pipe';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { LightOrDarkPipe } from './pipes/light-or-dark.pipe';
     SecondsToTimePipe,
     PlatformPipe,
     PlatformBadgeComponent,
-    LightOrDarkPipe
+    LightOrDarkPipe,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
