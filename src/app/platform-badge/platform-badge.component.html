@@ -1,3 +1,3 @@
-<span title="{{ platform | platform: 'name' }}">
-  {{ platform | platform: 'friendlyAbbreviation' | lowercase }}
+<span title="{{ platform | platform: 'name' }}" [style.background-color]="platform | platform: 'color'" [class.light]="platform | platform: 'color' | lightOrDark">
+  {{ platform | platform: 'abbreviation' | lowercase }}
 </span>

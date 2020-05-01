@@ -43,6 +43,7 @@ import { HomeComponent } from './home/home.component';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 import { PlatformPipe } from './pipes/platform.pipe';
 import { PlatformBadgeComponent } from './platform-badge/platform-badge.component';
+import { LightOrDarkPipe } from './pipes/light-or-dark.pipe';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { PlatformBadgeComponent } from './platform-badge/platform-badge.componen
     HomeComponent,
     SecondsToTimePipe,
     PlatformPipe,
-    PlatformBadgeComponent
+    PlatformBadgeComponent,
+    LightOrDarkPipe
   ],
   imports: [
     BrowserModule,

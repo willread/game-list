@@ -1,9 +1,17 @@
+@use '../../theme-constants' as theme;
+
 span {
   display: inline-block;
-  background: rgba(#fff, 0.75);
-  color: #000;
+  background: theme.$primary;
+  color: #fff;
   padding: 1px 5px;
   border-radius: 5px;
   font-size: 10px;
   font-weight: 900;
+  opacity: 0.75;
+
+  &.light {
+    background: #fff;
+    color: #000;
+  }
 }
