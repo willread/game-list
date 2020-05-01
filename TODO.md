@@ -1,11 +1,13 @@
+- Blurb for homepage / link to login / signup
+- Customize auth0 UI
 - Better add game UI (dialog?)
-- Notes
+- Notes for games
+- Price paid field (don't show)
 - Profile
   - Most recently played
   - Graphs
     - Play time by month / year / week / day
     - Play time by platform / genre
-
 - Profile management
   - ???
 - Update mongodb password

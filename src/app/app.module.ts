@@ -18,6 +18,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { Ng2SearchPipeModule, Ng2SearchPipe } from 'ng2-search-filter';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { StorageServiceModule } from 'ngx-webstorage-service';
@@ -92,7 +94,9 @@ import { PlatformBadgeComponent } from './platform-badge/platform-badge.componen
     MatSelectModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatMenuModule,
+    MatIconModule
   ],
   providers: [
     FilterGamesPipe,
