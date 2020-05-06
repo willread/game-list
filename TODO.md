@@ -1,4 +1,3 @@
-- Favicon
 - Revamp time logging to be more granular
 - Game dialog
   - Make time inputs limited to proper values
