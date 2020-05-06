@@ -6,6 +6,10 @@
   margin: 0 20px;
 }
 
+mat-progress-spinner {
+  margin: 50px auto 30px auto;
+}
+
 section[fxLayout] {
   mat-card {
     flex: 0 1 calc(25% - 10px);

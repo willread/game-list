@@ -1,4 +1,3 @@
-- Empty list message
 - Game dialog
   - Make time inputs limited to proper values
   - Styles for game dialog

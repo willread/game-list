@@ -38,6 +38,11 @@
     </mat-card>
   </section>
 
+  <div *ngIf="!((listService.list)?.games | filterGames: filter).length" class="no-results-message">
+    <mat-icon>sentiment_very_dissatisfied</mat-icon>
+    <h2>No Results Found...</h2>
+  </div>
+
   <button mat-fab aria-label="Search for a new game" class="add-button" (click)="addGame()">
     <mat-icon>add</mat-icon>
   </button>

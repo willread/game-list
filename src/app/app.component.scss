@@ -6,6 +6,10 @@
     background: theme.$background;
   }
 
+  .app-top {
+    min-height: 100vh;
+  }
+
   app-nav {
     display: block;
     position: relative;
@@ -55,6 +59,16 @@
       position: absolute;
       right: 5px;
       top: 5px;
+    }
+  }
+
+  .no-results-message {
+    text-align: center;
+    color: #fff;
+
+    mat-icon {
+      transform: scale(2);
+      margin: 50px 0 20px 0;
     }
   }
 }
