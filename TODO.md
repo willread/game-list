@@ -3,6 +3,7 @@
   - Styles for game dialog
 - Results are clipped on mobile in game-search
 - Mobile header color
+- Favicon
 - Customize auth0 UI
 - Profile
   - Styles
