@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
@@ -15,6 +15,10 @@ import { GameSearchComponent } from '../game-search/game-search.component';
 })
 export class ListComponent implements OnInit {
   public filter: GamesFilter;
+  public filtersDirty: boolean;
+
+  @ViewChild(GameFilterComponent)
+  public gameFilterComponent: GameFilterComponent;
 
   constructor(
     public listService: ListService,

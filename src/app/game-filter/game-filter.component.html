@@ -1,3 +1,11 @@
+<div class="mobile-header">
+  <h1>Filter Collection:</h1>
+
+  <button mat-icon-button class="close-button" (click)="dismissBottomSheet()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
 <form [formGroup]="form">
   <mat-form-field color="accent" class="search-field">
     <input matInput formControlName="query" placeholder="Search games..." autocomplete="false" autocorrect="false" spellcheck="false" autocapitalize="false">
@@ -36,4 +44,9 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <button *ngIf="!defaultValues" mat-button class="clear-filters-button" color="warn" (click)="reset()">
+    <mat-icon>filter_list</mat-icon>
+    <span>Clear Filters</span>
+  </button>
 </form>

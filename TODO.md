@@ -1,14 +1,14 @@
-- Default to previous filters when visiting a page
 - Empty list message
-- Notes for games
-- Price paid field (don't show)
-
+- Game dialog
+  - Make time inputs limited to proper values
+  - Styles for game dialog
+- Results are clipped on mobile in game-search
+- Mobile header color
 - Customize auth0 UI
 - Profile
+  - Styles
+  - Currently playing
   - Most recently played
-  - Graphs
-    - Play time by month / year / week / day
-    - Play time by platform / genre
 - Profile management
   - ???
   - Profile link not showing up in menu until alias set?
@@ -18,14 +18,15 @@
 - Update mongodb password
 - MongoDB validations
 - List performance with lots of entries?
-- Fetch platforms dynamically
-- Choose a random game
-- Make time inputs limited to proper values
 - Starting playing a new game before a previous game is done makes secondsPlayed out of sync
-- Customize login page
-- Filter based on digital / physical copies
 
 Future:
 
 - Price paid
 - Game notes
+- Default to previous filters when visiting a page
+- Revamp time logging to be more granular
+- Graphs of play time by month, etc..
+- Fetch platforms dynamically
+- Choose a random game (based on filters)
+- Filter based on digital / physical copies

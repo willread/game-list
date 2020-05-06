@@ -59,5 +59,6 @@ export interface GamesFilter {
     platform: string,
     genres: string,
     status: GameStatus
-  }
+  },
+  default: boolean
 }

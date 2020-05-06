@@ -1,5 +1,6 @@
 mat-form-field {
-  & + mat-form-field {
+  & + mat-form-field,
+  & + button {
     margin-left: 10px;
   }
 }
@@ -12,12 +13,15 @@ form {
   }
 }
 
+.mobile-header {
+  display: none;
+}
+
 ::ng-deep {
   mat-bottom-sheet-container {
     max-width: 250px !important;
 
     app-game-filter {
-      padding: 20px;
 
       form {
         display: block !important;
@@ -28,9 +32,17 @@ form {
         margin-left: 0 !important;
       }
     }
+
+    .clear-filters-button {
+      display: none;
+    }
+
+    .mobile-header {
+      display: block !important;
+    }
   }
 
   .game-filter-backdrop {
-    background-color: transparent;
+    background-color: rgba(#000, 0.3);
   }
 }

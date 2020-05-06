@@ -111,12 +111,20 @@ header {
   right: 20px;
 }
 
-.filter-button {
+.mobile-filter-buttons {
   display: none;
   margin: 20px 0;
 
-  mat-icon {
-    margin-right: 5px;
+  button {
+    flex: 1;
+
+    mat-icon {
+      margin-right: 5px;
+    }
+
+    & + button {
+      margin-left: 20px;
+    }
   }
 }
 
@@ -127,8 +135,8 @@ header {
     }
   }
 
-  .filter-button {
-    display: inline-block;
+  .mobile-filter-buttons {
+    display: flex;
   }
 
   app-game-filter {

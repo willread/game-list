@@ -5,10 +5,17 @@
     <app-game-filter [listGames]="listService.list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
   </div>
 
-  <button mat-stroked-button class="filter-button" color="accent" (click)="openFilterBottomSheet()">
-    <mat-icon>filter_list</mat-icon>
-    <span>Filter Collection</span>
-  </button>
+  <div class="mobile-filter-buttons">
+    <button mat-stroked-button class="filter-button" color="accent" (click)="openFilterBottomSheet()">
+      <mat-icon>filter_list</mat-icon>
+      <span>Filter Collection</span>
+    </button>
+
+    <button *ngIf="!filter.default" mat-stroked-button class="clear-filters-button" color="warn" (click)="gameFilterComponent.reset()">
+      <mat-icon>filter_list</mat-icon>
+      <span>Clear Filters</span>
+    </button>
+  </div>
 
   <section fxLayout="row wrap" >
     <mat-card

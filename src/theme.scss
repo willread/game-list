@@ -7,9 +7,15 @@
 // Define your application's custom theme.
 $primary-palette: mat-palette($gamera);
 $accent-palette:  mat-palette($gamera-accent, A200, A100, A400);
-$theme: mat-dark-theme($primary-palette, $accent-palette);
-$primary: mat-color($primary-palette);
-$accent: mat-color($accent-palette);
+$warn-palette: mat-palette($gamera-warn);
+$theme: (
+  primary: $primary-palette,
+  accent: $accent-palette,
+  warn: $warn-palette,
+  is-dark: true,
+  foreground: $gamera-foreground,
+  background: $gamera-background
+);
 
 // Include theme styles for Angular Material components.
 @include angular-material-theme($theme);

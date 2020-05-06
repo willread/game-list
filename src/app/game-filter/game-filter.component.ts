@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject, Input, Optional, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { first } from 'rxjs/operators';
+import * as equal from 'fast-deep-equal';
 
 import { ListGame, ListService } from '../services/list.service';
 import { GamesFilter } from '../pipes/filter-games.pipe'
@@ -16,17 +17,15 @@ export class GameFilterComponent implements OnInit {
   @Input() listGames: ListGame[];
   @Output() filterChanged = new EventEmitter<GamesFilter>();
 
-  public genres: string[];
-  public platforms: string[];
-
   public form = new FormGroup({
     platform: new FormControl(),
     genre: new FormControl(),
     query: new FormControl(),
     status: new FormControl(),
     sort: new FormControl()
-  })
-
+  });
+  public genres: string[];
+  public platforms: string[];
   public sortOptions = [
     { id: 'name', key: 'name', label: 'Name &#8593;', desc: false },
     { id: 'name-desc', key: 'name', label: 'Name &#8595;', desc: true },
@@ -35,26 +34,28 @@ export class GameFilterComponent implements OnInit {
     { id: 'time-desc', key: 'secondsPlayed', label: 'Time Played &#8595;', desc: true }
   ];
 
+  private defaults = {
+    platform: '',
+    query: '',
+    genre: '',
+    status: '',
+    sort: this.sortOptions[0]
+  };
+
   constructor(
     public listService: ListService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) private bottomSheetData
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) private bottomSheetData,
+    @Optional() @Inject(MatBottomSheetRef) private bottomSheet
   ) { }
 
   ngOnInit(): void {
     if (this.bottomSheetData) {
       this.listGames = this.bottomSheetData.listGames;
     }
-    this.activatedRoute.queryParamMap.pipe(first()).subscribe(params => {
-      this.form.setValue({
-        platform: params.get('platform') || '',
-        query: params.get('query') || '',
-        genre: params.get('genre') || '',
-        status: params.get('status') || '',
-        sort: this.sortOptions.find(sort => sort.id === (params.get('sort') || '')) || this.sortOptions[0]
-      });
-    });
+
+    this.initializeForm();
 
     this.form.valueChanges.subscribe(value => {
       this.updateQueryParams();
@@ -91,7 +92,39 @@ export class GameFilterComponent implements OnInit {
         platform: this.form.value.platform,
         genres: this.form.value.genre,
         status: this.form.value.status
-      }
+      },
+      default: this.defaultValues
     });
+  }
+
+  public initializeForm() {
+    this.activatedRoute.queryParamMap.pipe(first()).subscribe(params => {
+      this.form.setValue({
+        platform: params.get('platform') || '',
+        query: params.get('query') || '',
+        genre: params.get('genre') || '',
+        status: params.get('status') || '',
+        sort: this.sortOptions.find(sort => sort.id === (params.get('sort') || '')) || this.sortOptions[0]
+      });
+    });
+  }
+
+  public reset() {
+    this.form.setValue(this.defaults);
+  }
+
+  public get defaultValues() {
+    console.log(
+      this.form.getRawValue(),
+      this.defaults,
+      equal(this.form.getRawValue(), this.defaults)
+    )
+    return equal(this.form.getRawValue(), this.defaults);
+  }
+
+  public dismissBottomSheet() {
+    if (this.bottomSheet) {
+      this.bottomSheet.dismiss();
+    }
   }
 }

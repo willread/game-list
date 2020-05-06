@@ -10,6 +10,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -100,7 +101,8 @@ import { FooterComponent } from './footer/footer.component';
     MatTabsModule,
     MatMenuModule,
     MatIconModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatDividerModule
   ],
   providers: [
     FilterGamesPipe,

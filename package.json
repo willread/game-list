@@ -26,6 +26,7 @@
     "@auth0/auth0-spa-js": "^1.6.5",
     "@now/node": "^1.5.0",
     "chart.js": "^2.9.3",
+    "fast-deep-equal": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.5",
     "ng-lazyload-image": "^7.1.0",
