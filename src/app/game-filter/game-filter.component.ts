@@ -114,11 +114,6 @@ export class GameFilterComponent implements OnInit {
   }
 
   public get defaultValues() {
-    console.log(
-      this.form.getRawValue(),
-      this.defaults,
-      equal(this.form.getRawValue(), this.defaults)
-    )
     return equal(this.form.getRawValue(), this.defaults);
   }
 
