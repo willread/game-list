@@ -1,9 +1,9 @@
+- Mobile header color
+- Favicon
+- Revamp time logging to be more granular
 - Game dialog
   - Make time inputs limited to proper values
   - Styles for game dialog
-- Results are clipped on mobile in game-search
-- Mobile header color
-- Favicon
 - Customize auth0 UI
 - Profile
   - Styles
@@ -25,7 +25,6 @@ Future:
 - Price paid
 - Game notes
 - Default to previous filters when visiting a page
-- Revamp time logging to be more granular
 - Graphs of play time by month, etc..
 - Fetch platforms dynamically
 - Choose a random game (based on filters)

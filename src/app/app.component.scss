@@ -39,12 +39,17 @@
     .close-button {
       position: absolute;
       right: 20px;
-      top: 30px;
+      top: 20px;
     }
 
     mat-dialog-content {
       @include util.custom-scrollbar();
     }
+  }
+
+  .mat-dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .cdk-overlay-dark-backdrop {
