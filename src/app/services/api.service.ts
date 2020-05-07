@@ -30,18 +30,18 @@ export class ApiService {
   }
 
   startPlaying(listGame: ListGame): void {
-    this.http.put<any>(`${environment.apiPath}/profile/playing`, { listGame: listGame._id }).subscribe();
+    this.http.put<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`, {}).subscribe();
   }
 
-  stopPlaying$(): Observable<number> {
-    return this.http.delete<any>(`${environment.apiPath}/profile/playing`)
+  stopPlaying$(listGame: ListGame): Observable<number> {
+    return this.http.delete<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`)
       .pipe(
         map(response => response.secondsPlayed)
       );
   }
 
-  cancelPlaying$(): Observable<void> {
-    return this.http.delete<any>(`${environment.apiPath}/profile/playing?cancel=true`);
+  cancelPlaying$(listGame: ListGame): Observable<void> {
+    return this.http.delete<any>(`${environment.apiPath}/list/games/${listGame._id}/playing?cancel=true`);
   }
 
   getActivitiesForUser$(idOrAlias: string): Observable<Activity[]> {
@@ -61,11 +61,7 @@ export interface ApiError {
 }
 
 export interface Profile {
-  alias: string,
-  playing: {
-    listGame: string,
-    startedAt: string
-  }
+  alias: string
 }
 
 export interface Activity {

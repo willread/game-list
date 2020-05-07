@@ -135,6 +135,7 @@ export interface ListGame {
   status: GameStatus;
   physicalCopy: boolean;
   digitalCopy: boolean;
+  startedPlayingAt: string;
 }
 
 export interface Game {

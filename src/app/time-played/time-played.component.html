@@ -1,28 +1,26 @@
-<ng-container *ngIf="!loading">
-  <div *ngIf="!playing">
-    <mat-form-field>
-      <input matInput [formControl]="hours" placeholder="Hours" min="0" type="number">
-    </mat-form-field>
+<div *ngIf="!playing">
+  <mat-form-field>
+    <input matInput [formControl]="hours" placeholder="Hours" min="0" type="number">
+  </mat-form-field>
 
-    <mat-form-field>
-      <input matInput [formControl]="minutes" placeholder="Minutes" min="0" max="60" type="number">
-    </mat-form-field>
+  <mat-form-field>
+    <input matInput [formControl]="minutes" placeholder="Minutes" min="0" max="60" type="number">
+  </mat-form-field>
 
-    <mat-form-field>
-      <input matInput [formControl]="seconds" placeholder="Seconds" min="0" max="60" type="number">
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <input matInput [formControl]="seconds" placeholder="Seconds" min="0" max="60" type="number">
+  </mat-form-field>
+</div>
 
-  <ng-container *ngIf="!updatedSeconds">
-    <button *ngIf="!playing" mat-flat-button color="primary" (click)="startPlaying()">Start Playing</button>
-    <ng-container *ngIf="playing">
-      <button mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
-      <button mat-flat-button color="secondary" (click)="cancelPlaying()">Cancel</button>
-      <h3>Playing for: {{ secondsPlayed }} seconds</h3>
-    </ng-container>
+<ng-container *ngIf="!updatedSeconds">
+  <button *ngIf="!playing" mat-flat-button color="primary" (click)="startPlaying()">Start Playing</button>
+  <ng-container *ngIf="playing">
+    <button mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
+    <button mat-flat-button color="secondary" (click)="cancelPlaying()">Cancel</button>
+    <h3>Playing for: {{ secondsPlayed }} seconds</h3>
   </ng-container>
-  <ng-container *ngIf="updatedSeconds">
-    <button mat-flat-button color="primary" (click)="saveUpdatedSeconds()">Save</button>
-    <button mat-flat-button color="secondary" (click)="cancelUpdatingSeconds()">Cancel</button>
-  </ng-container>
+</ng-container>
+<ng-container *ngIf="updatedSeconds">
+  <button mat-flat-button color="primary" (click)="saveUpdatedSeconds()">Save</button>
+  <button mat-flat-button color="secondary" (click)="cancelUpdatingSeconds()">Cancel</button>
 </ng-container>

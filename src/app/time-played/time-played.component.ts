@@ -21,7 +21,6 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   public minutes = new FormControl();
   public seconds = new FormControl();
   public playing: boolean = false;
-  public loading: boolean = true;
   public secondsPlayed: number;
   public startTime: Date;
 
@@ -36,21 +35,11 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.apiService.getProfile$().subscribe(
-      profile => {
-        this.profile = profile;
-
-        if (profile.playing) {
-          this.playing = profile.playing.listGame === this.listGame._id;
-
-          if (this.playing) {
-            this.startTime = new Date(profile.playing.startedAt);
-            this.startUpdatingSecondsPlayed();
-          }
-        }
-        this.loading = false;
-      }
-    );
+    if (this.listGame.startedPlayingAt) {
+      this.playing = true;
+      this.startTime = new Date(this.listGame.startedPlayingAt);
+      this.startUpdatingSecondsPlayed();
+    }
 
     this.updateInputs();
     this.hours.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
@@ -90,7 +79,7 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   }
 
   stopPlaying() {
-    this.apiService.stopPlaying$()
+    this.apiService.stopPlaying$(this.listGame)
       .subscribe(secondsPlayed => {
         this.listGame.secondsPlayed = secondsPlayed;
         this.updateInputs();
@@ -100,7 +89,7 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   }
 
   cancelPlaying() {
-    this.apiService.cancelPlaying$()
+    this.apiService.cancelPlaying$(this.listGame)
       .subscribe(() => {
         this.playing = false;
         this.stopUpdatingSecondsPlayed();

@@ -1,4 +1,7 @@
 - Revamp time logging to be more granular
+- Search games.. text color black
+- Missing manifest
+- Filter bar too close to top of screen
 - Game dialog
   - Make time inputs limited to proper values
   - Styles for game dialog
@@ -17,6 +20,8 @@
 - MongoDB validations
 - List performance with lots of entries?
 - Starting playing a new game before a previous game is done makes secondsPlayed out of sync
+- Add a bunch of fake user profiles
+- Normalize whitespace
 
 Future:
 
@@ -27,3 +32,4 @@ Future:
 - Fetch platforms dynamically
 - Choose a random game (based on filters)
 - Filter based on digital / physical copies
+- Convert API to typescript :P
