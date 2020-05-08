@@ -1,26 +1,39 @@
-<div *ngIf="!playing">
-  <mat-form-field>
-    <input matInput [formControl]="hours" placeholder="Hours" min="0" type="number">
-  </mat-form-field>
-
-  <mat-form-field>
-    <input matInput [formControl]="minutes" placeholder="Minutes" min="0" max="60" type="number">
-  </mat-form-field>
-
-  <mat-form-field>
-    <input matInput [formControl]="seconds" placeholder="Seconds" min="0" max="60" type="number">
-  </mat-form-field>
-</div>
-
-<ng-container *ngIf="!secondsToLog">
+<ng-container *ngIf="!logging && !playing">
   <button *ngIf="!playing" mat-flat-button color="primary" (click)="startPlaying()">Start Playing</button>
-  <ng-container *ngIf="playing">
-    <button mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
-    <button mat-flat-button color="secondary" (click)="cancelPlaying()">Cancel</button>
-    <h3>Playing for: {{ secondsPlayed }} seconds</h3>
-  </ng-container>
+  <button *ngIf="!logging" mat-flat-button color="primary" (click)="startLogging()">Log Time</button>
 </ng-container>
-<ng-container *ngIf="secondsToLog">
+
+<ng-container *ngIf="playing">
+  <button mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
+  <button mat-flat-button color="secondary" (click)="cancelPlaying()">Cancel</button>
+  <h3>Playing for: {{ secondsPlayed }} seconds</h3>
+</ng-container>
+
+<div *ngIf="logging">
+  <mat-form-field>
+    <mat-select [formControl]="hours">
+      <mat-option *ngFor="let hourOption of hoursOptions" [value]="hourOption.value">
+          {{ hourOption.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [formControl]="minutes">
+      <mat-option *ngFor="let minuteOption of minutesOptions" [value]="minuteOption.value">
+          {{ minuteOption.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [formControl]="seconds">
+      <mat-option *ngFor="let secondOption of secondsOptions" [value]="secondOption.value">
+          {{ secondOption.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <button mat-flat-button color="primary" (click)="logTime()">Save</button>
-  <button mat-flat-button color="secondary" (click)="cancelLoggingTime()">Cancel</button>
-</ng-container>
+  <button mat-flat-button color="secondary" (click)="cancelLogging()">Cancel</button>
+</div>

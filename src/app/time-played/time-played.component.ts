@@ -23,10 +23,14 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   public playing: boolean = false;
   public secondsPlayed: number;
   public startTime: Date;
+  public hoursOptions = Array.from(Array(25).keys()).map(e => ({ value: e, label: e.toString().padStart(2, '0') + ' HH'}));
+  public minutesOptions = Array.from(Array(61).keys()).map(e => ({ value: e, label: e.toString().padStart(2, '0') + ' MM'}));
+  public secondsOptions = Array.from(Array(61).keys()).map(e => ({ value: e, label: e.toString().padStart(2, '0') + ' SS'}));
+  public secondsToLog: number;
+  public logging: boolean;
 
   private profile: Profile;
   private playTimeUpdateInterval: any;
-  public secondsToLog: number;
 
   constructor(
     private utilities: UtilitiesService,
@@ -111,9 +115,18 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
   logTime() {
     this.listService.logTime(this.listGame, this.secondsToLog);
     this.secondsToLog = null;
+    this.logging = false;
   }
 
-  cancelLoggingTime() {
+  startLogging() {
+    this.logging = true;
+    this.hours.setValue(0);
+    this.minutes.setValue(0);
+    this.seconds.setValue(0);
+  }
+
+  cancelLogging() {
     this.secondsToLog = null;
+    this.logging = false;
   }
 }

@@ -1,11 +1,10 @@
-- Manually log time
-- Remove old time logs
+- Game dialog
+  - Styles for game dialog
+  - Delete time logs
+- Refresh list periodically
 - Search games.. text color black
 - Missing manifest
 - Filter bar too close to top of screen
-- Game dialog
-  - Make time inputs limited to proper values
-  - Styles for game dialog
 - Customize auth0 UI
 - Profile
   - Styles
