@@ -1,7 +1,3 @@
-- Delete time logs
-  - In dialog, or separate page?
-- Refresh list periodically
-- Customize auth0 UI
 - User page
   - Styles
   - Currently playing
@@ -12,6 +8,8 @@
   - Styles
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
+- Refresh list periodically
+- Customize auth0 UI
 - Add aria properties to all buttons, etc..
 - Blurb for homepage / final banner / link to login / signup
 - Update mongodb password
@@ -31,3 +29,5 @@ Future:
 - Filter based on digital / physical copies
 - Convert API to typescript :P
 - Privacy settings, ie: make page private, don't show activity log in global feed, etc..
+- Delete time logs
+  - In dialog, or separate page?

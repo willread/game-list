@@ -21,6 +21,7 @@ export class UserComponent implements OnInit {
   public platformLabels: Label[];
   public secondsPlayed: number;
   public activities: Activity[];
+  public alias: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,6 +32,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.pipe(first()).subscribe(params => {
+      this.alias = params.get('id');
       this.listService.getList(params.get('id'))
         .subscribe(list => {
           this.list = list;

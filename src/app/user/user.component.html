@@ -1,53 +1,62 @@
 <mat-progress-spinner mode="indeterminate" *ngIf="!list"></mat-progress-spinner>
 
-<ng-container *ngIf="list">
+<div class="wrapper" *ngIf="list">
+  <h1>{{alias}}'s Collection</h1>
   <app-game-filter [listGames]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
 
-  <section class="stats">
-    <div class="stat">
-      <h1>{{ list.games.length }}</h1>
-      <h2>Games In Collection</h2>
-    </div>
-
-    <div class="stat">
-      <h1>{{ (secondsPlayed / 60 / 60).toFixed(2) }}</h1>
-      <h2>Hours Played</h2>
-    </div>
-  </section>
-
-  <section class="graphs">
-    <mat-tab-group>
-      <mat-tab label="Genres">
-        <div style="display: block;">
-          <canvas baseChart
-            [data]="genreCounts"
-            [labels]="genreLabels"
-            chartType="doughnut">
-          </canvas>
+  <section class="row">
+    <section class="col stats">
+      <div class="stat">
+        <mat-icon color="accent" inline="true">format_list_numbered</mat-icon>
+        <div class="info">
+          <h1>{{ (list.games | filterGames: filter).length }}</h1>
+          <h2>Games</h2>
         </div>
-      </mat-tab>
-      <mat-tab label="Platforms">
-        <div style="display: block;">
-          <canvas baseChart
-            [data]="platformCounts"
-            [labels]="platformLabels"
-            chartType="doughnut">
-          </canvas>
+      </div>
+
+      <div class="stat">
+        <mat-icon color="accent" inline="true">access_time</mat-icon>
+        <div class="info">
+          <h1>{{ (secondsPlayed / 60 / 60).toFixed(2) }}</h1>
+          <h2>Hours Played</h2>
         </div>
-      </mat-tab>
-    </mat-tab-group>
+      </div>
+    </section>
+
+    <section class="col graphs">
+      <mat-tab-group color="accent">
+        <mat-tab label="Games">
+          <section class="games" fxLayout="row wrap">
+            <app-game-card *ngFor="let listGame of list.games | filterGames: filter" [listGame]="listGame"></app-game-card>
+          </section>
+        </mat-tab>
+
+        <mat-tab label="Genres">
+          <div style="display: block;">
+            <canvas baseChart
+              [data]="genreCounts"
+              [labels]="genreLabels"
+              chartType="doughnut">
+            </canvas>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Platforms">
+          <div style="display: block;">
+            <canvas baseChart
+              [data]="platformCounts"
+              [labels]="platformLabels"
+              chartType="doughnut">
+            </canvas>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </section>
   </section>
 
-  <section class="games">
-    <h1>Games</h1>
-    <div class="game" *ngFor="let listGame of list.games | filterGames: filter">
-      {{ listGame.game.name }}
-    </div>
-  </section>
+  <h1>{{alias}}'s Activity</h1>
 
   <section class="activities">
-    <h1>Activity</h1>
-
     <app-activity-list [activities]="activities"></app-activity-list>
   </section>
-</ng-container>
+</div>

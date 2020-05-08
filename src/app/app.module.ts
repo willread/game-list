@@ -46,6 +46,7 @@ import { PlatformPipe } from './pipes/platform.pipe';
 import { PlatformBadgeComponent } from './platform-badge/platform-badge.component';
 import { LightOrDarkPipe } from './pipes/light-or-dark.pipe';
 import { FooterComponent } from './footer/footer.component';
+import { GameCardComponent } from './game-card/game-card.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { FooterComponent } from './footer/footer.component';
     PlatformPipe,
     PlatformBadgeComponent,
     LightOrDarkPipe,
-    FooterComponent
+    FooterComponent,
+    GameCardComponent
   ],
   imports: [
     BrowserModule,
