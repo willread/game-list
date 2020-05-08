@@ -91,6 +91,7 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
 
   cancelPlaying() {
     this.secondsPlayed = 0;
+    this.listGame.startedPlayingAt = null;
     this.playing = false;
     this.stopUpdatingSecondsPlayed();
 

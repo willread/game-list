@@ -25,6 +25,12 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/site.webmanifest",
+              "src/android-chrome-192x192.png",
+              "src/android-chrome-512x512.png",
+              "src/apple-touch-icon.png",
+              "src/favicon-16x16.png",
+              "src/favicon-32x32.png",
               "src/assets"
             ],
             "styles": [
@@ -89,12 +95,12 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "site.webmanifest",
-              "android-chrome-192x192.png",
-              "android-chrome-512x512.png",
-              "apple-touch-icon.png",
-              "favicon-16x16.png",
-              "favicon-32x32.png",
+              "src/site.webmanifest",
+              "src/android-chrome-192x192.png",
+              "src/android-chrome-512x512.png",
+              "src/apple-touch-icon.png",
+              "src/favicon-16x16.png",
+              "src/favicon-32x32.png",
               "src/assets"
             ],
             "styles": [
