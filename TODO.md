@@ -1,4 +1,5 @@
-- Revamp time logging to be more granular
+- Manually log time
+- Remove old time logs
 - Search games.. text color black
 - Missing manifest
 - Filter bar too close to top of screen

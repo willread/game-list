@@ -12,7 +12,7 @@
   </mat-form-field>
 </div>
 
-<ng-container *ngIf="!updatedSeconds">
+<ng-container *ngIf="!secondsToLog">
   <button *ngIf="!playing" mat-flat-button color="primary" (click)="startPlaying()">Start Playing</button>
   <ng-container *ngIf="playing">
     <button mat-flat-button color="primary" (click)="stopPlaying()">Stop Playing</button>
@@ -20,7 +20,7 @@
     <h3>Playing for: {{ secondsPlayed }} seconds</h3>
   </ng-container>
 </ng-container>
-<ng-container *ngIf="updatedSeconds">
-  <button mat-flat-button color="primary" (click)="saveUpdatedSeconds()">Save</button>
-  <button mat-flat-button color="secondary" (click)="cancelUpdatingSeconds()">Cancel</button>
+<ng-container *ngIf="secondsToLog">
+  <button mat-flat-button color="primary" (click)="logTime()">Save</button>
+  <button mat-flat-button color="secondary" (click)="cancelLoggingTime()">Cancel</button>
 </ng-container>

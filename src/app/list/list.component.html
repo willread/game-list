@@ -34,6 +34,9 @@
         <ng-container *ngIf="listGame.secondsPlayed > 0">
           Played for {{ listGame.secondsPlayed | secondsToTime }}
         </ng-container>
+        <ng-container *ngIf="listGame.startedPlayingAt">
+          (Playing now!)
+        </ng-container>
       </mat-card-content>
     </mat-card>
   </section>

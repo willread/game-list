@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { SearchGame, Game, ListGame } from './list.service';
@@ -27,21 +26,6 @@ export class ApiService {
 
   updateProfile$(updates: any): Observable<Profile> {
     return this.http.patch<Profile>(`${environment.apiPath}/profile`, updates);
-  }
-
-  startPlaying(listGame: ListGame): void {
-    this.http.put<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`, {}).subscribe();
-  }
-
-  stopPlaying$(listGame: ListGame): Observable<number> {
-    return this.http.delete<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`)
-      .pipe(
-        map(response => response.secondsPlayed)
-      );
-  }
-
-  cancelPlaying$(listGame: ListGame): Observable<void> {
-    return this.http.delete<any>(`${environment.apiPath}/list/games/${listGame._id}/playing?cancel=true`);
   }
 
   getActivitiesForUser$(idOrAlias: string): Observable<Activity[]> {

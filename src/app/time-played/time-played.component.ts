@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-import { ApiService, Profile } from '../services/api.service';
+import { Profile } from '../services/api.service';
 import { ListGame, ListService } from '../services/list.service';
 import { SECONDS_IN_HOUR, SECONDS_IN_MINUTE, HoursMinutesSeconds, UtilitiesService } from '../services/utilities.service';
 
@@ -26,11 +26,10 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
 
   private profile: Profile;
   private playTimeUpdateInterval: any;
-  public updatedSeconds: number;
+  public secondsToLog: number;
 
   constructor(
     private utilities: UtilitiesService,
-    private apiService: ApiService,
     private listService: ListService
   ) { }
 
@@ -41,10 +40,13 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
       this.startUpdatingSecondsPlayed();
     }
 
-    this.updateInputs();
-    this.hours.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
-    this.minutes.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
-    this.seconds.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSeconds());
+    this.hours.setValue(0, { emitEvent: false });
+    this.minutes.setValue(0, { emitEvent: false });
+    this.seconds.setValue(0, { emitEvent: false });
+
+    this.hours.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSecondsToLog());
+    this.minutes.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSecondsToLog());
+    this.seconds.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSecondsToLog());
   }
 
   ngOnDestroy() {
@@ -63,33 +65,26 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     this.seconds.enable();
   }
 
-  updateInputs() {
-    const time = this.utilities.timeFromSeconds(this.listGame.secondsPlayed);
-
-    this.hours.setValue(time.hours, { emitEvent: false });
-    this.minutes.setValue(time.minutes, { emitEvent: false });
-    this.seconds.setValue(time.seconds, { emitEvent: false });
-  }
-
   startPlaying() {
-    this.apiService.startPlaying(this.listGame);
+    this.listService.startPlaying(this.listGame);
     this.playing = true;
     this.startTime = new Date();
+    this.listGame.startedPlayingAt = this.startTime.toString();
     this.startUpdatingSecondsPlayed();
   }
 
   stopPlaying() {
-    this.apiService.stopPlaying$(this.listGame)
+    this.listService.stopPlaying$(this.listGame)
       .subscribe(secondsPlayed => {
         this.listGame.secondsPlayed = secondsPlayed;
-        this.updateInputs();
       });
     this.playing = false;
+    this.listGame.startedPlayingAt = undefined;
     this.stopUpdatingSecondsPlayed();
   }
 
   cancelPlaying() {
-    this.apiService.cancelPlaying$(this.listGame)
+    this.listService.cancelPlaying$(this.listGame)
       .subscribe(() => {
         this.playing = false;
         this.stopUpdatingSecondsPlayed();
@@ -107,19 +102,18 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     clearInterval(this.playTimeUpdateInterval);
   }
 
-  updateSeconds() {
+  updateSecondsToLog() {
     const seconds = this.hours.value * SECONDS_IN_HOUR + this.minutes.value * SECONDS_IN_MINUTE + this.seconds.value;
 
-    this.updatedSeconds = seconds;
+    this.secondsToLog = seconds;
   }
 
-  saveUpdatedSeconds() {
-    this.listService.updateTime(this.listGame, this.updatedSeconds);
-    this.updatedSeconds = null;
+  logTime() {
+    this.listService.logTime(this.listGame, this.secondsToLog);
+    this.secondsToLog = null;
   }
 
-  cancelUpdatingSeconds() {
-    this.updatedSeconds = null;
-    this.updateInputs();
+  cancelLoggingTime() {
+    this.secondsToLog = null;
   }
 }

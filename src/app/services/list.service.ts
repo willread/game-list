@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
@@ -52,7 +52,7 @@ export class ListService {
     return Array.from(new Set(games.map(game => game.platform)));
   }
 
-  updateList(): void {
+  public updateList(): void {
     this.loading = true;
 
     this.http.get(`${environment.apiPath}/list`)
@@ -65,11 +65,11 @@ export class ListService {
       .subscribe();
   }
 
-  getList(id: string): Observable<List> {
+  public getList(id: string): Observable<List> {
     return this.http.get<List>(`${environment.apiPath}/list/${id}`);
   }
 
-  addToList$(game: SearchGame): Observable<any> {
+  public addToList$(game: SearchGame): Observable<any> {
     return this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform: game.platform })
       .pipe(
         tap((newListGame: ListGame) => {
@@ -99,16 +99,31 @@ export class ListService {
     }
   }
 
-  updateTime(listGame: ListGame, secondsPlayed: number) {
+  public logTime(listGame: ListGame, secondsPlayed: number) {
     try {
-      this.list.games.find(g => g._id === listGame._id).secondsPlayed = secondsPlayed;
+      this.list.games.find(g => g._id === listGame._id).secondsPlayed += secondsPlayed;
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
     } catch (e) {
       // TODO
     } finally {
-      this.http.patch(`${environment.apiPath}/list/games/${listGame._id}`, { secondsPlayed }).subscribe();
+      this.http.patch(`${environment.apiPath}/list/games/${listGame._id}/playing`, { secondsPlayed }).subscribe();
     }
+  }
+
+  public startPlaying(listGame: ListGame): void {
+    this.http.put<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`, {}).subscribe();
+  }
+
+  public stopPlaying$(listGame: ListGame): Observable<number> {
+    return this.http.delete<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`)
+      .pipe(
+        map(response => response.secondsPlayed)
+      );
+  }
+
+  public cancelPlaying$(listGame: ListGame): Observable<void> {
+    return this.http.delete<any>(`${environment.apiPath}/list/games/${listGame._id}/playing?cancel=true`);
   }
 }
 
