@@ -1,26 +1,25 @@
-- Game dialog
-  - Styles for game dialog
-  - Delete time logs
+- Delete time logs
+  - In dialog, or separate page?
 - Refresh list periodically
-- Search games.. text color black
-- Missing manifest
-- Filter bar too close to top of screen
+- Small bugs / uglinesses:
+  - Search games.. text color black
+  - Missing manifest
+  - Filter bar too close to top of screen
 - Customize auth0 UI
-- Profile
+- Profile page
   - Styles
   - Currently playing
   - Most recently played
-- Profile management
-  - ???
+  - Anything additional to add?
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
 - Add aria properties to all buttons, etc..
-- Blurb for homepage / link to login / signup
+- Blurb for homepage / final banner / link to login / signup
 - Update mongodb password
 - MongoDB validations
 - List performance with lots of entries?
 - Starting playing a new game before a previous game is done makes secondsPlayed out of sync
-- Add a bunch of fake user profiles
+- Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
 - Normalize whitespace
 
 Future:
@@ -33,3 +32,4 @@ Future:
 - Choose a random game (based on filters)
 - Filter based on digital / physical copies
 - Convert API to typescript :P
+- Privacy settings, ie: make page private, don't show activity log in global feed, etc..

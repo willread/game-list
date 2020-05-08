@@ -82,18 +82,20 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
       .subscribe(secondsPlayed => {
         this.listGame.secondsPlayed = secondsPlayed;
       });
+
     this.playing = false;
+    this.secondsPlayed = 0;
     this.listGame.startedPlayingAt = undefined;
     this.stopUpdatingSecondsPlayed();
   }
 
   cancelPlaying() {
+    this.secondsPlayed = 0;
+    this.playing = false;
+    this.stopUpdatingSecondsPlayed();
+
     this.listService.cancelPlaying$(this.listGame)
-      .subscribe(() => {
-        this.playing = false;
-        this.stopUpdatingSecondsPlayed();
-        this.secondsPlayed = this.listGame.secondsPlayed;
-      });
+      .subscribe();
   }
 
   startUpdatingSecondsPlayed() {

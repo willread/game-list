@@ -1,0 +1,39 @@
+@use '../../theme-constants' as theme;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.buttons {
+  mat-icon {
+    vertical-align: middle;
+  }
+
+  button {
+    & + button {
+      margin-left: 10px;
+    }
+  }
+}
+
+.time-fields {
+  display: flex;
+
+  mat-form-field {
+    flex: 1;
+    overflow: hidden;
+
+    & + mat-form-field {
+      margin-left: 10px;
+    }
+  }
+}
+
+.playing-for {
+  color: theme.$accent;
+}
+
+.close-button {
+  z-index: 2;
+}

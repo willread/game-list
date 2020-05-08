@@ -1,36 +1,62 @@
 <div class="wrapper">
+  <h1 mat-dialog-title>
+    <img mat-card-avatar [lazyLoad]="listGame.game.images.icon">
+    <div class="label">
+      {{ listGame.game.name }}
+      <app-platform-badge [platform]="listGame.game.platform"></app-platform-badge>
+    </div>
+  </h1>
+
   <div class="background" [style.background-image]="'url(' + listGame.game.images.original + ')'"></div>
-  <div class="content">
-    <h1>{{ listGame.game.name }}</h1>
-    <app-platform-badge [platform]="listGame.game.platform"></app-platform-badge>
 
-    <h4>Status:</h4>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col">
+        <h4 class="align-top">Status:</h4>
+      </div>
 
-    <mat-form-field color="accent">
-      <mat-select [formControl]="status">
-        <mat-option *ngFor="let status of listService.statuses" [value]="status">
-          {{ status | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <div>
-      <mat-checkbox [formControl]="digitalCopy">Digital Copy</mat-checkbox>
+      <div class="col">
+        <mat-form-field color="accent">
+          <mat-select [formControl]="status">
+            <mat-option *ngFor="let status of listService.statuses" [value]="status">
+              {{ status | titlecase }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div>
-      <mat-checkbox [formControl]="physicalCopy">Physical Copy</mat-checkbox>
+    <div class="row">
+      <div class="col">
+        <h4>Copies:</h4>
+      </div>
+
+      <div class="col">
+        <div>
+          <mat-checkbox [formControl]="digitalCopy">Digital Copy</mat-checkbox>
+        </div>
+
+        <div>
+          <mat-checkbox [formControl]="physicalCopy">Physical Copy</mat-checkbox>
+        </div>
+      </div>
     </div>
 
-    <h2>Log Time:</h2>
+    <h4>Log Time:</h4>
 
-    <div>
+    <div class="row">
       <app-time-played [listGame]="listGame"></app-time-played>
     </div>
 
-    <h2>Actions:</h2>
+    <h4>Actions:</h4>
 
-    <button mat-flat-button color="primary" (click)="remove()">Delete</button>
-    <button mat-flat-button color="primary" (click)="close()">Close</button>
-  </div>
+    <div class="row">
+      <button mat-flat-button color="warn" (click)="remove()">Delete</button>
+    </div>
+  </mat-dialog-content>
+
+
+  <button mat-icon-button class="close-button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>

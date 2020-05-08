@@ -6,6 +6,18 @@
   position: relative;
   z-index: 0;
 
+  .mat-dialog-title {
+    padding-right: 30px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-right: 10px;
+    }
+  }
+
   .background {
     position: absolute;
     left: 0;
@@ -26,12 +38,31 @@
       width: 100%;
       height: 100%;
 
-      background: linear-gradient(180deg, rgba(theme.$background, 1) 0%, rgba(theme.$background, 1) calc(100% - 200px), rgba(theme.$background, 0.75) 100%);
+      background: linear-gradient(180deg, rgba(theme.$background, 0.98) 0%, rgba(theme.$background, 0.96) calc(100% - 200px), rgba(theme.$background, 0.75) 100%);
     }
   }
 
-  .content {
+  mat-dialog-content {
     position: relative;
     z-index: 1;
+  }
+
+  .row {
+    display: flex;
+    margin-bottom: 20px;
+
+    .col:first-child {
+      flex: 0 0 100px;
+
+      h4 {
+        &.align-top {
+          margin-top: 12px;
+        }
+      }
+    }
+
+    .col:last-child {
+      flex: 1;
+    }
   }
 }

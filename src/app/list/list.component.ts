@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
   }
 
   showGame(listGame: ListGame) {
-    this.dialog.open(GameComponent, { data: listGame });
+    this.dialog.open(GameComponent, { data: listGame, autoFocus: false });
   }
 
   updateFilter(filter: GamesFilter) {
