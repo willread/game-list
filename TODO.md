@@ -1,3 +1,4 @@
+- Server side rendering
 - User page
   - Styles
   - Currently playing
@@ -8,6 +9,7 @@
   - Styles
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
+- Sort by last played (by default)
 - Refresh list periodically
 - Customize auth0 UI
 - Add aria properties to all buttons, etc..
