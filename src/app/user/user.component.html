@@ -2,7 +2,22 @@
 
 <div class="wrapper" *ngIf="list">
   <h1>{{alias}}'s Collection</h1>
-  <app-game-filter [listGames]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+
+  <div class="game-filter">
+    <app-game-filter [listGames]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
+  </div>
+
+  <div class="mobile-filter-buttons">
+    <button mat-stroked-button class="filter-button" color="accent" (click)="openFilterBottomSheet()">
+      <mat-icon>filter_list</mat-icon>
+      <span>Filter Collection</span>
+    </button>
+
+    <button *ngIf="!filter.default" mat-stroked-button class="clear-filters-button" color="warn" (click)="gameFilterComponent.reset()">
+      <mat-icon>filter_list</mat-icon>
+      <span>Clear Filters</span>
+    </button>
+  </div>
 
   <div *ngIf="!(list?.games | filterGames: filter).length; else elseShowResults" class="no-results-message">
     <mat-icon>sentiment_very_dissatisfied</mat-icon>
@@ -93,7 +108,7 @@
     </section>
   </ng-template>
 
-  <h1>{{alias}}'s Activity</h1>
+  <h1>{{alias}}'s Latest Activity</h1>
 
   <section class="activities">
     <app-activity-list [activities]="activities"></app-activity-list>

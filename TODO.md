@@ -2,7 +2,6 @@
   - Styles
   - Graphs
   - Mobile
-    - Filters ported from list view
 - List
   - Sort by recently played (by default)
 - Profile page
@@ -19,6 +18,7 @@
 - List performance with lots of entries?
 - Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
 - Normalize whitespace
+- Hide login button in nav bar until auth checked
 
 Future:
 

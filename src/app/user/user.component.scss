@@ -8,7 +8,6 @@
 
 app-game-filter {
   display: block;
-  margin: 10px 0;
 }
 
 mat-progress-spinner {
@@ -23,6 +22,7 @@ h1 {
 
 .row {
   display: flex;
+  margin-top: 10px;
 
   .col {
     background: rgba(#fff, 0.05);
@@ -87,5 +87,43 @@ section.games {
     & + app-game-card {
       margin-top: 10px;
     }
+  }
+}
+
+app-activity-list {
+  display: block;
+  margin-top: 30px;
+}
+
+.mobile-filter-buttons {
+  display: none;
+  margin: 20px 0;
+
+  button {
+    flex: 1;
+
+    mat-icon {
+      margin-right: 5px;
+    }
+
+    & + button {
+      margin-left: 20px;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .mobile-filter-buttons {
+    display: flex;
+  }
+
+  app-game-filter {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  app-game-filter {
+    width: 100%;
   }
 }

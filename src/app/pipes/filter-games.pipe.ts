@@ -39,8 +39,8 @@ export class FilterGamesPipe implements PipeTransform {
     const searchedGames = this.searchPipe.transform(filteredGames, filter.query);
     const sortedGames = searchedGames.sort((a: ListGame, b: ListGame) => {
       const key = filter.sort.key;
-      const aValue = filterValueMap[key] ? filterValueMap[key](a)[key] : a[key];
-      const bValue = filterValueMap[key] ? filterValueMap[key](b)[key] : b[key];
+      const aValue = filterValueMap[key] ? filterValueMap[key](a)[key] : a[key] || '';
+      const bValue = filterValueMap[key] ? filterValueMap[key](b)[key] : b[key] || '';
 
       return aValue.toString().localeCompare(bValue.toString(), undefined, { numeric: true });
     });

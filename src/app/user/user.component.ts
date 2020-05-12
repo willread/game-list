@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { SingleDataSet, Label } from 'ng2-charts';
 
+import { GameFilterComponent } from '../game-filter/game-filter.component';
 import { ApiService, Activity } from '../services/api.service';
 import { Game, GameStatus, List, ListGame, ListService } from '../services/list.service';
 import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
@@ -28,11 +30,15 @@ export class UserComponent implements OnInit {
   public activities: Activity[];
   public alias: string;
 
+  @ViewChild(GameFilterComponent)
+  public gameFilterComponent: GameFilterComponent;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private listService: ListService,
     private filterGames: FilterGamesPipe,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit() {
@@ -42,7 +48,7 @@ export class UserComponent implements OnInit {
         .subscribe(list => {
           this.list = list;
 
-          this.updateGraphs();
+          this.updateGraphsAndStats();
         });
 
         this.apiService.getActivitiesForUser$(params.get('id'))
@@ -55,10 +61,10 @@ export class UserComponent implements OnInit {
 
   updateFilter(filter: GamesFilter) {
     this.filter = filter;
-    this.updateGraphs();
+    this.updateGraphsAndStats();
   }
 
-  updateGraphs() {
+  updateGraphsAndStats() {
     const filteredGames = this.filterGames.transform(this.list.games, this.filter);
     const genres = this.listService.getGenresForGames(filteredGames.map(g => g.game));
 
@@ -82,5 +88,14 @@ export class UserComponent implements OnInit {
     this.platformCount = platforms.length;
     this.finishedGamesCount = filteredGames.reduce((count: number, g: ListGame) => g.status === GameStatus.Finished ? count + 1 : count, 0);
     this.unplayedGamesCount = filteredGames.reduce((count: number, g: ListGame) => g.status === GameStatus.Unplayed ? count + 1 : count, 0);
+  }
+
+  openFilterBottomSheet() {
+    const ref = this.bottomSheet.open(GameFilterComponent, {
+      backdropClass: 'game-filter-backdrop',
+      data: { listGames: this.listService.list.games }
+    });
+
+    ref.instance.filterChanged.subscribe(filter => this.updateFilter(filter));
   }
 }
