@@ -4,87 +4,94 @@
   <h1>{{alias}}'s Collection</h1>
   <app-game-filter [listGames]="list.games" (filterChanged)="updateFilter($event)"></app-game-filter>
 
-  <section class="row">
-    <section class="col stats">
-      <div class="stat">
-        <mat-icon color="accent" inline="true">format_list_numbered</mat-icon>
-        <div class="info">
-          <h1>{{ (list.games | filterGames: filter).length }}</h1>
-          <h2>Games</h2>
-        </div>
-      </div>
+  <div *ngIf="!(list?.games | filterGames: filter).length; else elseShowResults" class="no-results-message">
+    <mat-icon>sentiment_very_dissatisfied</mat-icon>
+    <h2>No Results Found...</h2>
+  </div>
 
-      <div class="stat">
-        <mat-icon color="accent" inline="true">access_time</mat-icon>
-        <div class="info">
-          <h1>{{ (secondsPlayed / 60 / 60).toFixed(2) }}</h1>
-          <h2>Hours Played</h2>
-        </div>
-      </div>
-
-      <div class="stat" *ngIf="genreCount > 1">
-        <mat-icon color="accent" inline="true">collections</mat-icon>
-        <div class="info">
-          <h1>{{ genreCount }}</h1>
-          <h2>Genres</h2>
-        </div>
-      </div>
-
-      <div class="stat" *ngIf="platformCount > 1">
-        <mat-icon color="accent" inline="true">sports_esports</mat-icon>
-        <div class="info">
-          <h1>{{ platformCount }}</h1>
-          <h2>Platforms</h2>
-        </div>
-      </div>
-
-      <div class="stat">
-        <mat-icon color="accent" inline="true">check_box</mat-icon>
-        <div class="info">
-          <h1>{{ finishedGamesCount }}</h1>
-          <h2>Games Finished</h2>
-        </div>
-      </div>
-
-      <div class="stat">
-        <mat-icon color="accent" inline="true">indeterminate_check_box</mat-icon>
-        <div class="info">
-          <h1>{{ unplayedGamesCount }}</h1>
-          <h2>Unplayed Games</h2>
-        </div>
-      </div>
-    </section>
-
-    <section class="col graphs">
-      <mat-tab-group color="accent">
-        <mat-tab label="Games">
-          <section class="games" fxLayout="row wrap">
-            <app-game-card *ngFor="let listGame of list.games | filterGames: filter" [listGame]="listGame"></app-game-card>
-          </section>
-        </mat-tab>
-
-        <mat-tab label="Genres">
-          <div style="display: block;">
-            <canvas baseChart
-              [data]="genreCounts"
-              [labels]="genreLabels"
-              chartType="doughnut">
-            </canvas>
+  <ng-template #elseShowResults>
+    <section class="row">
+      <section class="col stats">
+        <div class="stat">
+          <mat-icon color="accent" inline="true">format_list_numbered</mat-icon>
+          <div class="info">
+            <h1>{{ (list.games | filterGames: filter).length }}</h1>
+            <h2>Games</h2>
           </div>
-        </mat-tab>
+        </div>
 
-        <mat-tab label="Platforms">
-          <div style="display: block;">
-            <canvas baseChart
-              [data]="platformCounts"
-              [labels]="platformLabels"
-              chartType="doughnut">
-            </canvas>
+        <div class="stat">
+          <mat-icon color="accent" inline="true">access_time</mat-icon>
+          <div class="info">
+            <h1>{{ (secondsPlayed / 60 / 60).toFixed(2) }}</h1>
+            <h2>Hours Played</h2>
           </div>
-        </mat-tab>
-      </mat-tab-group>
+        </div>
+
+        <div class="stat" *ngIf="genreCount > 1">
+          <mat-icon color="accent" inline="true">collections</mat-icon>
+          <div class="info">
+            <h1>{{ genreCount }}</h1>
+            <h2>Genres</h2>
+          </div>
+        </div>
+
+        <div class="stat" *ngIf="platformCount > 1">
+          <mat-icon color="accent" inline="true">sports_esports</mat-icon>
+          <div class="info">
+            <h1>{{ platformCount }}</h1>
+            <h2>Platforms</h2>
+          </div>
+        </div>
+
+        <div class="stat">
+          <mat-icon color="accent" inline="true">check_box</mat-icon>
+          <div class="info">
+            <h1>{{ finishedGamesCount }}</h1>
+            <h2>Games Finished</h2>
+          </div>
+        </div>
+
+        <div class="stat">
+          <mat-icon color="accent" inline="true">indeterminate_check_box</mat-icon>
+          <div class="info">
+            <h1>{{ unplayedGamesCount }}</h1>
+            <h2>Unplayed Games</h2>
+          </div>
+        </div>
+      </section>
+
+      <section class="col graphs">
+        <mat-tab-group color="accent">
+          <mat-tab label="Games">
+            <section class="games" fxLayout="row wrap">
+              <app-game-card *ngFor="let listGame of list.games | filterGames: filter" [listGame]="listGame"></app-game-card>
+            </section>
+          </mat-tab>
+
+          <mat-tab label="Genres">
+            <div style="display: block;">
+              <canvas baseChart
+                [data]="genreCounts"
+                [labels]="genreLabels"
+                chartType="doughnut">
+              </canvas>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Platforms">
+            <div style="display: block;">
+              <canvas baseChart
+                [data]="platformCounts"
+                [labels]="platformLabels"
+                chartType="doughnut">
+              </canvas>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </section>
     </section>
-  </section>
+  </ng-template>
 
   <h1>{{alias}}'s Activity</h1>
 
