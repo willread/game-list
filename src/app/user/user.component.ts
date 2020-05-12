@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import { SingleDataSet, Label } from 'ng2-charts';
 
 import { ApiService, Activity } from '../services/api.service';
-import { List, ListService } from '../services/list.service';
+import { Game, GameStatus, List, ListGame, ListService } from '../services/list.service';
 import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
 
 @Component({
@@ -20,6 +20,11 @@ export class UserComponent implements OnInit {
   public platformCounts: SingleDataSet;
   public platformLabels: Label[];
   public secondsPlayed: number;
+  public currentlyPlaying: Game;
+  public genreCount: number;
+  public platformCount: number;
+  public finishedGamesCount: number;
+  public unplayedGamesCount: number;
   public activities: Activity[];
   public alias: string;
 
@@ -67,6 +72,15 @@ export class UserComponent implements OnInit {
     this.platformCounts = platforms.map(platform => filteredGames.filter(g => g.game.platform === platform).length);
     this.platformLabels = platforms;
 
-    this.secondsPlayed = filteredGames.reduce((total, game) => game.secondsPlayed + total, 0);
+    // Stats
+
+    const currentlyPlayingGames = filteredGames.filter(g => g.startedPlayingAt);
+
+    this.secondsPlayed = filteredGames.reduce((total, game) => (game.secondsPlayed || 0) + total, 0);
+    this.currentlyPlaying = currentlyPlayingGames.length ? currentlyPlayingGames[0].game : null;
+    this.genreCount = genres.length;
+    this.platformCount = platforms.length;
+    this.finishedGamesCount = filteredGames.reduce((count: number, g: ListGame) => g.status === GameStatus.Finished ? count + 1 : count, 0);
+    this.unplayedGamesCount = filteredGames.reduce((count: number, g: ListGame) => g.status === GameStatus.Unplayed ? count + 1 : count, 0);
   }
 }

@@ -1,10 +1,10 @@
-- Server side rendering
 - User page
   - Styles
-  - Currently playing
-  - Most recently played
-  - Time stats?
-  - Anything additional to add?
+  - Graphs
+  - Mobile
+    - Filters ported from list view
+- List
+  - Sort by recently played (by default)
 - Profile page
   - Styles
   - Profile link not showing up in menu until alias set?
@@ -33,3 +33,5 @@ Future:
 - Privacy settings, ie: make page private, don't show activity log in global feed, etc..
 - Delete time logs
   - In dialog, or separate page?
+- Server side rendering
+- Nice scrollbars for select lists

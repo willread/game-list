@@ -21,6 +21,38 @@
           <h2>Hours Played</h2>
         </div>
       </div>
+
+      <div class="stat" *ngIf="genreCount > 1">
+        <mat-icon color="accent" inline="true">collections</mat-icon>
+        <div class="info">
+          <h1>{{ genreCount }}</h1>
+          <h2>Genres</h2>
+        </div>
+      </div>
+
+      <div class="stat" *ngIf="platformCount > 1">
+        <mat-icon color="accent" inline="true">sports_esports</mat-icon>
+        <div class="info">
+          <h1>{{ platformCount }}</h1>
+          <h2>Platforms</h2>
+        </div>
+      </div>
+
+      <div class="stat">
+        <mat-icon color="accent" inline="true">check_box</mat-icon>
+        <div class="info">
+          <h1>{{ finishedGamesCount }}</h1>
+          <h2>Games Finished</h2>
+        </div>
+      </div>
+
+      <div class="stat">
+        <mat-icon color="accent" inline="true">indeterminate_check_box</mat-icon>
+        <div class="info">
+          <h1>{{ unplayedGamesCount }}</h1>
+          <h2>Unplayed Games</h2>
+        </div>
+      </div>
     </section>
 
     <section class="col graphs">
