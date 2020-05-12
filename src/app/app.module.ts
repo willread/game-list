@@ -72,7 +72,7 @@ import { GameCardComponent } from './game-card/game-card.component';
     GameCardComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

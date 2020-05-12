@@ -14,7 +14,7 @@ export class NavComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private api: ApiService
-    ) { }
+    ) {}
 
   ngOnInit() {
   }

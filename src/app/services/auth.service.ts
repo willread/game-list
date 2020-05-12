@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 import { ApiService } from './api.service';
+import { IsBrowserService } from './is-browser.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,29 +15,9 @@ import { ApiService } from './api.service';
 export class AuthService {
   public profile$: Observable<any>;
 
-  // Create an observable of Auth0 instance of client
-  auth0Client$ = (from(
-    createAuth0Client({
-      domain: environment.auth0Domain,
-      client_id: environment.auth0ClientId,
-      redirect_uri: `${window.location.origin}`,
-      audience: environment.auth0ApiIdentifier
-    })
-  ) as Observable<Auth0Client>).pipe(
-    shareReplay(1), // Every subscription receives the same shared value
-    catchError(err => throwError(err))
-  );
-  // Define observables for SDK methods that return promises by default
-  // For each Auth0 SDK method, first ensure the client instance is ready
-  // concatMap: Using the client instance, call SDK method; SDK returns a promise
-  // from: Convert that resulting promise into an observable
-  isAuthenticated$ = this.auth0Client$.pipe(
-    concatMap((client: Auth0Client) => from(client.isAuthenticated())),
-    tap(res => this.loggedIn = res)
-  );
-  handleRedirectCallback$ = this.auth0Client$.pipe(
-    concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
-  );
+  auth0Client$: any;
+  isAuthenticated$: any;
+  handleRedirectCallback$: any;
   // Create subject and public observable of user profile data
   private userProfileSubject$ = new BehaviorSubject<any>(null);
   userProfile$ = this.userProfileSubject$.asObservable();
@@ -45,8 +26,38 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private isBrowser: IsBrowserService
   ) {
+    if (!this.isBrowser.isBrowser()){
+      // Create an observable of Auth0 instance of client
+
+      this.auth0Client$ = (from(
+        createAuth0Client({
+          domain: environment.auth0Domain,
+          client_id: environment.auth0ClientId,
+          redirect_uri: `${window.location.origin}`,
+          audience: environment.auth0ApiIdentifier
+        })
+      ) as Observable<Auth0Client>).pipe(
+        shareReplay(1), // Every subscription receives the same shared value
+        catchError(err => throwError(err))
+      );
+
+      // Define observables for SDK methods that return promises by default
+      // For each Auth0 SDK method, first ensure the client instance is ready
+      // concatMap: Using the client instance, call SDK method; SDK returns a promise
+      // from: Convert that resulting promise into an observable
+
+      this.isAuthenticated$ = this.auth0Client$.pipe(
+        concatMap((client: Auth0Client) => from(client.isAuthenticated())),
+        tap(res => this.loggedIn = !!res)
+      );
+
+      this.handleRedirectCallback$ = this.auth0Client$.pipe(
+        concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
+      );
+
     // On initial load, check authentication state with authorization server
     // Set up local auth streams if user is already authenticated
     this.localAuthSetup();
@@ -59,6 +70,7 @@ export class AuthService {
           this.profile$ = this.apiService.getProfile$();
         })
       ).subscribe();
+    }
   }
 
   // When calling, options can be passed if desired
@@ -107,7 +119,7 @@ export class AuthService {
       let targetRoute: string; // Path to redirect to after login processsed
       const authComplete$ = this.handleRedirectCallback$.pipe(
         // Have client, now call method to handle auth callback redirect
-        tap(cbRes => {
+        tap((cbRes: any) => {
           // Get and set target redirect route from callback results
           targetRoute = cbRes.appState && cbRes.appState.target ? cbRes.appState.target : '/';
         }),
