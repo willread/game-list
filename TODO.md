@@ -8,10 +8,8 @@
   - Styles
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
-- Sort by last played (by default)
 - Refresh list periodically
 - Customize auth0 UI
-- Add aria properties to all buttons, etc..
 - Blurb for homepage / final banner / link to login / signup
 - Update mongodb password
 - MongoDB validations
@@ -35,3 +33,4 @@ Future:
   - In dialog, or separate page?
 - Server side rendering
 - Nice scrollbars for select lists
+- Add aria properties to all buttons, etc..

@@ -34,11 +34,11 @@ h1 {
     }
 
     &.stats {
-      flex: 0.3;
+      flex: 0 0 250px;
     }
 
     &.graphs {
-      flex: 0.7;
+      flex: 1 1 auto;
     }
   }
 }
