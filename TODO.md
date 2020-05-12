@@ -1,7 +1,3 @@
-- User page
-  - Styles
-  - Graphs
-  - Mobile
 - List
   - Sort by recently played (by default)
 - Profile page
@@ -17,6 +13,7 @@
 - Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
 - Normalize whitespace
 - Hide login button in nav bar until auth checked
+- Update README, add some screenshots and such
 
 Future:
 

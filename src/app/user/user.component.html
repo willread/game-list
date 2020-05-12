@@ -25,7 +25,7 @@
   </div>
 
   <ng-template #elseShowResults>
-    <section class="row">
+    <section class="row results">
       <section class="col stats">
         <div class="stat">
           <mat-icon color="accent" inline="true">format_list_numbered</mat-icon>
@@ -85,21 +85,53 @@
           </mat-tab>
 
           <mat-tab label="Genres">
-            <div style="display: block;">
+            <div class="chart-wrapper" style="display: block;">
+              <mat-expansion-panel class="chart-legend">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Legend
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="legend-values">
+                  <div *ngFor="let genre of genreLabels; let i = index" [style.backgroundImage]="chartColoredPatterns[i].dataUrl" [class]="(chartColors[i] | lightOrDark) ? 'dark' : 'light'">
+                    {{ genre }}
+                  </div>
+                </div>
+              </mat-expansion-panel>
+
               <canvas baseChart
-                [data]="genreCounts"
+                [datasets]="genreCounts"
                 [labels]="genreLabels"
-                chartType="doughnut">
+                chartType="doughnut"
+                [options]="chartOptions"
+                [colors]="chartColorsWrapped">
               </canvas>
             </div>
           </mat-tab>
 
           <mat-tab label="Platforms">
-            <div style="display: block;">
+            <div class="chart-wrapper" style="display: block;">
+              <mat-expansion-panel class="chart-legend">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Legend
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="legend-values">
+                  <div *ngFor="let platform of platformLabels; let i = index" [style.backgroundImage]="chartColoredPatterns[i].dataUrl" [class]="(chartColors[i] | lightOrDark) ? 'dark' : 'light'">
+                    {{ platform }}
+                  </div>
+                </div>
+              </mat-expansion-panel>
+
               <canvas baseChart
-                [data]="platformCounts"
+                [datasets]="platformCounts"
                 [labels]="platformLabels"
-                chartType="doughnut">
+                chartType="doughnut"
+                [options]="chartOptions"
+                [colors]="chartColorsWrapped">
               </canvas>
             </div>
           </mat-tab>

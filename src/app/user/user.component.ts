@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { SingleDataSet, Label } from 'ng2-charts';
+import { Label } from 'ng2-charts';
+import * as patternomaly from 'patternomaly';
 
 import { GameFilterComponent } from '../game-filter/game-filter.component';
 import { ApiService, Activity } from '../services/api.service';
@@ -17,9 +19,9 @@ import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
 export class UserComponent implements OnInit {
   public filter: GamesFilter;
   public list: List;
-  public genreCounts: SingleDataSet;
+  public genreCounts: any;
   public genreLabels: Label[];
-  public platformCounts: SingleDataSet;
+  public platformCounts: any;
   public platformLabels: Label[];
   public secondsPlayed: number;
   public currentlyPlaying: Game;
@@ -29,6 +31,53 @@ export class UserComponent implements OnInit {
   public unplayedGamesCount: number;
   public activities: Activity[];
   public alias: string;
+  public chartColors = [
+
+    // Kelly's 22 colors of maximum contrast
+
+    '#FFB300', '#803E75', '#FF6800', '#A6BDD7', '#C10020', '#CEA262',
+    '#817066', '#007D34', '#F6768E', '#00538A', '#FF7A5C', '#53377A',
+    '#FF8E00', '#B32851', '#F4C800', '#7F180D', '#93AA00', '#593315',
+    '#F13A13', '#232C16'
+  ];
+  public chartPatterns = [ null, 'diagonal', 'triangle', 'zigzag', 'square', 'dot', 'weave', 'disc', 'line-vertical','diamond' ];
+  public chartColoredPatterns = (() => {
+    const patterns = [];
+
+    this.chartPatterns.forEach(pattern => {
+      this.chartColors.forEach(color => {
+        // @ts-ignore: Expression expected error
+        const fill = pattern ? patternomaly.draw(pattern, color) : color;
+        const canvas = document.createElement('canvas');
+        canvas.width = 20;
+        canvas.height = 20;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = fill;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        patterns.push({
+          fill,
+          dataUrl: this.sanitizer.bypassSecurityTrustStyle(`url(${canvas.toDataURL()})`)
+        });
+      });
+    });
+
+    return patterns;
+  })();
+  public chartColorsWrapped = [{ backgroundColor: this.chartColoredPatterns.map(p => p.fill) }];
+
+  public chartOptions = {
+    responsive: true,
+    tooltips: {
+      borderWidth: 1,
+      borderColor: '#fff',
+    },
+    borderWidth: 0,
+    cutoutPercentage: 30,
+    legend: {
+      display: false
+    }
+  }
 
   @ViewChild(GameFilterComponent)
   public gameFilterComponent: GameFilterComponent;
@@ -38,7 +87,8 @@ export class UserComponent implements OnInit {
     private listService: ListService,
     private filterGames: FilterGamesPipe,
     private apiService: ApiService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -56,7 +106,6 @@ export class UserComponent implements OnInit {
             this.activities = activities;
           });
     });
-
   }
 
   updateFilter(filter: GamesFilter) {
@@ -68,14 +117,14 @@ export class UserComponent implements OnInit {
     const filteredGames = this.filterGames.transform(this.list.games, this.filter);
     const genres = this.listService.getGenresForGames(filteredGames.map(g => g.game));
 
-    this.genreCounts = genres.map(genre => filteredGames
-      .map(g => g.game)
-      .filter(game => game.genres.includes(genre)).length);
+    this.genreCounts = this.dataSetWrapper(genres.map(genre => filteredGames
+        .map(g => g.game)
+        .filter(game => game.genres.includes(genre)).length));
     this.genreLabels = genres;
 
     const platforms = this.listService.getPlatformsForGames(filteredGames.map(g => g.game));
 
-    this.platformCounts = platforms.map(platform => filteredGames.filter(g => g.game.platform === platform).length);
+    this.platformCounts = this.dataSetWrapper(platforms.map(platform => filteredGames.filter(g => g.game.platform === platform).length));
     this.platformLabels = platforms;
 
     // Stats
@@ -97,5 +146,9 @@ export class UserComponent implements OnInit {
     });
 
     ref.instance.filterChanged.subscribe(filter => this.updateFilter(filter));
+  }
+
+  dataSetWrapper(data: any[]) {
+    return [{ borderWidth: 0, data }];
   }
 }
