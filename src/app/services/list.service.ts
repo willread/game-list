@@ -101,7 +101,9 @@ export class ListService {
 
   public logTime(listGame: ListGame, secondsPlayed: number) {
     try {
-      this.list.games.find(g => g._id === listGame._id).secondsPlayed += secondsPlayed;
+      const listGameToUpdate = this.list.games.find(g => g._id === listGame._id);
+      listGameToUpdate.secondsPlayed += secondsPlayed;
+      listGameToUpdate.lastPlayedAt = new Date().toISOString();
       this.list.games = [... this.list.games]; // Trigger change detection
       this.subject.next(this.list);
     } catch (e) {
@@ -112,6 +114,9 @@ export class ListService {
   }
 
   public startPlaying(listGame: ListGame): void {
+    this.list.games.find(g => g._id === listGame._id).lastPlayedAt = new Date().toISOString();
+    this.list.games = [... this.list.games]; // Trigger change detection
+    this.subject.next(this.list);
     this.http.put<any>(`${environment.apiPath}/list/games/${listGame._id}/playing`, {}).subscribe();
   }
 
@@ -151,6 +156,7 @@ export interface ListGame {
   physicalCopy: boolean;
   digitalCopy: boolean;
   startedPlayingAt: string;
+  lastPlayedAt: string;
 }
 
 export interface Game {

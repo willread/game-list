@@ -31,7 +31,9 @@ export class GameFilterComponent implements OnInit {
     { id: 'name-desc', key: 'name', label: 'Name &#8595;', desc: true },
     { id: 'status', key: 'status', label: 'Status', desc: false },
     { id: 'time', key: 'secondsPlayed', label: 'Time Played &#8593;', desc: false },
-    { id: 'time-desc', key: 'secondsPlayed', label: 'Time Played &#8595;', desc: true }
+    { id: 'time-desc', key: 'secondsPlayed', label: 'Time Played &#8595;', desc: true },
+    { id: 'last-played', key: 'lastPlayedAt', label: 'Last Played &#8593;', desc: false },
+    { id: 'last-played-desc', key: 'lastPlayedAt', label: 'Last Played &#8595;', desc: true }
   ];
 
   private defaults = {
@@ -39,7 +41,7 @@ export class GameFilterComponent implements OnInit {
     query: '',
     genre: '',
     status: '',
-    sort: this.sortOptions[0]
+    sort: this.sortOptions.find(s => s.id === 'last-played-desc')
   };
 
   constructor(
@@ -104,7 +106,7 @@ export class GameFilterComponent implements OnInit {
         query: params.get('query') || '',
         genre: params.get('genre') || '',
         status: params.get('status') || '',
-        sort: this.sortOptions.find(sort => sort.id === (params.get('sort') || '')) || this.sortOptions[0]
+        sort: this.sortOptions.find(sort => sort.id === (params.get('sort') || '')) || this.defaults.sort
       });
     });
   }

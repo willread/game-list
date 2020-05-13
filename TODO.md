@@ -1,5 +1,4 @@
-- List
-  - Sort by recently played (by default)
+- Images still loading from giantbomb
 - Profile page
   - Styles
   - Profile link not showing up in menu until alias set?
@@ -17,6 +16,7 @@
 
 Future:
 
+- Better color scheme for graphs (Sarah dislikes!)
 - Price paid
 - Game notes
 - Default to previous filters when visiting a page
@@ -31,3 +31,4 @@ Future:
 - Server side rendering
 - Nice scrollbars for select lists
 - Add aria properties to all buttons, etc..
+- Convert to universal app for server-side rendering and move api to this codebase
