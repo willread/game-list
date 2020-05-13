@@ -1,4 +1,3 @@
-- Images still loading from giantbomb
 - Profile page
   - Styles
   - Profile link not showing up in menu until alias set?
