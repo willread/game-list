@@ -54,7 +54,9 @@ export class ListComponent implements OnInit {
 
     if (gameEl) {
       gameEl.scrollIntoView({behavior: 'smooth'});
-      gameEl.classList.add('added');
+      setTimeout(() => {
+        gameEl.classList.add('added');
+      }, 500);
     }
   }
 
