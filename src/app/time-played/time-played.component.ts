@@ -51,6 +51,24 @@ export class TimePlayedComponent implements OnInit, OnDestroy {
     this.hours.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSecondsToLog());
     this.minutes.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSecondsToLog());
     this.seconds.valueChanges.pipe(distinctUntilChanged(), debounceTime(UPDATE_DEBOUNCE_TIME)).subscribe(() => this.updateSecondsToLog());
+
+    this.listService.list$.subscribe(list => {
+      const listGame = list.games.find(l => l._id === this.listGame._id);
+
+      if (listGame) {
+        this.listGame = listGame;
+
+        if (this.playing && !listGame.startedPlayingAt) {
+          this.playing = false;
+          this.secondsPlayed = 0;
+          this.stopUpdatingSecondsPlayed();
+        } else if (!this.playing && listGame.startedPlayingAt) {
+          this.playing = true;
+          this.startTime = new Date(listGame.startedPlayingAt);
+          this.startUpdatingSecondsPlayed();
+        }
+      }
+    });
   }
 
   ngOnDestroy() {
