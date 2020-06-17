@@ -6,7 +6,7 @@ import { debounceTime, throttleTime, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ApiService } from '../services/api.service';
-import { ListService, Game, SearchGame } from '../services/list.service';
+import { ListService, ListGame, Game, SearchGame } from '../services/list.service';
 
 @Component({
   selector: 'app-game-search',
@@ -51,19 +51,25 @@ export class GameSearchComponent implements OnInit {
     this.subject.next(query);
   }
 
-  add(game: SearchGame) {
-    this.listService.addToList$(game)
-      .subscribe(() => {
-        this.snackBar.open(`${game.name} added!`, undefined, { duration: 1000 });
-      }, () => {
-        this.snackBar.open(`${game.name} is already in your list.`, undefined, { duration: 1000 });
+  add(searchGame: SearchGame) {
+    this.listService.addToList$(searchGame)
+      .subscribe((listGame: ListGame) => {
+        this.snackBar.open(`${listGame.game.name} added!`, undefined, { duration: 1000 });
+        this.close(listGame);
+        this.reset();
+      }, (listGame: ListGame) => {
+        this.snackBar.open(`${listGame.game.name} is already in your list.`, undefined, { duration: 1000 });
+        this.close();
+        this.reset();
       });
-    this.results = [];
-    this.query.setValue('');
-    this.close();
   }
 
-  close() {
-    this.dialogRef.close();
+  reset() {
+    this.results = [];
+    this.query.setValue('');
+  }
+
+  close(listGame?: ListGame) {
+    this.dialogRef.close(listGame);
   }
 }

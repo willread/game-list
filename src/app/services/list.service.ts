@@ -69,7 +69,7 @@ export class ListService {
     return this.http.get<List>(`${environment.apiPath}/list/${id}`);
   }
 
-  public addToList$(game: SearchGame): Observable<any> {
+  public addToList$(game: SearchGame): Observable<ListGame> {
     return this.http.post(`${environment.apiPath}/list/games/${game.id}`, { platform: game.platform })
       .pipe(
         tap((newListGame: ListGame) => {

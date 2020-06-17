@@ -22,6 +22,10 @@ section[fxLayout] {
     flex: 0 1 calc(25% - 10px);
     height: 180px;
     margin: 0 10px 10px 0;
+
+    &.added {
+      animation: added-game 0.5s ease-in-out;
+    }
   }
 }
 
@@ -90,4 +94,13 @@ header {
       flex: 0 1 calc(100% - 10px);
     }
   }
+}
+
+@keyframes added-game {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.05); }
+  40% { transform: scale(0.8); }
+  60% { transform: scale(1.1); }
+  80% { transform: scale(0.9); }
+  100% { transform: scale(1); }
 }

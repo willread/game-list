@@ -1,9 +1,9 @@
-import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { GameComponent } from '../game/game.component';
-import { ListService, ListGame } from '../services/list.service';
+import { ListService, ListGame, Game } from '../services/list.service';
 import { FilterGamesPipe, GamesFilter } from '../pipes/filter-games.pipe';
 import { GameFilterComponent } from '../game-filter/game-filter.component';
 import { GameSearchComponent } from '../game-search/game-search.component';
@@ -24,7 +24,8 @@ export class ListComponent implements OnInit {
     public listService: ListService,
     private dialog: MatDialog,
     private filterGames: FilterGamesPipe,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private element: ElementRef
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +40,22 @@ export class ListComponent implements OnInit {
   }
 
   addGame() {
-    this.dialog.open(GameSearchComponent);
+    this.dialog.open(GameSearchComponent)
+      .afterClosed()
+      .subscribe((listGame?: ListGame) => {
+        if (listGame) {
+          this.scrollToGame(listGame);
+        }
+      });
+  }
+
+  scrollToGame(listGame: ListGame) {
+    const gameEl: HTMLElement = this.element.nativeElement.querySelector(`#game-${listGame._id}`);
+
+    if (gameEl) {
+      gameEl.scrollIntoView({behavior: 'smooth'});
+      gameEl.classList.add('added');
+    }
   }
 
   openFilterBottomSheet() {

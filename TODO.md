@@ -1,20 +1,26 @@
+- Hide login button in nav bar until auth checked
+- Show release date
+- Use proper platform names in filter UI
+- Public page
+  - Games should be clickable and open non-editable version of Game dialog
 - Profile page
   - Styles
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
-- Refresh list periodically
+- Refresh list periodically and when opening Game dialog
 - Customize auth0 UI
 - Blurb for homepage / final banner / link to login / signup
+- What's new section
 - Update mongodb password
 - MongoDB validations
-- List performance with lots of entries?
 - Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
 - Normalize whitespace
-- Hide login button in nav bar until auth checked
 - Update README, add some screenshots and such
 
 Future:
 
+- Pause time logging
+- List performance with lots of entries?
 - Better color scheme for graphs (Sarah dislikes!)
 - Price paid
 - Game notes

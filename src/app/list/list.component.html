@@ -22,6 +22,7 @@
       *ngFor="let listGame of (listService.list)?.games | filterGames: filter" (click)="showGame(listGame)"
       [listGame]="listGame"
       class="clickable"
+      id="game-{{listGame._id}}"
     ></app-game-card>
   </section>
 
