@@ -15,7 +15,7 @@
     <mat-select formControlName="platform">
       <mat-option [value]="''">All Platforms</mat-option>
       <mat-option *ngFor="let platform of platforms" [value]="platform">
-          {{ platform }}
+          {{ platform | platform: 'name' }}
       </mat-option>
     </mat-select>
   </mat-form-field>

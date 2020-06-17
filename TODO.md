@@ -1,5 +1,4 @@
 - Show release date
-- Use proper platform names in filter UI
 - Public page
   - Games should be clickable and open non-editable version of Game dialog
 - Profile page
