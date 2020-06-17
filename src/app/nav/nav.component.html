@@ -5,28 +5,29 @@
 
   <span class="fill-remaining"></span>
 
-  <button mat-flat-button color="accent" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
-  <button mat-icon-button color="accent" [matMenuTriggerFor]="accountMenu" *ngIf="auth.loggedIn">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <mat-menu #accountMenu="matMenu">
-    <a mat-menu-item [routerLink]="['/user/' + (auth.profile$ | async)?.alias]" *ngIf="auth.profile$ | async">
-      <mat-icon>account_circle</mat-icon>
-      <span>My Page</span>
-    </a>
-    <a mat-menu-item routerLink="/profile">
-      <mat-icon>settings</mat-icon>
-      <span>Settings</span>
-    </a>
-    <a mat-menu-item routerLink="list">
-      <mat-icon>list</mat-icon>
-      <span>My List</span>
-    </a>
-    <button mat-menu-item (click)="auth.logout()">
-      <mat-icon>power_settings_new</mat-icon>
-      <span>Log Out</span>
+  <ng-container *ngIf="auth.loggedIn !== null">
+    <button mat-flat-button color="accent" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
+    <button mat-icon-button color="accent" [matMenuTriggerFor]="accountMenu" *ngIf="auth.loggedIn">
+      <mat-icon>menu</mat-icon>
     </button>
-  </mat-menu>
-
+    <mat-menu #accountMenu="matMenu">
+      <a mat-menu-item [routerLink]="['/user/' + (auth.profile$ | async)?.alias]" *ngIf="auth.profile$ | async">
+        <mat-icon>account_circle</mat-icon>
+        <span>My Page</span>
+      </a>
+      <a mat-menu-item routerLink="/profile">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+      <a mat-menu-item routerLink="list">
+        <mat-icon>list</mat-icon>
+        <span>My List</span>
+      </a>
+      <button mat-menu-item (click)="auth.logout()">
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Log Out</span>
+      </button>
+    </mat-menu>
+  </ng-container>
 </mat-toolbar>
 

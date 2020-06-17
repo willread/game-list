@@ -1,4 +1,3 @@
-- Hide login button in nav bar until auth checked
 - Show release date
 - Use proper platform names in filter UI
 - Public page
