@@ -34,6 +34,12 @@ export class ListService {
         }
       })
     ).subscribe();
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.updateList();
+      }
+    });
   }
 
   public getGenresForGames(games: Game[]): string[] {

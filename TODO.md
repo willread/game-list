@@ -1,11 +1,11 @@
-- Show release date
+- Show total time played in game dialog
+- Show release date next to game name
 - Public page
   - Games should be clickable and open non-editable version of Game dialog
 - Profile page
   - Styles
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
-- Refresh list periodically and when opening Game dialog
 - Customize auth0 UI
 - Blurb for homepage / final banner / link to login / signup
 - What's new section
