@@ -1,4 +1,3 @@
-- Show icon in list when playing a game.
 - Logging time manually should update last played
 - Show release date next to game name
 - Public page

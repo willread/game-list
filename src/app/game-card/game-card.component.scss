@@ -1,3 +1,5 @@
+@use '../../theme-constants' as theme;
+
 :host {
   width: 100%;
   height: 100%;
@@ -24,6 +26,26 @@ mat-card {
   z-index: 0;
   overflow: hidden;
   position: relative;
+
+  &.playing {
+    &:after {
+      font-family: "Material Icons";
+      content: "\e039";
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(theme.$accent, 0.5);
+      color: theme.$accent;
+      font-size: 48px;
+      pointer-events: none;
+      z-index: 99;
+    }
+  }
 
   .background {
     position: absolute;
