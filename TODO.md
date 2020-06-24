@@ -1,4 +1,5 @@
-- Show total time played in game dialog
+- Show icon in list when playing a game.
+- Logging time manually should update last played
 - Show release date next to game name
 - Public page
   - Games should be clickable and open non-editable version of Game dialog

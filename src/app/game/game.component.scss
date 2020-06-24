@@ -49,12 +49,17 @@
 
   .row {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+
+    h4 {
+      margin-bottom: 0;
+    }
 
     .col:first-child {
       flex: 0 0 100px;
 
       h4 {
+
         &.align-top {
           margin-top: 12px;
         }
