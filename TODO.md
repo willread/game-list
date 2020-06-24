@@ -22,7 +22,7 @@ Future:
 - Better color scheme for graphs (Sarah dislikes!)
 - Price paid
 - Game notes
-- Default to previous filters when visiting a page
+- Persist filters on list view
 - Graphs of play time by month, etc..
 - Fetch platforms dynamically
 - Choose a random game (based on filters)
