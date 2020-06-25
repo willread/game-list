@@ -1,3 +1,4 @@
+- Graphs need to be more usable on mobile
 - Blurb for homepage / final banner / link to login / signup
 - Show release date next to game name
 - Public page
