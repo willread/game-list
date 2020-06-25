@@ -41,9 +41,11 @@ mat-card {
       height: 100%;
       background: rgba(theme.$accent, 0.5);
       color: theme.$accent;
+      text-shadow: 0 0 15px rgba(theme.$accent, 0.3);
       font-size: 48px;
       pointer-events: none;
-      z-index: 99;
+      z-index: 0;
+      animation: playing-pulse 0.5s infinite alternate ease-in-out;
     }
   }
 
@@ -53,7 +55,7 @@ mat-card {
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: -2;
     opacity: 0;
     background-size: cover;
     background-position: center;
@@ -95,6 +97,7 @@ mat-card {
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, rgba(0,0,0,0.7497373949579832) 0%, rgba(0,0,0,0.7497373949579832) 35%, rgba(0,0,0,0) 100%);
+    z-index: -1;
   }
 
   mat-card-header, mat-card-actions, mat-card-content {
@@ -115,5 +118,17 @@ mat-card {
       transition-delay: 0s;
       transform: translate(0, 0);
     }
+  }
+}
+
+@keyframes playing-pulse {
+  0% {
+    color: rgba(theme.$accent, 0.5);
+    text-shadow: 0 0 5px rgba(theme.$accent, 0.25);
+  }
+
+  100% {
+    color: rgba(theme.$accent, 1);
+    text-shadow: 0 0 15px rgba(theme.$accent, 1);
   }
 }
