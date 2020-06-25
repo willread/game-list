@@ -1,4 +1,4 @@
-- Logging time manually should update last played
+- Blurb for homepage / final banner / link to login / signup
 - Show release date next to game name
 - Public page
   - Games should be clickable and open non-editable version of Game dialog
@@ -6,8 +6,6 @@
   - Styles
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
-- Customize auth0 UI
-- Blurb for homepage / final banner / link to login / signup
 - What's new section
 - Update mongodb password
 - MongoDB validations
