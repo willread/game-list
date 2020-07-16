@@ -1,3 +1,5 @@
+- Don't redraw list on refreshing if nothing has changed
+- Submitting search on mobile closes filter action sheet
 - Graphs need to be more usable on mobile
 - Blurb for homepage / final banner / link to login / signup
 - Show release date next to game name
