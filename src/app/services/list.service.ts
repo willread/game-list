@@ -65,7 +65,9 @@ export class ListService {
       .pipe(
         tap(list => {
           this.loading = false;
-          this.subject.next(list);
+          if (JSON.stringify(list) != JSON.stringify(this.list)) { // Only update if list has changed
+            this.subject.next(list);
+          }
         })
       )
       .subscribe();

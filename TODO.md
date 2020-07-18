@@ -1,4 +1,4 @@
-- Don't redraw list on refreshing if nothing has changed
+- Assign all users a username (random by default?)
 - Submitting search on mobile closes filter action sheet
 - Graphs need to be more usable on mobile
 - Blurb for homepage / final banner / link to login / signup
@@ -10,8 +10,6 @@
   - Profile link not showing up in menu until alias set?
     - Probably related to duplicate error when no alias is set on more than one profile
 - What's new section
-- Update mongodb password
-- MongoDB validations
 - Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
 - Normalize whitespace
 - Update README, add some screenshots and such
@@ -36,3 +34,11 @@ Future:
 - Nice scrollbars for select lists
 - Add aria properties to all buttons, etc..
 - Convert to universal app for server-side rendering and move api to this codebase
+- MongoDB validations
+
+Changelog
+=========
+
+July 17, 2020
+
+- Don't redraw list on refreshing if nothing has changed
