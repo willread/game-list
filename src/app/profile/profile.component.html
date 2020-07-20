@@ -1,6 +1,6 @@
 <mat-progress-spinner mode="indeterminate" *ngIf="!(authService.profile$ | async)"></mat-progress-spinner>
 
-<section *ngIf="authService.profile$ | async">
+<section class="profile" *ngIf="authService.profile$ | async">
   <mat-form-field>
     <input matInput [formControl]="alias">
     <mat-error *ngIf="error?.errors.alias">{{ error?.errors.alias}}</mat-error>

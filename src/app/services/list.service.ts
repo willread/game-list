@@ -37,7 +37,7 @@ export class ListService {
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        this.updateList();
+        this.updateList(true);
       }
     });
   }
@@ -58,8 +58,10 @@ export class ListService {
     return Array.from(new Set(games.map(game => game.platform)));
   }
 
-  public updateList(): void {
-    this.loading = true;
+  public updateList(silent?: boolean): void {
+    if (!silent) {
+      this.loading = true;
+    }
 
     this.http.get(`${environment.apiPath}/list`)
       .pipe(

@@ -1,14 +1,12 @@
-- Assign all users a username (random by default?)
+- Profile page styles
+- Update profile locally after changing alias
+- NPM install on webhook
+- Make alias a unique index
 - Submitting search on mobile closes filter action sheet
 - Graphs need to be more usable on mobile
-- Blurb for homepage / final banner / link to login / signup
 - Show release date next to game name
 - Public page
   - Games should be clickable and open non-editable version of Game dialog
-- Profile page
-  - Styles
-  - Profile link not showing up in menu until alias set?
-    - Probably related to duplicate error when no alias is set on more than one profile
 - What's new section
 - Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
 - Normalize whitespace
@@ -39,6 +37,11 @@ Future:
 Changelog
 =========
 
+July 20, 2020
+
+- New homepage banner
+
 July 17, 2020
 
 - Don't redraw list on refreshing if nothing has changed
+- Assign all users a username (random by default?)

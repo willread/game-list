@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService, Activity, PopularListGame } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ export class HomeComponent implements OnInit {
   public popularListGames: PopularListGame[];
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    public auth: AuthService,
   ) { }
 
   ngOnInit(): void {

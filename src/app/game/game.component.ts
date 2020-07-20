@@ -33,7 +33,7 @@ export class GameComponent implements OnInit {
     this.physicalCopy.setValue(this.listGame.physicalCopy);
     this.physicalCopy.valueChanges.subscribe(physicalCopy => this.listService.updateListGame(this.listGame, { physicalCopy }));
 
-    this.listService.updateList();
+    this.listService.updateList(true);
   }
 
   remove() {
