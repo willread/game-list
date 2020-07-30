@@ -40,7 +40,9 @@ export class ApiService {
 export interface ApiError {
   message?: string,
   errors: {
-    [fieldName: string]: string
+    [fieldName: string]: {
+      message: string
+    }
   }
 }
 

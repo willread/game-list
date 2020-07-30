@@ -9,10 +9,7 @@
       <h1>Tame your game collection!</h1>
       <h2>Keep track of your games and the time you spend playing.</h2>
       <ng-container *ngIf="auth.loggedIn !== null">
-        <ng-container *ngIf="!auth.loggedIn">
-          <button mat-flat-button color="accent" (click)="auth.login()" >Sign Up Now</button>
-          <h3>It's totally free!</h3>
-        </ng-container>
+        <button *ngIf="!auth.loggedIn" mat-flat-button color="accent" (click)="auth.login()" >Sign Up Now</button>
         <a *ngIf="auth.loggedIn" mat-flat-button color="accent" href="/list" >See Your Collection</a>
       </ng-container>
 

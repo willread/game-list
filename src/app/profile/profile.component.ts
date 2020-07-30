@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
         this.snackBar.open(`Your alias has been updated!`, undefined, { duration: 1000 });
       },
       e => {
-        this.error = e.error;
+        this.error = e;
         this.alias.setErrors({incorrect: true});
       }
     );

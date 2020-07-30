@@ -1,6 +1,3 @@
-- Profile page styles
-- Update profile locally after changing alias
-- NPM install on webhook
 - Make alias a unique index
 - Submitting search on mobile closes filter action sheet
 - Graphs need to be more usable on mobile
@@ -8,7 +5,8 @@
 - Public page
   - Games should be clickable and open non-editable version of Game dialog
 - What's new section
-- Add a bunch of fake user profiles, possibly on a regular basis so site looks busy
+- Generate user data
+  - Ensure aliases are under 16 characters
 - Normalize whitespace
 - Update README, add some screenshots and such
 
