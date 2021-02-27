@@ -51,7 +51,7 @@ const LogInForm: React.FC = () => {
       <h1>Log In</h1>
       <input type="text" placeholder="username" onChange={e => setUsername(e.target.value)} />
       <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} />
-      <button type="submit" onClick={handleSubmit} disabled={loading}>Sign Up</button>
+      <button type="submit" onClick={handleSubmit} disabled={loading}>Log In</button>
     
       {error && <div>
          <div>{error.message}</div>

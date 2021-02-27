@@ -7,8 +7,8 @@ type User = {
 }
 
 type State = {
-  user: User|null;
-  token: string|null;
+  user: User|null
+  token: string|null
 }
 
 type Action =
@@ -17,12 +17,12 @@ type Action =
 
 interface SetUserAction {
   type: 'SET_USER'
-  payload: User
+  payload: User|null
 }
 
 interface SetTokenAction {
-  type: 'SET_TOKEN',
-  payload: string,
+  type: 'SET_TOKEN'
+  payload: string|null
 }
 
 const initialStoreContext: Context = {
