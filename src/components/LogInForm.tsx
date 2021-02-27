@@ -29,13 +29,10 @@ const LogInForm: React.FC = () => {
   const [logIn, { loading, error }] = useMutation(LOG_IN, {
     onCompleted: data => {
       const token = data.logIn.viewer.sessionToken;
+      const user = data.logIn.viewer.user;
 
-      localStorage.setItem('token', token); // TODO: Move to action
-
-      dispatch({
-        type: 'SET_USER',
-        payload: data.logIn.viewer.user,
-      });
+      dispatch({ type: 'SET_TOKEN', payload: token });
+      dispatch({ type: 'SET_USER', payload: user });
     },
   });
 

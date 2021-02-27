@@ -33,13 +33,10 @@ const SignUpForm: React.FC = () => {
   const [signUp, { loading, error }] = useMutation(SIGN_UP, {
     onCompleted: data => {
       const token = data.signUp.viewer.sessionToken;
+      const user = data.signUp.viewer.user;
 
-      localStorage.setItem('token', token); // TODO: Move to action
-
-      dispatch({
-        type: 'SET_USER',
-        payload: data.signUp.viewer.user,
-      });
+      dispatch({ type: 'SET_TOKEN', payload: token });
+      dispatch({ type: 'SET_USER', payload: user });
     },
   });
 

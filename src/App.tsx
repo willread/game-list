@@ -1,32 +1,21 @@
-import React, { useContext, useEffect } from 'react';
-import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider, gql, useQuery } from '@apollo/client';
+import React, { useContext } from 'react';
+import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { relayStylePagination } from "@apollo/client/utilities";
 
 import LogInForm from './components/LogInForm';
-import { storeContext } from './state/Store';
+import { getPersistedState, storeContext } from './state/Store';
 import SignUpForm from './components/SignUpForm';
 import Games from './Games';
 import './App.css';
-
-const FETCH_USER = gql`
-  query viewer {
-    viewer {
-      sessionToken
-      user {
-        username
-        email
-      }
-    }
-  }
-`;
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3004/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
+  const state = getPersistedState();
+  const token = state.token;
   const newHeaders: { [key: string]: string } = {
     'X-Parse-Application-Id': 'myAppId',
   };
@@ -59,21 +48,6 @@ const client = new ApolloClient({
 
 function App() {
   const { state } = useContext(storeContext);
-
-  useEffect(() => {
-    useQuery(FETCH_USER, {
-      onCompleted: data => {
-        const token = data.viewer.sessionToken;
-  
-        localStorage.setItem('token', token); // TODO: Move to action
-        console.log('fethced user', data):
-        // dispatch({
-        //   type: 'SET_USER',
-        //   payload: data.viewer.user,
-        // });
-      },
-    });
-  }, []);
 
   return (
     <ApolloProvider client={client}>
