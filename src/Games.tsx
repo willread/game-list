@@ -1,28 +1,27 @@
 import { useQuery, gql } from '@apollo/client';
 
 const GAMES = gql`
-  query GetGames($cursor: String, $where: GameWhereInput) {
-    games(
-      first: 1,
-      after: $cursor,
+  query GetCollectionItems($cursor: String, $where: CollectionItemWhereInput) {
+    collectionItems(
+      first: 999
+      after: $cursor
       where: $where
     ) {
       count,
       pageInfo {
-        hasNextPage,
-        hasPreviousPage,
-        startCursor,
-        endCursor,
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
       },
       edges {
         node {
-          title,
+          id
+          game {
+            title
+          }
           platform {
-            edges {
-              node {
-                name
-              }
-            }
+            name
           }
         }
       }
@@ -31,7 +30,7 @@ const GAMES = gql`
 `;
 
 function Games() {
-  const platforms = ['PC', 'Mac'];
+  const platforms = ['PC', 'Mac', 'Xbox'];
   let platform = undefined;
 
   const { loading, error, data, fetchMore } = useQuery(GAMES, {
@@ -52,19 +51,19 @@ function Games() {
   return (
     <div>
       {(
-        data.games.edges.map((edge: any) => (
-          <div key={edge.node.title}>
+        data.collectionItems.edges.map((edge: any) => (
+          <div key={edge.node.id}>
             <p>
-              {edge.node.title} / {edge.node.platform.edges[0].node.name}
+              {edge.node.game.title} / {edge.node.platform.name}
             </p>
           </div>
         ))
       )}
       
-      {data.games.pageInfo.hasNextPage &&
+      {data.collectionItems.pageInfo.hasNextPage &&
         <button onClick={() => fetchMore({
           variables: {
-            cursor: data.games.pageInfo.endCursor,
+            cursor: data.collectionItems.pageInfo.endCursor,
           },
         })}>Next Page</button>
       }

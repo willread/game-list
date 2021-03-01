@@ -3,6 +3,7 @@ import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import { relayStylePagination } from "@apollo/client/utilities";
 
+import AddGameForm from './components/AddGameForm';
 import Header from './components/Header';
 import LogInForm from './components/LogInForm';
 import { getPersistedState, storeContext } from './state/Store';
@@ -54,9 +55,18 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <Header />
-        <Games />
-        { !state.user && <SignUpForm /> }
-        { !state.user && <LogInForm /> }
+        { !state.user && 
+          <>
+            <SignUpForm />
+            <LogInForm />
+          </>
+        }
+        { state.user &&
+          <>
+            <AddGameForm />
+            <Games />
+          </>
+        }
       </div>
     </ApolloProvider>
   );
