@@ -6,6 +6,7 @@ import { relayStylePagination } from "@apollo/client/utilities";
 import AddGameForm from './components/AddGameForm';
 import Header from './components/Header';
 import LogInForm from './components/LogInForm';
+import RelayTest from './components/RelayTest';
 import { getPersistedState, storeContext } from './state/Store';
 import SignUpForm from './components/SignUpForm';
 import Games from './Games';
@@ -50,6 +51,10 @@ const client = new ApolloClient({
 
 function App() {
   const { state } = useContext(storeContext);
+
+  return (
+    <RelayTest></RelayTest>
+  );
 
   return (
     <ApolloProvider client={client}>

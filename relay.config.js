@@ -1,4 +1,7 @@
 module.exports = {
   src: './src',
-  exclude: '**/node_modules/**',
+  schema: './data/schema2.graphql',
+  exclude: ['**/node_modules/**', '**/__mocks__/**', '**/__generated__/**'],
+  language: 'typescript',
+  artifactDirectory: './src/__generated__',
 }
