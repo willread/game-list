@@ -6,8 +6,8 @@ service cloud.firestore {
     }
 
     match /lists/{list} {
-      allow create, delete: if request.auth.uid;
-      allow read, write: if request.auth.uid == resource.data.uid;
+      allow create: if request.auth.uid && request.auth.uid == request.data.uid;
+      allow read, write, delete: if request.auth.uid == resource.data.uid;
     }
   }
 }
