@@ -1,5 +1,5 @@
 Game
-    Platform
+    Platform: 
     Condition
     DateObtained
     PurchasePrice
