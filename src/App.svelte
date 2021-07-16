@@ -1,5 +1,6 @@
 <script>
-    import Profile from './Profile.svelte';
+    import Lists from './Lists.svelte';
+	import Profile from './Profile.svelte';
 
     import { auth, googleProvider } from './firebase';
     import { authState } from 'rxfire/auth';
@@ -13,12 +14,12 @@
     }
 </script>
 
-
 <section>
 {#if user}
     <Profile {...user} />
     <button on:click={ () => auth.signOut() }>Logout</button>
     <hr>
+	<Lists uid={user.uid} />
 {:else}
 	<button on:click={login}>
 		Signin with Google
