@@ -6,7 +6,7 @@ service cloud.firestore {
     }
 
     match /lists/{list} {
-      allow create: if request.auth.uid && request.auth.uid == request.resource.data.uid;
+      allow create: if request.resource.data.uid == request.auth.uid;
       allow read, write, delete: if request.auth.uid == resource.data.uid;
     }
   }

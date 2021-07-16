@@ -25,7 +25,7 @@
     newListName = '';
   }
 
-  const query = db.collection('lists').where('uid', '==', uid).orderBy('created');
+  const query = db.collection('lists').where('uid', '==', uid);
   const lists = collectionData(query, 'id').pipe(startWith([]));
   let newListName = '';
 </script>
