@@ -1,8 +1,2 @@
-Game
-    Platform: 
-    Condition
-    DateObtained
-    PurchasePrice
-
-List
-    games: Game[]
+- Move firebase config to env
+- Add games to list
