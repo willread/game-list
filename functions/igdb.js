@@ -79,10 +79,11 @@ exports.fetchGames = functions.https.onRequest(async (request, response) => {
     const token = await getToken();
 
     const limit = 500;
-    const maxOffset = 500;
+    const maxOffset = 10000;
     const waitTime = 1000;
     let offset = 0;
     let done = false;
+    const searchIndex = [];
 
     while (!done) {
       const games = await fetchPageOfGames(token, limit, offset);
@@ -95,6 +96,11 @@ exports.fetchGames = functions.https.onRequest(async (request, response) => {
         games.forEach(game => {
           const { id, ...data } = game;
           db.collection('games').doc(id.toString()).set(data);
+
+          searchIndex.push({
+            id,
+            name: game.name,
+          });
         });
 
         batch.commit();
@@ -108,6 +114,13 @@ exports.fetchGames = functions.https.onRequest(async (request, response) => {
         }
       }
     }
+
+    const bucket = admin.storage().bucket();
+    const file = bucket.file('search-index.json', {});
+    const writeStream = file.createWriteStream({ private: true });
+
+    writeStream.write(JSON.stringify(searchIndex));
+    writeStream.end();
 
     revokeToken(token);
 

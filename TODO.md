@@ -1,2 +1,7 @@
-- Move firebase config to env
-- Add games to list
+- Backend
+  - Move firebase config to env
+  - Make igdb functions non-https (scheduled?)
+  - Search function
+  - Update search index when json file changes
+- Frontend
+  - Search / add games to list
