@@ -9,5 +9,10 @@ service cloud.firestore {
       allow create: if request.resource.data.uid == request.auth.uid;
       allow read, write, delete: if request.auth.uid == resource.data.uid;
     }
+
+    match /platforms/{platform} {
+      allow create, delete, write: if false;
+      allow read: if  true;
+    }
   }
 }
