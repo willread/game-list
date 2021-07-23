@@ -4,8 +4,6 @@ const axios = require('axios');
 
 const MAX_FIRESTORE_BATCH_SIZE = 500;
 
-admin.initializeApp(functions.config().firebase);
-
 const db = admin.firestore();
 
 function getToken() {

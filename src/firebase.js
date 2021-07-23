@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { getFunctions, useFunctionsEmulator  } from 'firebase/functions';
+import 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB0OdTaI452TCg66WpvmNhmZfM5E1FxewY',
@@ -15,10 +15,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-const functions = getFunctions(app);
-useFunctionsEmulator(functions, 'localhost', 5001);
-
 export const auth = firebase.auth();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
-
+export const functions = firebase.functions();
 export const db = firebase.firestore();
