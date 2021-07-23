@@ -1,76 +1,75 @@
-const admin = require('firebase-admin');
-const functions = require('firebase-functions');
-const StreamArray = require( 'stream-json/streamers/StreamArray');
+const cors = require('cors')({
+  origin: '*', // FIXME
+});
 
-try {
-  let SEARCH_INDEX = undefined;
-  let SEARCH_INDEX_READ_PROMISE = undefined;
+exports.functions = (admin, functions) => {
+  try {
+    let SEARCH_INDEX = undefined;
+    let SEARCH_INDEX_READ_PROMISE = undefined;
 
-  async function readSearchIndex() {
-    SEARCH_INDEX_READ_PROMISE = new Promise((resolve, reject) => {
+    async function readSearchIndex() {
+      SEARCH_INDEX_READ_PROMISE = new Promise((resolve, reject) => {
+        try {
+          const bucket = admin.storage().bucket();
+          const file = bucket.file('search-index.json', {});
+          const readStream = file.createReadStream();
+
+          functions.logger.log('Reading search index json');
+
+          let json = '';
+          readStream.on('data', chunk => {
+            json += chunk;
+            functions.logger.log('Got some data');
+          });
+          readStream.on('end', () => {
+            functions.logger.log('Finished reading search index json');
+            SEARCH_INDEX = JSON.parse(json);
+            SEARCH_INDEX_READ_PROMISE = undefined;
+            resolve();
+          });
+        } catch(e) {
+          functions.logger.error('Error reading JSON stream: ', e);
+          reject(e);
+        }
+      });
+
+      return SEARCH_INDEX_READ_PROMISE;
+    }
+
+    const searchGames = functions.https.onCall(async (data, context) => {
       try {
-        const bucket = admin.storage().bucket();
-        const file = bucket.file('search-index.json', {});
-        const readStream = file.createReadStream();
-        const jsonStream = StreamArray.withParser();
-        const searchIndex = [];
+        if (!SEARCH_INDEX) {
+          if (SEARCH_INDEX_READ_PROMISE) {
+            await SEARCH_INDEX_READ_PROMISE;
+          } else {
+            await readSearchIndex();
+          }
+        }
 
-        functions.logger.log('Reading search index json');
+        const query = (data.search || '').toLowerCase();
 
-        readStream.on('data', () => {
-          functions.logger.log('Got some data');
-        })
-        // readStream.pipe(jsonStream.input);
-        // jsonStream.on('data', ({ key, value }) => {
-        //   return searchIndex[key] = value;
-        // });
-        // jsonStream.on('end', () => {
-        //   functions.logger.log('Finished reading search index json');
-        //   SEARCH_INDEX = searchIndex;
-        //   SEARCH_INDEX_READ_PROMISE = undefined;
-        //   resolve();
-        // });
-        // jsonStream.on('error', e => {
-        //   functions.logger.error('Error reading JSON stream: ', e);
-        // });
+        if (!query) {
+          throw new functions.https.HttpsError('not-found', 'todo');
+        } else {
+          const matches = SEARCH_INDEX.filter(i => i.name && i.name.toLowerCase().indexOf(query) > -1);
+
+          if (matches.length) {
+            functions.logger.log(`Found ${matches.length} matches for '${query}'`);
+            return matches;
+          } else {
+            functions.logger.log(`No match for '${query}'`);
+            throw new functions.https.HttpsError('not-found', 'todo');
+          }
+        }
       } catch(e) {
-        functions.logger.error('Error reading JSON stream: ', e);
-        reject(e);
+        throw new functions.https.HttpsError('unhandled-error', e.message);
       }
     });
 
-    return SEARCH_INDEX_READ_PROMISE;
+    return {
+      searchGames,
+    };
+  } catch(e) {
+    functions.logger.error('Error:', e);
   }
-
-  exports.searchGames = functions.https.onRequest(async (request, response) => {
-    try {
-      if (!SEARCH_INDEX) {
-        if (SEARCH_INDEX_READ_PROMISE) {
-          await SEARCH_INDEX_READ_PROMISE;
-        } else {
-          await readSearchIndex();
-        }
-      }
-
-      const query = (request.query.search || '').toLowerCase();
-
-      if (!query) {
-        response.status(404).json({message: 'Not found'});
-      } else {
-        const matches = SEARCH_INDEX.filter(i => i.name && i.name.toLowerCase().indexOf(query) > -1);
-
-        if (matches.length) {
-          functions.logger.log(`Found ${matches.length} matches for '${query}'`);
-          response.status(200).json(matches);
-        } else {
-          functions.logger.log(`No match for '${query}'`);
-          response.status(404).json({message: 'Not found'});
-        }
-      }
-    } catch(e) {
-      response.status(500).json({ error: e.message });
-    }
-  });
-} catch(e) {
-  functions.logger.error('Error:', e);
-}
+};
