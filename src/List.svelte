@@ -1,33 +1,42 @@
 <script>
   import { collectionData } from 'rxfire/firestore';
   import { startWith, tap } from 'rxjs';
-  import { createEventDispatcher } from 'svelte';
 
   import { db, firestore, functions } from './firebase';
 
   export let list;
 
+  const MAX_LIST_SIZE = 10000; // We need to keep the document size under 1MB so some limit is needed here
+  const listRef = db.collection('lists').doc(list.id);
   let results = [];
   let timer;
 
-  const dispatch = createEventDispatcher();
   const gamesRef = db.collection('games');
   const gamesQuery = gamesRef.where(firestore.FieldPath.documentId(), 'in', list.games.map(id => id.toString()));
   const games = collectionData(gamesQuery, 'id')
-    .pipe(startWith([]))
-    .pipe(tap(games => console.log('games', games)));
-  console.log('games', games);
+    .pipe(startWith([]));
 
   function remove() {
-		dispatch('remove', { id: list.id });
-	}
-
-  function update() {
-    dispatch('update', list);
+    listRef.delete();
   }
 
-  function addGame(id) {
-    dispatch('add-game', { listId: list.id, gameId: id });
+  function update() {
+    listRef.update(list);
+  }
+
+  function addGame(gameId) {
+    const games = Array.isArray(list.games) ? list.games : [];
+
+    if (games.includes(gameId)) {
+      return;
+    }
+
+    if (games.length >= MAX_LIST_SIZE) {
+      // todo: handle list being full
+      return;
+    }
+
+    listRef.update({ games: games.concat(gameId) });
   }
 
   async function search(search) {
