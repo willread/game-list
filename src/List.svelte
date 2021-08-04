@@ -1,7 +1,9 @@
 <script>
+  import { collectionData } from 'rxfire/firestore';
+  import { startWith, tap } from 'rxjs';
   import { createEventDispatcher } from 'svelte';
 
-  import { functions } from './firebase';
+  import { db, firestore, functions } from './firebase';
 
   export let list;
 
@@ -9,6 +11,12 @@
   let timer;
 
   const dispatch = createEventDispatcher();
+  const gamesRef = db.collection('games');
+  const gamesQuery = gamesRef.where(firestore.FieldPath.documentId(), 'in', list.games.map(id => id.toString()));
+  const games = collectionData(gamesQuery, 'id')
+    .pipe(startWith([]))
+    .pipe(tap(games => console.log('games', games)));
+  console.log('games', games);
 
   function remove() {
 		dispatch('remove', { id: list.id });
@@ -19,8 +27,7 @@
   }
 
   function addGame(id) {
-    list.games = list.games ? list.games.concat(id) : [id];
-    update();
+    dispatch('add-game', { listId: list.id, gameId: id });
   }
 
   async function search(search) {
@@ -34,21 +41,26 @@
     }
   }
 
-	const debounce = e => {
+	function debounce(e) {
     clearTimeout(timer);
 		timer = setTimeout(() => {
       search(e.target.value);
 		}, 100);
 	}
+
+  function test() {
+    console.log(list);
+  }
 </script>
 
 <input bind:value={list.name}>
 <button on:click={update}>Update</button>
 <button on:click={remove}>X</button>
+<button on:click={test}>Test</button>
 <ul>
-  {#if list.games}
-    {#each list.games as game}
-      <li>{game}</li>
+  {#if $games}
+    {#each $games as game}
+      <li>{game.name}</li>
     {/each}
   {/if}
 </ul>

@@ -5,5 +5,6 @@
   - Proper search
   - Update search index when json file changes
   - Allow partial game / search index updates based on only games that have been updates since the last run
+  - Proper CORS policy
 - Frontend
   - Search / add games to list

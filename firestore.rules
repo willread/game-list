@@ -10,6 +10,10 @@ service cloud.firestore {
       allow read, write, delete: if request.auth.uid == resource.data.uid;
     }
 
+    match /games/{game} {
+      allow read: if true;
+    }
+
     match /platforms/{platform} {
       allow create, delete, write: if false;
       allow read: if  true;
