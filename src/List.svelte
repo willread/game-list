@@ -43,6 +43,10 @@
     listItemsRef.add(gameId);
   }
 
+  function removeListItem(listItem) {
+    listItemsRef.doc(listItem.id).delete();
+  }
+
   async function search(search) {
     const searchGames = functions.httpsCallable('searchGames');
 
@@ -79,6 +83,7 @@
         {#if gamesById && gamesById[listItem.gameId]}
           {gamesById[listItem.gameId].name}
         {/if}
+        <button on:click={removeListItem(listItem)}>X</button>
       </li>
     {/each}
   {/if}
