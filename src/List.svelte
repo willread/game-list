@@ -1,20 +1,35 @@
 <script>
   import { collectionData } from 'rxfire/firestore';
-  import { startWith, tap } from 'rxjs';
+  import { map, startWith, reduce, tap } from 'rxjs';
 
   import { db, firestore, functions } from './firebase';
 
   export let list;
 
-  const MAX_LIST_SIZE = 10000; // We need to keep the document size under 1MB so some limit is needed here
   const listRef = db.collection('lists').doc(list.id);
+  const listItemsRef = listRef.collection('listItems');
+  const gamesRef = db.collection('games');
   let results = [];
   let timer;
+  let gamesById = {};
+  let listItems;
 
-  const gamesRef = db.collection('games');
-  const gamesQuery = gamesRef.where(firestore.FieldPath.documentId(), 'in', list.games.map(id => id.toString()));
-  const games = collectionData(gamesQuery, 'id')
-    .pipe(startWith([]));
+  function updateGames(gameIds) {
+    if (!gameIds || !gameIds.length) { return; }
+    const gamesQuery = gamesRef.where(firestore.FieldPath.documentId(), 'in', gameIds);
+    collectionData(gamesQuery, 'id')
+      .pipe(startWith([]))
+      .pipe(tap(games => gamesById = games.reduce((obj, game) => ({[game.id]: game, ...obj}), {})))
+      .subscribe();
+  }
+
+  listRef.onSnapshot(updateListItems);
+
+  function updateListItems() {
+    listItems = collectionData(listItemsRef, 'id')
+      .pipe(startWith([]))
+      .pipe(tap(listItems => updateGames(listItems.map(l => l.gameId.toString()))));
+  }
 
   function remove() {
     listRef.delete();
@@ -24,19 +39,8 @@
     listRef.update(list);
   }
 
-  function addGame(gameId) {
-    const games = Array.isArray(list.games) ? list.games : [];
-
-    if (games.includes(gameId)) {
-      return;
-    }
-
-    if (games.length >= MAX_LIST_SIZE) {
-      // todo: handle list being full
-      return;
-    }
-
-    listRef.update({ games: games.concat(gameId) });
+  function addListItem({...gameId}) {
+    listItemsRef.add(gameId);
   }
 
   async function search(search) {
@@ -58,7 +62,8 @@
 	}
 
   function test() {
-    console.log(list);
+    console.log(gamesById);
+    console.log($listItems);
   }
 </script>
 
@@ -67,9 +72,14 @@
 <button on:click={remove}>X</button>
 <button on:click={test}>Test</button>
 <ul>
-  {#if $games}
-    {#each $games as game}
-      <li>{game.name}</li>
+  {#if $listItems}
+    {#each $listItems as listItem}
+      <li>
+        {listItem.gameId}:
+        {#if gamesById && gamesById[listItem.gameId]}
+          {gamesById[listItem.gameId].name}
+        {/if}
+      </li>
     {/each}
   {/if}
 </ul>
@@ -79,6 +89,6 @@
 <input on:input={debounce} />
 <ul>
   {#each results as game}
-    <li on:click={addGame(game.id)}>{game.name}</li>
+    <li on:click={addListItem({gameId: game.id})}>{game.name}</li>
   {/each}
 </ul>

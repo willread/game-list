@@ -1,7 +1,7 @@
 <script>
   import firebase from 'firebase/app';
   import { collectionData } from 'rxfire/firestore';
-  import { startWith } from 'rxjs/operators';
+  import { startWith, tap } from 'rxjs/operators';
 
   import { db } from './firebase';
   import List from './List.svelte';
@@ -15,7 +15,7 @@
     newListName = '';
   }
 
-  const listsQuery = listsRef.where('uid', '==', uid);
+  const listsQuery = listsRef.where('uid', '==', uid)
   const lists = collectionData(listsQuery, 'id')
     .pipe(startWith([]));
   let newListName = '';
