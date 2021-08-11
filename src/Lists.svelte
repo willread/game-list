@@ -1,25 +1,14 @@
 <script>
-  import firebase from 'firebase/app';
-  import { collectionData } from 'rxfire/firestore';
-  import { startWith } from 'rxjs/operators';
   import { Link } from 'svelte-routing';
 
-  import { user } from './auth';
-  import { db } from './firebase';
+  import { lists } from './lists';
 
-  const uid = $user.uid;
-
-  const listsRef = db.collection('lists');
+  let newListName = '';
 
   function addList() {
-    listsRef.add({ uid, name: newListName, created: firebase.firestore.FieldValue.serverTimestamp() });
+    lists.add({ name: newListName });
     newListName = '';
   }
-
-  const listsQuery = listsRef.where('uid', '==', uid)
-  const lists = collectionData(listsQuery, 'id')
-    .pipe(startWith([]));
-  let newListName = '';
 </script>
 
 <h1>My Lists ({$lists.length})</h1>
