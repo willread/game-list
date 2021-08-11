@@ -1,28 +1,9 @@
 <script>
-    import Lists from './Lists.svelte';
-	import Profile from './Profile.svelte';
+    import 'bulma/css/bulma.css'
 
-    import { auth, googleProvider } from './firebase';
-    import { authState } from 'rxfire/auth';
-
-    let user;
-
-    const unsubscribe = authState(auth).subscribe(u => user = u);
-
-    function login() {
-        auth.signInWithPopup(googleProvider);
-    }
+    import Navbar from './Navbar.svelte';
 </script>
 
 <section>
-{#if user}
-    <Profile {...user} />
-    <button on:click={ () => auth.signOut() }>Logout</button>
-    <hr>
-	<Lists uid={user.uid} />
-{:else}
-	<button on:click={login}>
-		Signin with Google
-	</button>
-{/if}
+  <Navbar></Navbar>
 </section>
