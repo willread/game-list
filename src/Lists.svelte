@@ -1,12 +1,13 @@
 <script>
   import firebase from 'firebase/app';
   import { collectionData } from 'rxfire/firestore';
-  import { startWith, tap } from 'rxjs/operators';
+  import { startWith } from 'rxjs/operators';
+  import { Link } from 'svelte-routing';
 
+  import { user } from './auth';
   import { db } from './firebase';
-  import List from './List.svelte';
 
-  export let uid;
+  const uid = $user.uid;
 
   const listsRef = db.collection('lists');
 
@@ -25,8 +26,7 @@
 <ul>
 	{#each $lists as list}
     <li>
-      {list.name}:
-      <List list={list}/>
+      <Link to="/lists/{list.id}">{list.name}</Link>
     </li>
 	{/each}
 </ul>

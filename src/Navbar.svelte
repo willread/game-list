@@ -1,18 +1,19 @@
 <script>
   import 'bulma/css/bulma.css'
-  import { auth, googleProvider } from './firebase';
   import { authState } from 'rxfire/auth';
+  import { Link, navigate } from 'svelte-routing';
 
-  let user;
-
-  authState(auth).subscribe(u => user = u);
+  import { auth, googleProvider } from './firebase';
+  import { user } from './auth';
 
   function login() {
       auth.signInWithPopup(googleProvider);
   }
 
   function logout() {
-    auth.signOut();
+    auth.signOut().then(() => {
+      navigate('/');
+    });
   }
 </script>
 
@@ -25,10 +26,9 @@
 
   <div class="navbar-menu">
     <div class="navbar-start">
-      {#if user}
-        <a href="/" class="navbar-item">
-          Profile
-        </a>
+      {#if $user}
+        <Link to="profile" class="navbar-item">Profile</Link>
+        <Link to="lists" class="navbar-item">Lists</Link>
       {/if}
     </div>
   </div>
@@ -36,7 +36,7 @@
   <div class="navbar-end">
     <div class="navbar-item">
       <div class="buttons">
-        {#if !user}
+        {#if !$user}
           <a class="button is-primary" on:click={login}>
             <strong>Sign in with Google</strong>
           </a>

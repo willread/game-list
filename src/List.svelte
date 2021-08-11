@@ -1,14 +1,16 @@
 <script>
-  import { collectionData } from 'rxfire/firestore';
-  import { map, startWith, reduce, tap } from 'rxjs';
+  import { collectionData, docData } from 'rxfire/firestore';
+  import { startWith, tap } from 'rxjs';
 
   import { db, firestore, functions } from './firebase';
 
-  export let list;
+  export let id;
 
-  const listRef = db.collection('lists').doc(list.id);
+  const listRef = db.collection('lists').doc(id);
   const listItemsRef = listRef.collection('listItems');
   const gamesRef = db.collection('games');
+
+  let list = {};
   let results = [];
   let timer;
   let gamesById = {};
@@ -23,7 +25,10 @@
       .subscribe();
   }
 
-  listRef.onSnapshot(updateListItems);
+  docData(listRef).subscribe(l => {
+    list = l;
+    updateListItems();
+  });
 
   function updateListItems() {
     listItems = collectionData(listItemsRef, 'id')
@@ -71,29 +76,31 @@
   }
 </script>
 
-<input bind:value={list.name}>
-<button on:click={update}>Update</button>
-<button on:click={remove}>X</button>
-<button on:click={test}>Test</button>
-<ul>
-  {#if $listItems}
-    {#each $listItems as listItem}
-      <li>
-        {listItem.gameId}:
-        {#if gamesById && gamesById[listItem.gameId]}
-          {gamesById[listItem.gameId].name}
-        {/if}
-        <button on:click={removeListItem(listItem)}>X</button>
-      </li>
+{#if list}
+  <input bind:value={list.name}>
+  <button on:click={update}>Update</button>
+  <button on:click={remove}>X</button>
+  <button on:click={test}>Test</button>
+  <ul>
+    {#if $listItems}
+      {#each $listItems as listItem}
+        <li>
+          {listItem.gameId}:
+          {#if gamesById && gamesById[listItem.gameId]}
+            {gamesById[listItem.gameId].name}
+          {/if}
+          <button on:click={removeListItem(listItem)}>X</button>
+        </li>
+      {/each}
+    {/if}
+  </ul>
+
+  <hr />
+
+  <input on:input={debounce} />
+  <ul>
+    {#each results as game}
+      <li on:click={addListItem({gameId: game.id})}>{game.name}</li>
     {/each}
-  {/if}
-</ul>
-
-<hr />
-
-<input on:input={debounce} />
-<ul>
-  {#each results as game}
-    <li on:click={addListItem({gameId: game.id})}>{game.name}</li>
-  {/each}
-</ul>
+  </ul>
+{/if}

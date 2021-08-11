@@ -1,9 +1,22 @@
 <script>
-    import 'bulma/css/bulma.css'
+  import 'bulma/css/bulma.css'
+  import { Router } from 'svelte-routing';
 
-    import Navbar from './Navbar.svelte';
+  import List from './List.svelte';
+  import Lists from './Lists.svelte';
+  import Navbar from './Navbar.svelte';
+  import Profile from './Profile.svelte';
+  import ProtectedRoute from './ProtectedRoute.svelte';
+
+  export let url = '';
 </script>
 
-<section>
-  <Navbar></Navbar>
-</section>
+<Router url="{url}">
+  <Navbar />
+
+  <div>
+    <ProtectedRoute path="profile" component="{Profile}" />
+    <ProtectedRoute path="lists" component="{Lists}" />
+    <ProtectedRoute path="lists/:id" component="{List}" />
+  </div>
+</Router>
