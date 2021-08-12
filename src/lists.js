@@ -3,16 +3,18 @@ import firebase from 'firebase/app';
 import { writable } from 'svelte/store';
 
 import { user } from './auth';
-import { db } from './firebase';
+import { db, firestore } from './firebase';
 
-function createLists() {
-	const { subscribe, set, update } = writable([]);
-  const listsRef = db.collection('lists');
+const gamesRef = db.collection('games');
+const listsRef = db.collection('lists');
+
+export const lists = (() => {
+	const lists = writable([]);
 
   let uid;
 
   function reset() {
-    set([]);
+    lists.set([]);
   }
 
   function fetch() {
@@ -20,14 +22,35 @@ function createLists() {
 
     listsQuery
       .onSnapshot(snapshot => {
-        set(snapshot.docs.map(d => d.data()));
+        lists.set(snapshot.docs.map(d => {
+          return {
+            id: d.id,
+            ...d.data(),
+          };
+        }));
       }, error => {
         // todo
       });
   }
 
   function add({ name }) {
-    listsRef.add({ uid, name, created: firebase.firestore.FieldValue.serverTimestamp() });
+    listsRef
+      .add({ uid, name, created: firebase.firestore.FieldValue.serverTimestamp() })
+      .catch(e => {/* todo */});
+  }
+
+  function remove(id) {
+    listsRef
+      .doc(id)
+      .delete()
+      .catch(e => {/* todo */});
+  }
+
+  function update({id, ...list}) {
+    listsRef
+      .doc(id)
+      .update(list)
+      .catch(e => {/* todo */});
   }
 
   user.subscribe(u => {
@@ -41,10 +64,65 @@ function createLists() {
   });
 
 	return {
-		subscribe,
+		subscribe: lists.subscribe,
     reset,
     add,
+    remove,
+    update,
 	};
+})();
+
+export function listItemsForId(id) {
+  const listItems = new writable([]);
+  const listItemsRef = listsRef.doc(id).collection('listItems');
+
+  listItemsRef
+    .onSnapshot(snapshot => {
+      listItems.set(snapshot.docs.map(l => ({id: l.id, ...l.data()})));
+    }, error => {
+      // todo
+    });
+
+  function remove(id) {
+    listItemsRef
+      .doc(id)
+      .delete()
+      .catch(e => {/* todo */});
+  }
+
+  function add(listItem) {
+    listItemsRef
+      .add(listItem)
+      .catch(e => {/* todo */});
+  }
+
+  return {
+    subscribe: listItems.subscribe,
+    remove,
+    add,
+  };
 }
 
-export const lists = createLists();
+export function gamesForIds(ids) {
+  const games = new writable({});
+
+  if (ids && ids.length) {
+    gamesRef
+      .where(firestore.FieldPath.documentId(), 'in', ids.map(id => id.toString()))
+      .onSnapshot(snapshot => {
+        const gamesById = {};
+
+        snapshot.docs.forEach(l => {
+          gamesById[l.id] = l.data();
+        });
+
+        games.set(gamesById);
+      }, error => {
+        // todo
+      });
+  }
+
+  return {
+    subscribe: games.subscribe,
+  };
+}

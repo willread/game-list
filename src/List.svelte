@@ -1,55 +1,30 @@
 <script>
-  import { collectionData, docData } from 'rxfire/firestore';
-  import { startWith, tap } from 'rxjs';
-
-  import { db, firestore, functions } from './firebase';
+  import { functions } from './firebase';
+  import { gamesForIds, listItemsForId, lists } from './lists';
 
   export let id;
 
-  const listRef = db.collection('lists').doc(id);
-  const listItemsRef = listRef.collection('listItems');
-  const gamesRef = db.collection('games');
-
-  let list = {};
   let results = [];
   let timer;
-  let gamesById = {};
-  let listItems;
 
-  function updateGames(gameIds) {
-    if (!gameIds || !gameIds.length) { return; }
-    const gamesQuery = gamesRef.where(firestore.FieldPath.documentId(), 'in', gameIds);
-    collectionData(gamesQuery, 'id')
-      .pipe(startWith([]))
-      .pipe(tap(games => gamesById = games.reduce((obj, game) => ({[game.id]: game, ...obj}), {})))
-      .subscribe();
-  }
-
-  docData(listRef).subscribe(l => {
-    list = l;
-    updateListItems();
-  });
-
-  function updateListItems() {
-    listItems = collectionData(listItemsRef, 'id')
-      .pipe(startWith([]))
-      .pipe(tap(listItems => updateGames(listItems.map(l => l.gameId.toString()))));
-  }
+  $: list = $lists.find(l => l.id === id);
+  $: listItems = listItemsForId(id);
+  $: games = gamesForIds($listItems.map(i => i.gameId));
 
   function remove() {
-    listRef.delete();
+    lists.remove(list.id);
   }
 
   function update() {
-    listRef.update(list);
+    lists.update(list);
   }
 
-  function addListItem({...gameId}) {
-    listItemsRef.add(gameId);
+  function addListItem(listItem) {
+    listItems.add(listItem);
   }
 
   function removeListItem(listItem) {
-    listItemsRef.doc(listItem.id).delete();
+    listItems.remove(listItem.id);
   }
 
   async function search(search) {
@@ -59,7 +34,7 @@
       results = (await searchGames({ search })).data;
     } catch(e) {
       results = [];
-      console.log('error', e);
+      // todo
     }
   }
 
@@ -71,8 +46,8 @@
 	}
 
   function test() {
-    console.log(gamesById);
-    console.log($listItems);
+    console.log('games', $games);
+    console.log('list items', $listItems);
   }
 </script>
 
@@ -86,8 +61,8 @@
       {#each $listItems as listItem}
         <li>
           {listItem.gameId}:
-          {#if gamesById && gamesById[listItem.gameId]}
-            {gamesById[listItem.gameId].name}
+          {#if $games && $games[listItem.gameId]}
+            {$games[listItem.gameId].name}
           {/if}
           <button on:click={removeListItem(listItem)}>X</button>
         </li>
