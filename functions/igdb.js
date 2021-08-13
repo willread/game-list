@@ -69,29 +69,79 @@ exports.functions = (admin, functions) => {
     });
   }
 
+  function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+
   const fetchGames = functions
     .runWith({ timeoutSeconds: 540, memory: '8GB' })
     .https
     .onRequest(async (request, response) => {
       try {
         const token = await getToken();
-
-        const limit = 500;
-        const maxOffset = Infinity;
-        const waitTime = 1000;
+        const searchIndex = [];
+        const LIMIT = 500;
+        const MAX_OFFSET = Infinity;
+        const TIME_BETWEEN_REQUESTS = 500;
+        const MAX_REQUESTS = 8;
         let offset = 0;
         let done = false;
-        const searchIndex = [];
+        let finishing = false;
+        let requestPromises = [];
+        let lastRequestTime = -Infinity;
 
-        while (!done) {
-          const games = await fetchPageOfGames(token, limit, offset);
+        const finish = function() {
+          if (finishing) {
+            return;
+          }
+
+          if (requestPromises.length) {
+            setTimeout(finish);
+            return;
+          }
+
+          finishing = true;
+
+          const bucket = admin.storage().bucket();
+          const file = bucket.file('search-index.json', {});
+
+          file.save(JSON.stringify(searchIndex), e => {
+            if (!e) {
+              functions.logger.log('Wrote search index to file');
+              revokeToken(token);
+              response.status(200).send('done');
+            } else {
+              response.status(500).send(e.message);
+            }
+          });
+        }
+
+        const fetch = async function() {
+          const o = offset;
+
+          offset += LIMIT;
+
+          if (offset >= MAX_OFFSET) {
+            done = true;
+            return;
+          }
+
+          if (done) {
+            return;
+          }
+
+          functions.logger.log(`Fetching games at offset ${o}`);
+
+          const games = await fetchPageOfGames(token, LIMIT, o);
 
           if (!games || !games.length) {
             done = true;
           } else {
             const batch = db.batch();
 
-            functions.logger.log(`Got ${games.length} games`);
+            functions.logger.log(`Got ${games.length} games at offset ${o}`);
 
             games.forEach(game => {
               const { id, ...data } = game;
@@ -104,29 +154,39 @@ exports.functions = (admin, functions) => {
             });
 
             batch.commit();
-
-            offset += limit;
-
-            if (offset >= maxOffset) {
-              done = true;
-            } else {
-              await new Promise(resolve => setTimeout(resolve, waitTime));
-            }
           }
         }
 
-        const bucket = admin.storage().bucket();
-        const file = bucket.file('search-index.json', {});
-
-        file.save(JSON.stringify(searchIndex), e => {
-          if (!e) {
-            functions.logger.log('Wrote search index to file');
-            revokeToken(token);
-            response.status(200).send('done');
-          } else {
-            response.status(500).send(e.message);
+        const next = async function() {
+          if (done) {
+            finish();
+            return;
           }
-        });
+
+          if (requestPromises.length >= MAX_REQUESTS) {
+            setTimeout(next, 100);
+            return;
+          }
+
+          const now = (new Date()).getTime();
+          const timeSinceLastRequest = now - lastRequestTime;
+
+          if (timeSinceLastRequest <= TIME_BETWEEN_REQUESTS) {
+            setTimeout(next, TIME_BETWEEN_REQUESTS - timeSinceLastRequest);
+            return
+          }
+
+          const promise = fetch();
+          requestPromises.push(promise);
+          await promise;
+          requestPromises = requestPromises.filter(p => p !== promise);
+          next();
+        }
+
+        next();
+        next();
+        next();
+        next();
       } catch(e) {
         response.status(500).send(e.message);
       }
