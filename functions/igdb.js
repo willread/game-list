@@ -69,65 +69,68 @@ exports.functions = (admin, functions) => {
     });
   }
 
-  const fetchGames = functions.https.onRequest(async (request, response) => {
-    try {
-      const token = await getToken();
+  const fetchGames = functions
+    .runWith({ timeoutSeconds: 540, memory: '8GB' })
+    .https
+    .onRequest(async (request, response) => {
+      try {
+        const token = await getToken();
 
-      const limit = 500;
-      const maxOffset = 2000;
-      const waitTime = 1000;
-      let offset = 0;
-      let done = false;
-      const searchIndex = [];
+        const limit = 500;
+        const maxOffset = Infinity;
+        const waitTime = 1000;
+        let offset = 0;
+        let done = false;
+        const searchIndex = [];
 
-      while (!done) {
-        const games = await fetchPageOfGames(token, limit, offset);
+        while (!done) {
+          const games = await fetchPageOfGames(token, limit, offset);
 
-        if (!games || !games.length) {
-          done = true;
-        } else {
-          const batch = db.batch();
-
-          functions.logger.log(`Got ${games.length} games`);
-
-          games.forEach(game => {
-            const { id, ...data } = game;
-            db.collection('games').doc(id.toString()).set(data);
-
-            searchIndex.push({
-              id,
-              name: game.name,
-            });
-          });
-
-          batch.commit();
-
-          offset += limit;
-
-          if (offset >= maxOffset) {
+          if (!games || !games.length) {
             done = true;
           } else {
-            await new Promise(resolve => setTimeout(resolve, waitTime));
+            const batch = db.batch();
+
+            functions.logger.log(`Got ${games.length} games`);
+
+            games.forEach(game => {
+              const { id, ...data } = game;
+              db.collection('games').doc(id.toString()).set(data);
+
+              searchIndex.push({
+                id,
+                name: game.name,
+              });
+            });
+
+            batch.commit();
+
+            offset += limit;
+
+            if (offset >= maxOffset) {
+              done = true;
+            } else {
+              await new Promise(resolve => setTimeout(resolve, waitTime));
+            }
           }
         }
+
+        const bucket = admin.storage().bucket();
+        const file = bucket.file('search-index.json', {});
+
+        file.save(JSON.stringify(searchIndex), e => {
+          if (!e) {
+            functions.logger.log('Wrote search index to file');
+            revokeToken(token);
+            response.status(200).send('done');
+          } else {
+            response.status(500).send(e.message);
+          }
+        });
+      } catch(e) {
+        response.status(500).send(e.message);
       }
-
-      const bucket = admin.storage().bucket();
-      const file = bucket.file('search-index.json', {});
-
-      file.save(JSON.stringify(searchIndex), e => {
-        if (!e) {
-          functions.logger.log('Wrote search index to file');
-          revokeToken(token);
-          response.status(200).send('done');
-        } else {
-          response.status(500).send(e.message);
-        }
-      });
-    } catch(e) {
-      response.status(500).send(e.message);
-    }
-  });
+    });
 
   // fixme: There may some day be more than 500 platforms and exceed the max batch size
   //        allowed by firestore.
