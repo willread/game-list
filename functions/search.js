@@ -1,7 +1,9 @@
+const { Document } = require('flexsearch');
 const MAX_MATCHES = 20;
 
 let SEARCH_INDEX = undefined;
 let SEARCH_INDEX_READ_PROMISE = undefined;
+let SEARCH_DOCUMENTS = undefined;
 
 async function readSearchIndex(admin, functions) {
   SEARCH_INDEX_READ_PROMISE = new Promise((resolve, reject) => {
@@ -15,11 +17,18 @@ async function readSearchIndex(admin, functions) {
       let json = '';
       readStream.on('data', chunk => {
         json += chunk;
-        functions.logger.log('Got some data');
+        // functions.logger.log('Got some data');
       });
       readStream.on('end', () => {
         functions.logger.log('Finished reading search index json');
         SEARCH_INDEX = JSON.parse(json);
+        SEARCH_DOCUMENTS = new Document({
+          id: 'id',
+          index: ['name'],
+          preset: 'performance',
+          tokenize: 'full',
+        });
+        SEARCH_INDEX.forEach(doc => SEARCH_DOCUMENTS.add(doc));
         SEARCH_INDEX_READ_PROMISE = undefined;
         resolve();
       });
@@ -49,18 +58,27 @@ exports.functions = (admin, functions) => {
         if (!query) {
           throw new functions.https.HttpsError('not-found', 'todo');
         } else {
-          const matches = SEARCH_INDEX.filter(i => i.name && i.name.toLowerCase().indexOf(query) > -1);
+          const results = SEARCH_DOCUMENTS.search(query, MAX_MATCHES);
 
-          if (matches.length) {
-            functions.logger.log(`Found ${matches.length} matches for '${query}'`);
-            return matches.slice(0, MAX_MATCHES);
+          if (results) {
+            const nameResults = results.find(r => r.field === 'name');
+
+            if (nameResults && nameResults.result.length){
+              const games = nameResults.result.map(r => SEARCH_INDEX.find(i => i.id == r));
+
+              functions.logger.log(`Found ${games.length} matches for '${query}'`, games);
+
+              return games;
+            } else {
+              throw new functions.https.HttpsError('not-found', 'todo');
+            }
           } else {
             functions.logger.log(`No match for '${query}'`);
             throw new functions.https.HttpsError('not-found', 'todo');
           }
         }
       } catch(e) {
-        throw new functions.https.HttpsError('unhandled-error', e.message);
+        throw e;
       }
     });
 
