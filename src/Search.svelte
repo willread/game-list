@@ -5,7 +5,9 @@
 
   let results = [];
   let timer;
+  let lastSearchTime = -Infinity;
 
+  const DEBOUNCE_TIMEOUT = 200;
   const dispatch = createEventDispatcher();
 
   function addListItem(listItem) {
@@ -15,8 +17,14 @@
   async function search(search) {
     const searchGames = functions.httpsCallable('searchGames');
 
+    lastSearchTime = (new Date()).getTime();
+
     try {
-      results = (await searchGames({ search })).data;
+      const newResults = (await searchGames({ search })).data;
+
+      if ((new Date()).getTime() >= lastSearchTime) {
+        results = newResults;
+      }
     } catch(e) {
       results = [];
       // todo
@@ -27,7 +35,7 @@
     clearTimeout(timer);
 		timer = setTimeout(() => {
       search(e.target.value);
-		}, 100);
+		}, DEBOUNCE_TIMEOUT);
 	}
 </script>
 

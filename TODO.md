@@ -7,5 +7,3 @@
   - Allow partial game / search index updates based on only games that have been updates since the last run
   - Proper CORS policy
 - Frontend
-  - Search / add games to list
-  - Cancel previous search requests when input changes
