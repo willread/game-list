@@ -34,7 +34,7 @@ async function readSearchIndex(admin, functions) {
 
 exports.functions = (admin, functions) => {
   try {
-    const searchGames = functions.https.onCall(async (data, context) => {
+    const searchGames = functions.https.onCall(async data => {
       try {
         if (!SEARCH_INDEX) {
           if (SEARCH_INDEX_READ_PROMISE) {

@@ -8,6 +8,7 @@
   let lastSearchTime = -Infinity;
 
   const DEBOUNCE_TIMEOUT = 200;
+  const MIN_SEARCH_CHARACTERS = 3;
   const dispatch = createEventDispatcher();
 
   function addListItem(listItem) {
@@ -33,9 +34,12 @@
 
 	function debounce(e) {
     clearTimeout(timer);
-		timer = setTimeout(() => {
-      search(e.target.value);
-		}, DEBOUNCE_TIMEOUT);
+
+    if (e.target.value.length > MIN_SEARCH_CHARACTERS) {
+      timer = setTimeout(() => {
+        search(e.target.value);
+      }, DEBOUNCE_TIMEOUT);
+    }
 	}
 </script>
 
