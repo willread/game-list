@@ -50,7 +50,7 @@ exports.functions = (admin, functions) => {
     const searchGames = functions
       .runWith({ memory: '1GB' })
       .https
-      .onCall(async data => {
+      .onCall(async ({data}) => {
         try {
           if (!SEARCH_INDEX) {
             if (SEARCH_INDEX_READ_PROMISE) {
@@ -62,11 +62,13 @@ exports.functions = (admin, functions) => {
 
           const query = (data.search || '').toLowerCase();
 
+          functions.logger.log('Query', data);
+
           if (!query) {
-            throw new functions.https.HttpsError('not-found', 'todo');
+            throw new functions.https.HttpsError('not-found', 'No query specified');
           } else {
             const results = SEARCH_DOCUMENTS.search(query, MAX_MATCHES);
-
+            functions.logger.log('Results', results);
             if (results) {
               const nameResults = results.find(r => r.field === 'name');
 

@@ -21,7 +21,7 @@
     lastSearchTime = (new Date()).getTime();
 
     try {
-      const newResults = (await searchGames({ search })).data;
+      const newResults = (await searchGames({ search: search })).data;
 
       if ((new Date()).getTime() >= lastSearchTime) {
         results = newResults;
