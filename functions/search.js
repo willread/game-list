@@ -1,4 +1,8 @@
+require('cors')({
+  origin: '*', // FIXME
+});
 const { Document } = require('flexsearch');
+
 const MAX_MATCHES = 20;
 
 let SEARCH_INDEX = undefined;
