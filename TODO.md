@@ -1,10 +1,11 @@
 - Backend
+  - Only read search index on cold start
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)
-  - Increased memory (if needed) and maximum timeout for game retrieval function
   - Proper search
   - Update search index when json file changes
   - Allow partial game / search index updates based on only games that have been updates since the last run
   - Proper CORS policy
 - Frontend
   - Search / add games to list
+  - Cancel previous search requests when input changes

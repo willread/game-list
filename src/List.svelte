@@ -1,11 +1,8 @@
 <script>
-  import { functions } from './firebase';
   import { gamesForIds, listItemsForId, lists } from './lists';
+  import Search from './Search.svelte';
 
   export let id;
-
-  let results = [];
-  let timer;
 
   $: list = $lists.find(l => l.id === id);
   $: listItems = listItemsForId(id);
@@ -19,35 +16,14 @@
     lists.update(list);
   }
 
-  function addListItem(listItem) {
-    listItems.add(listItem);
-  }
-
   function removeListItem(listItem) {
     listItems.remove(listItem.id);
   }
 
-  async function search(search) {
-    const searchGames = functions.httpsCallable('searchGames');
+  function handleAddListItem(event) {
+    const listItem = {...event.detail};
 
-    try {
-      results = (await searchGames({ search })).data;
-    } catch(e) {
-      results = [];
-      // todo
-    }
-  }
-
-	function debounce(e) {
-    clearTimeout(timer);
-		timer = setTimeout(() => {
-      search(e.target.value);
-		}, 100);
-	}
-
-  function test() {
-    console.log('games', $games);
-    console.log('list items', $listItems);
+    listItems.add(listItem);
   }
 </script>
 
@@ -55,7 +31,6 @@
   <input bind:value={list.name}>
   <button on:click={update}>Update</button>
   <button on:click={remove}>X</button>
-  <button on:click={test}>Test</button>
   <ul>
     {#if $listItems}
       {#each $listItems as listItem}
@@ -70,12 +45,5 @@
     {/if}
   </ul>
 
-  <hr />
-
-  <input on:input={debounce} />
-  <ul>
-    {#each results as game}
-      <li on:click={addListItem({gameId: game.id})}>{game.name}</li>
-    {/each}
-  </ul>
+  <Search on:add-list-item={handleAddListItem} />
 {/if}
