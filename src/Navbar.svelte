@@ -1,6 +1,4 @@
 <script>
-  import 'bulma/css/bulma.css'
-  import { authState } from 'rxfire/auth';
   import { Link, navigate } from 'svelte-routing';
 
   import { auth, googleProvider } from './firebase';

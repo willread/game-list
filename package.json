@@ -21,7 +21,6 @@
     "svelte-preprocess": "^4.7.4"
   },
   "dependencies": {
-    "bulma": "^0.9.3",
     "firebase": "^8.7.1",
     "rxfire": "^4.0.0",
     "rxjs": "^7.3.0",

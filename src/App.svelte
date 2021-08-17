@@ -1,5 +1,4 @@
 <script>
-  import 'bulma/css/bulma.css'
   import { Router } from 'svelte-routing';
 
   import List from './List.svelte';
@@ -14,9 +13,7 @@
 <Router url="{url}">
   <Navbar />
 
-  <div>
-    <ProtectedRoute path="profile" component="{Profile}" />
-    <ProtectedRoute path="lists" component="{Lists}" />
-    <ProtectedRoute path="lists/:id" component="{List}" />
-  </div>
+  <ProtectedRoute path="profile" component="{Profile}" />
+  <ProtectedRoute path="lists" component="{Lists}" />
+  <ProtectedRoute path="lists/:id" component="{List}" />
 </Router>
