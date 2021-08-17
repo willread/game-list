@@ -2,6 +2,8 @@
   import { createEventDispatcher } from 'svelte';
 
   import { functions } from './firebase';
+  import { gamesForIds } from './lists';
+  import Cover from './components/Cover.svelte';
 
   let results = [];
   let timer;
@@ -12,6 +14,8 @@
   const DEBOUNCE_TIMEOUT = 200;
   const MIN_SEARCH_CHARACTERS = 3;
   const dispatch = createEventDispatcher();
+
+  $: games = gamesForIds(results.map(i => i.id));
 
   function addListItem(listItem) {
     dispatch('add-list-item', listItem);
@@ -60,9 +64,12 @@
         <div class="button is-disabled is-white is-loading"></div>
       {:else}
         {#if results.length}
-          {#each results as game, index}
-            <a class="dropdown-item" on:click={addListItem({gameId: game.id})}>
-              {game.name}
+          {#each results as result}
+            <a class="dropdown-item is-flex is-align-items-center" on:click={addListItem({gameId: result.id})}>
+              <span class="mr-1">
+                <Cover game={$games[result.id]} size='micro' />
+              </span>
+              <span>{result.name}</span>
             </a>
           {/each}
         {:else}

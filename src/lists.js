@@ -107,19 +107,20 @@ export function gamesForIds(ids) {
   const games = new writable({});
 
   if (ids && ids.length) {
-    gamesRef
-      .where(firestore.FieldPath.documentId(), 'in', ids.map(id => id.toString()))
-      .onSnapshot(snapshot => {
-        const gamesById = {};
-
-        snapshot.docs.forEach(l => {
-          gamesById[l.id] = l.data();
+    ids.forEach(id => {
+      gamesRef
+        .doc(id.toString())
+        .get()
+        .then(game => {
+          games.update(g => {
+            g[game.id] = game.data();
+            return g;
+          });
+        })
+        .catch(e => {
+          // todo
         });
-
-        games.set(gamesById);
-      }, error => {
-        // todo
-      });
+    });
   }
 
   return {
