@@ -1,11 +1,11 @@
 - Backend
-  - Improve cold start of search OR move to external search service
-  - Only read search index on cold start
+  - Search
+    - Improve cold start of search OR move to external search service
+    - Allow partial game / search index updates based on only games that have been updates since the last run
+    - Only read search index on cold start
+    - Update search index when json file changes
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)
-  - Proper search
-  - Update search index when json file changes
-  - Allow partial game / search index updates based on only games that have been updates since the last run
   - Proper CORS policy
 - Frontend
   - Move service code to services folder
@@ -22,3 +22,5 @@
   - Page titles / SEO
   - Default to last list / platform when adding game
   - Toast after adding game (with link to ListItem)
+  - SSR of games / other static pages
+  - Cache List/ListItem and merge changes since last update in realtime

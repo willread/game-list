@@ -17,6 +17,12 @@
     modalActive = false;
   }
 
+  function handleWindowKeydown(e) {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  }
+
   function addToList() {
     listItemsForId(listId)
       .add({
@@ -28,6 +34,8 @@
     closeModal();
   }
 </script>
+
+<svelte:window on:keydown={handleWindowKeydown}/>
 
 <button class="button">
   <span on:click={openModal}>Add To List</span>
