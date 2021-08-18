@@ -91,6 +91,7 @@ export function listItemsForId(id) {
   }
 
   function add(listItem) {
+    console.log('add', listItem, 'to', listItemsRef);
     listItemsRef
       .add(listItem)
       .catch(e => {/* todo */});

@@ -1,41 +1,62 @@
 <script>
-  import { clickOutside } from '../actions/clickOutside';
   import { lists, listItemsForId } from '../lists';
+  import { platforms } from '../services/platforms';
 
   export let game;
 
-  let active = false;
+  let modalActive = false;
+  let listId;
+  let platformId;
 
-  function handleClick() {
-    active = true;
+  function openModal() {
+    modalActive = true;
   }
 
-  function handleClickOutside() {
-    active = false;
+  function closeModal() {
+    modalActive = false;
   }
 
-  function addToList(list) {
-    listItemsForId(list.id)
-      .add({gameId: game.id});
+  function addToList() {
+    listItemsForId(listId)
+      .add({
+        gameId: game.id,
+        platformId: platformId,
+      });
 
-    active = false;
+    closeModal();
   }
 </script>
 
-<div class="dropdown {active ? 'is-active' : ''}" use:clickOutside on:click-outside={handleClickOutside}>
-  <div class="dropdown-trigger" on:click={handleClick}>
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-      <span>Add To List</span>
-      <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div class="dropdown-menu" role="menu">
-    <div class="dropdown-content">
-      {#each $lists as list}
-        <button class="dropdown-item" on:click={() => addToList(list)}>{list.name}</button>
-      {/each}
+<button class="button">
+  <span on:click={openModal}>Add To List</span>
+</button>
+
+<div class="modal {modalActive ? 'is-active' : ''}">
+  <div class="modal-background" on:click={closeModal}></div>
+  <div class="modal-content">
+    <div class="box">
+      <div class="select">
+        <select bind:value={listId}>
+          {#each $lists as list}
+            <option value={list.id}>{list.name}</option>
+          {/each}
+        </select>
+      </div>
+
+      <div class="select">
+        <select bind:value={platformId}>
+          {#each game.platforms as platformId}
+            <option value={platformId}>
+              {#if $platforms[platformId]}
+                {$platforms[platformId].name}
+              {/if}
+            </option>
+          {/each}
+        </select>
+      </div>
+
+      <button class="button" on:click={addToList}>Add</button>
     </div>
   </div>
+  <button class="modal-close is-large" aria-label="close" on:click={closeModal}></button>
 </div>

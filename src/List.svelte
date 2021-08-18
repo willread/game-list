@@ -1,6 +1,7 @@
 <script>
   import { gamesForIds, listItemsForId, lists } from './lists';
   import Search from './Search.svelte';
+  import { platforms } from './services/platforms';
 
   export let id;
 
@@ -32,6 +33,9 @@
           {listItem.gameId}:
           {#if $games && $games[listItem.gameId]}
             {$games[listItem.gameId].name}
+            {#if $platforms[listItem.platformId]}
+              ({$platforms[listItem.platformId].name})
+            {/if}
           {/if}
           <button on:click={removeListItem(listItem)}>X</button>
         </li>
