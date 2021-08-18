@@ -110,15 +110,23 @@ export function gamesForIds(ids) {
     ids.forEach(id => {
       gamesRef
         .doc(id.toString())
-        .get()
-        .then(game => {
+        .get({source: 'cache'})
+        .then(async game => {
           games.update(g => {
             g[game.id] = game.data();
             return g;
           });
         })
         .catch(e => {
-          // todo
+          return gamesRef
+            .doc(id.toString())
+            .get({source: 'server'})
+            .then(async game => {
+              games.update(g => {
+                g[game.id] = game.data();
+                return g;
+              });
+            })
         });
     });
   }

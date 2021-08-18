@@ -1,4 +1,5 @@
 <script>
+  import { format, fromUnixTime } from 'date-fns';
   import { createEventDispatcher } from 'svelte';
 
   import { functions } from './firebase';
@@ -65,12 +66,17 @@
       {:else}
         {#if results.length}
           {#each results as result}
-            <a class="dropdown-item is-flex is-align-items-center" on:click={addListItem({gameId: result.id})}>
-              <span class="mr-1">
-                <Cover game={$games[result.id]} size='micro' />
-              </span>
-              <span>{result.name}</span>
-            </a>
+            {#if $games[result.id]}
+              <a class="dropdown-item is-flex is-align-items-center" on:click={addListItem({gameId: result.id})}>
+                <span class="mr-1">
+                  <Cover game={$games[result.id]} size='micro' />
+                </span>
+                <span class="mr-1">{result.name}</span>
+                {#if $games[result.id].first_release_date}
+                  <span class="has-text-grey-light">({format(fromUnixTime($games[result.id].first_release_date), 'yyyy')})</span>
+                {/if}
+              </a>
+            {/if}
           {/each}
         {:else}
             No results found
@@ -79,3 +85,4 @@
     </div>
   </nav>
 </div>
+
