@@ -1,6 +1,6 @@
 <script>
   import { format, fromUnixTime } from 'date-fns';
-  import { createEventDispatcher } from 'svelte';
+  import { link } from 'svelte-routing';
 
   import { functions } from './firebase';
   import { gamesForIds } from './lists';
@@ -14,14 +14,8 @@
 
   const DEBOUNCE_TIMEOUT = 200;
   const MIN_SEARCH_CHARACTERS = 3;
-  const dispatch = createEventDispatcher();
 
   $: games = gamesForIds(results.map(i => i.id));
-
-  function addListItem(listItem) {
-    dispatch('add-list-item', listItem);
-    dropdownOpen = false;
-  }
 
   async function search(search) {
     const searchGames = functions.httpsCallable('searchGames');
@@ -67,7 +61,7 @@
         {#if results.length}
           {#each results as result}
             {#if $games[result.id]}
-              <a class="dropdown-item is-flex is-align-items-center" on:click={addListItem({gameId: result.id})}>
+              <a href='/games/{result.id}' use:link class="dropdown-item is-flex is-align-items-center">
                 <span class="mr-1">
                   <Cover game={$games[result.id]} size='micro' />
                 </span>

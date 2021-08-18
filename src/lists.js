@@ -103,31 +103,36 @@ export function listItemsForId(id) {
   };
 }
 
+export function gameForId(id) {
+  const game = new writable(undefined);
+
+  gamesRef
+    .doc(id.toString())
+    .get({source: 'cache'})
+    .then(g => game.set({id: g.id, ...g.data()}))
+    .catch(e => {
+      gamesRef
+        .doc(id.toString())
+        .get({source: 'server'})
+        .then(g => game.set({id: g.id, ...g.data()}));
+    });
+
+  return game;
+}
+
 export function gamesForIds(ids) {
   const games = new writable({});
 
   if (ids && ids.length) {
     ids.forEach(id => {
-      gamesRef
-        .doc(id.toString())
-        .get({source: 'cache'})
-        .then(async game => {
+      gameForId(id).subscribe(game => {
+        if (game) {
           games.update(g => {
-            g[game.id] = game.data();
+            g[game.id] = game;
             return g;
           });
-        })
-        .catch(e => {
-          return gamesRef
-            .doc(id.toString())
-            .get({source: 'server'})
-            .then(async game => {
-              games.update(g => {
-                g[game.id] = game.data();
-                return g;
-              });
-            })
-        });
+        }
+      });
     });
   }
 

@@ -1,6 +1,7 @@
 <script>
-  import { Router } from 'svelte-routing';
+  import { Route, Router } from 'svelte-routing';
 
+  import Game from './Game.svelte';
   import List from './List.svelte';
   import Lists from './Lists.svelte';
   import Navbar from './Navbar.svelte';
@@ -16,4 +17,5 @@
   <ProtectedRoute path="profile" component="{Profile}" />
   <ProtectedRoute path="lists" component="{Lists}" />
   <ProtectedRoute path="lists/:id" component="{List}" />
+  <Route path="games/:id" component="{Game}" />
 </Router>

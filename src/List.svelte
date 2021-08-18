@@ -19,12 +19,6 @@
   function removeListItem(listItem) {
     listItems.remove(listItem.id);
   }
-
-  function handleAddListItem(event) {
-    const listItem = {...event.detail};
-
-    listItems.add(listItem);
-  }
 </script>
 
 {#if list}
@@ -45,5 +39,5 @@
     {/if}
   </ul>
 
-  <Search on:add-list-item={handleAddListItem} />
+  <Search />
 {/if}
