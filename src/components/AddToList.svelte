@@ -7,6 +7,7 @@
   let modalActive = false;
   let listId;
   let platformId;
+  let notes = '';
 
   function openModal() {
     modalActive = true;
@@ -20,7 +21,8 @@
     listItemsForId(listId)
       .add({
         gameId: game.id,
-        platformId: platformId,
+        platformId,
+        notes,
       });
 
     closeModal();
@@ -54,6 +56,8 @@
           {/each}
         </select>
       </div>
+
+      <textarea class="textarea" placeholder="Notes..." bind:value={notes}></textarea>
 
       <button class="button" on:click={addToList}>Add</button>
     </div>

@@ -36,6 +36,9 @@
             {#if $platforms[listItem.platformId]}
               ({$platforms[listItem.platformId].name})
             {/if}
+            {#if listItem.notes}
+              <p>{listItem.notes}</p>
+            {/if}
           {/if}
           <button on:click={removeListItem(listItem)}>X</button>
         </li>
