@@ -11,3 +11,4 @@ const search = require('./search').functions(admin, functions);
 exports.fetchGames = igdb.fetchGames;
 exports.fetchPlatforms = igdb.fetchPlatforms;
 exports.searchGames = search.searchGames;
+exports.generateSearchDocuments = search.generateSearchDocuments;

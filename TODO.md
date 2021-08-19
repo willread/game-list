@@ -2,7 +2,6 @@
   - Search
     - Improve cold start of search OR move to external search service
     - Allow partial game / search index updates based on only games that have been updates since the last run
-    - Only read search index on cold start
     - Update search index when json file changes
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)

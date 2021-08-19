@@ -69,19 +69,13 @@ exports.functions = (admin, functions) => {
     });
   }
 
-  function sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }
-
   const fetchGames = functions
     .runWith({ timeoutSeconds: 540, memory: '8GB' })
     .https
     .onRequest(async (request, response) => {
       try {
         const token = await getToken();
-        const searchIndex = [];
+        const gamesIndex = [];
         const LIMIT = 500;
         const MAX_OFFSET = Infinity;
         const TIME_BETWEEN_REQUESTS = 500;
@@ -105,12 +99,13 @@ exports.functions = (admin, functions) => {
           finishing = true;
 
           const bucket = admin.storage().bucket();
-          const file = bucket.file('search-index.json', {});
+          const file = bucket.file('games-index.json', {});
 
-          file.save(JSON.stringify(searchIndex), e => {
+          file.save(JSON.stringify(gamesIndex), e => {
             if (!e) {
-              functions.logger.log('Wrote search index to file');
+              functions.logger.log('Wrote games index to file');
               revokeToken(token);
+              functions.httpsCallable('generateSearchDocuments');
               response.status(200).send('done');
             } else {
               response.status(500).send(e.message);
@@ -147,7 +142,7 @@ exports.functions = (admin, functions) => {
               const { id, ...data } = game;
               db.collection('games').doc(id.toString()).set(data);
 
-              searchIndex.push({
+              gamesIndex.push({
                 id,
                 name: game.name,
                 slug: game.slug,
