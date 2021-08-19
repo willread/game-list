@@ -1,6 +1,7 @@
 <script>
   import { lists, listItemsForId } from '../lists';
   import { platforms } from '../services/platforms';
+  import { toasts } from '../services/toasts';
 
   export let game;
 
@@ -24,6 +25,8 @@
   }
 
   function addToList() {
+    const list = $lists.find(l => l.id === listId);
+
     listItemsForId(listId)
       .add({
         gameId: game.id,
@@ -31,6 +34,7 @@
         notes,
       });
 
+    toasts.add({message: `Added game to <b>${list.name}</b>`, color: 'success', allowHTML: true});
     closeModal();
   }
 </script>

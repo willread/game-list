@@ -1,6 +1,7 @@
 <script>
   import { Route, Router } from 'svelte-routing';
 
+  import Toasts from './components/Toasts.svelte';
   import Game from './Game.svelte';
   import List from './List.svelte';
   import Lists from './Lists.svelte';
@@ -18,4 +19,6 @@
   <ProtectedRoute path="lists" component="{Lists}" />
   <ProtectedRoute path="lists/:id" component="{List}" />
   <Route path="games/:id" component="{Game}" />
+
+  <Toasts />
 </Router>

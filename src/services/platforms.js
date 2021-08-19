@@ -5,14 +5,14 @@ import { db } from '../firebase';
 const platformsRef = db.collection('platforms');
 
 export const platforms = (() => {
-	const platforms = writable({});
+	const store = writable({});
 
   platformsRef
     .get()
     .then(p => p.docs.forEach(d => {
-      platforms.update(p => {
-        p[d.id] = d.data();
-        return p;
+      store.update(value => {
+        value[d.id] = d.data();
+        return value;
       });
     }))
     .catch(e => {
@@ -20,6 +20,6 @@ export const platforms = (() => {
     });
 
   return {
-    subscribe: platforms.subscribe,
+    subscribe: store.subscribe,
   };
 })();
