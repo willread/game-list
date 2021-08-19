@@ -40,7 +40,7 @@ exports.functions = (admin, functions) => {
   }
 
   async function fetchPageOfGames(token, limit, offset) {
-    const fields = ['category', 'cover.*', 'first_release_date', 'genres', 'keywords.*', 'name', 'platforms', 'screenshots.*', 'summary', 'version_title'];
+    const fields = ['category', 'cover.*', 'first_release_date', 'genres', 'keywords.*', 'name', 'platforms', 'screenshots.*', 'summary', 'version_title', 'slug'];
     const path = `https://api.igdb.com/v4/games?limit=${limit}&offset=${offset}&fields=${fields.join(',')}`;
 
     return await axios({
@@ -150,6 +150,7 @@ exports.functions = (admin, functions) => {
               searchIndex.push({
                 id,
                 name: game.name,
+                slug: game.slug,
               });
             });
 

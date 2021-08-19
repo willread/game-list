@@ -18,7 +18,7 @@
   <ProtectedRoute path="profile" component="{Profile}" />
   <ProtectedRoute path="lists" component="{Lists}" />
   <ProtectedRoute path="lists/:id" component="{List}" />
-  <Route path="games/:id" component="{Game}" />
+  <Route path="games/:slug" component="{Game}" />
 
   <Toasts />
 </Router>

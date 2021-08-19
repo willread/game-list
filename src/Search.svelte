@@ -61,7 +61,7 @@
         {#if results.length}
           {#each results as result}
             {#if $games[result.id]}
-              <a href='/games/{result.id}' use:link class="dropdown-item is-flex is-align-items-center">
+              <a href='/games/{result.slug}' use:link class="dropdown-item is-flex is-align-items-center">
                 <span class="mr-1">
                   <Cover game={$games[result.id]} size='micro' />
                 </span>

@@ -1,11 +1,11 @@
 <script>
-  import { gameForId } from './lists';
+  import { gameForSlug } from './lists';
   import AddToList from './components/AddToList.svelte';
   import Cover from './components/Cover.svelte';
 
-  export let id;
+  export let slug;
 
-  $: game = gameForId(id);
+  $: game = gameForSlug(slug);
 </script>
 
 {#if $game}

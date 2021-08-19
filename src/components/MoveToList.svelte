@@ -1,5 +1,6 @@
 <script>
   import { lists } from '../lists';
+  import { toasts } from '../services/toasts';
 
   export let listItemId;
   export let listItems;
@@ -7,7 +8,10 @@
   let newListId;
 
   function move() {
+    const newList = $lists.find(l => l.id === newListId);
+
     listItems.move(listItemId, newListId);
+    toasts.add({message: `Moved game to <b>${newList.name}</b>`, allowHTML: true, color: 'success'})
   }
 </script>
 

@@ -34,6 +34,7 @@ async function readSearchIndex(admin, functions) {
         });
         SEARCH_INDEX.forEach(doc => SEARCH_DOCUMENTS.add(doc));
         SEARCH_INDEX_READ_PROMISE = undefined;
+        functions.logger.log('Finished building search documents');
         resolve();
       });
     } catch(e) {

@@ -8,11 +8,14 @@
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
 - Frontend
+  - Friendly urls for lists
+  - Bulma dark mode
   - ListItem page (manage attributes)
-  - Friendly urls for games / lists
+  - List sorting / filtering
   - Page titles / SEO
   - Default to last list / platform when adding game
   - Move service code to services/stores folders
+  - Move search to site header and style dropdown
   - Add time log
   - Add condition
   - Cache games
@@ -22,17 +25,6 @@
   - Add purchase price
   - SSR of games / other static pages
   - Cache List/ListItem and merge changes since last update in realtime
-
-list: {
-  --stats--: {
-    gamesByPlatform: {
-      ...
-    },
-    gamesByGenre: {
-      ...
-    },
-    gamesByCondition: {
-      ...
-    }
-  }
-}
+  - List / collection stats
+  - Homepage
+  - Alternate login methods

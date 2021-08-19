@@ -137,6 +137,27 @@ export function gameForId(id) {
   return game;
 }
 
+export function gameForSlug(slug) {
+  const game = new writable(undefined);
+
+  gamesRef
+    .where('slug', '==', slug)
+    .get({source: 'cache'})
+    .then(g => game.set({id: g.docs[0].id, ...g.docs[0].data()}))
+    .catch(e => {
+      gamesRef
+        .where('slug', '==', slug)
+        .get({source: 'server'})
+        .then(g => game.set({id: g.docs[0].id, ...g.docs[0].data()}))
+        .catch(e => {
+          // todo
+          console.error(e);
+        });
+    });
+
+  return game;
+}
+
 export function gamesForIds(ids) {
   const games = new writable({});
 
