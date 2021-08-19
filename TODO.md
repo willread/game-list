@@ -8,10 +8,11 @@
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
 - Frontend
-  - Move listItems between lists
-  - Move service code to services folder
   - ListItem page (manage attributes)
   - Friendly urls for games / lists
+  - Page titles / SEO
+  - Default to last list / platform when adding game
+  - Move service code to services/stores folders
   - Add time log
   - Add condition
   - Cache games
@@ -19,8 +20,6 @@
   - Cache game images
   - Add date purchased
   - Add purchase price
-  - Page titles / SEO
-  - Default to last list / platform when adding game
   - SSR of games / other static pages
   - Cache List/ListItem and merge changes since last update in realtime
 

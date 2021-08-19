@@ -3,7 +3,7 @@ import firebase from 'firebase/app';
 import { writable } from 'svelte/store';
 
 import { user } from './auth';
-import { db, firestore } from './firebase';
+import { db } from './firebase';
 
 const gamesRef = db.collection('games');
 const listsRef = db.collection('lists');
@@ -91,16 +91,32 @@ export function listItemsForId(id) {
   }
 
   function add(listItem) {
-    console.log('add', listItem, 'to', listItemsRef);
     listItemsRef
       .add(listItem)
       .catch(e => {/* todo */});
+  }
+
+  async function move(id, newListId) {
+    const listItemRef = listItemsRef.doc(id);
+    const newListItemsRef = listsRef.doc(newListId).collection('listItems');
+
+    try {
+      const listItem = await listItemRef.get().then(doc => doc.data());
+      const batch = db.batch();
+
+      listItemRef.delete();
+      newListItemsRef.add(listItem);
+      batch.commit();
+    } catch(e) {
+      // todo
+    }
   }
 
   return {
     subscribe: listItems.subscribe,
     remove,
     add,
+    move,
   };
 }
 

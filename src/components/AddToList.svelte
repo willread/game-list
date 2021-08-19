@@ -60,11 +60,11 @@
       <div class="select">
         <select bind:value={platformId}>
           {#each game.platforms as platformId}
-            <option value={platformId}>
-              {#if $platforms[platformId]}
+            {#if $platforms[platformId]}
+              <option value={platformId}>
                 {$platforms[platformId].name}
-              {/if}
-            </option>
+              </option>
+            {/if}
           {/each}
         </select>
       </div>

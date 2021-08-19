@@ -1,5 +1,6 @@
 <script>
   import { gamesForIds, listItemsForId, lists } from './lists';
+  import MoveToList from './components/MoveToList.svelte';
   import Search from './Search.svelte';
   import { platforms } from './services/platforms';
 
@@ -19,6 +20,11 @@
 
   function removeListItem(listItem) {
     listItems.remove(listItem.id);
+  }
+
+  function moveListItem(listItemId, newListId) {
+    console.log('moving', listItemId, 'to', newListId);
+    listItems.move(listItemId, newListId);
   }
 </script>
 
@@ -40,7 +46,9 @@
               <p>{listItem.notes}</p>
             {/if}
           {/if}
-          <button on:click={removeListItem(listItem)}>X</button>
+
+          <button on:click={removeListItem(listItem)}>Remove</button>
+          <MoveToList listItems={listItems} listItemId={listItem.id} />
         </li>
       {/each}
     {/if}
