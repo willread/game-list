@@ -1,6 +1,5 @@
-
-import firebase from 'firebase/app';
-import { writable } from 'svelte/store';
+import slugify from 'slugify';
+import { get, writable } from 'svelte/store';
 
 import { user } from './auth';
 import { db } from './firebase';
@@ -33,9 +32,24 @@ export const lists = (() => {
       });
   }
 
+  function generateSlugFromName(name) {
+    const slug = slugify(name, {
+      lower: true,
+      strict: true,
+    });
+
+    if (get(lists).find(l => l.slug === slug)) {
+      throw {name: 'NameTakenError'};
+    }
+
+    return slug;
+  }
+
   function add({ name }) {
+    const slug = generateSlugFromName(name);
+
     listsRef
-      .add({ uid, name, created: firebase.firestore.FieldValue.serverTimestamp() })
+      .add({ uid, name, slug })
       .catch(e => {/* todo */});
   }
 
@@ -47,7 +61,11 @@ export const lists = (() => {
   }
 
   function update({id, ...list}) {
-    listsRef
+    const slug = generateSlugFromName(list.name);
+
+    list.slug = slug;
+
+    return listsRef
       .doc(id)
       .update(list)
       .catch(e => {/* todo */});

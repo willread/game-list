@@ -1,13 +1,13 @@
 - Backend
   - Search
-    - Improve cold start of search OR move to external search service
+    - Switch to basic custom search
     - Allow partial game / search index updates based on only games that have been updates since the last run
     - Update search index when json file changes
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
 - Frontend
-  - Friendly urls for lists
+  - Refactor functions to normalize syntax
   - Bulma dark mode
   - ListItem page (manage attributes)
   - List sorting / filtering
@@ -27,3 +27,5 @@
   - List / collection stats
   - Homepage
   - Alternate login methods
+- Nice to have
+  - Ensure unique slugs for lists

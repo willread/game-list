@@ -2,9 +2,10 @@
   import { format, fromUnixTime } from 'date-fns';
   import { link } from 'svelte-routing';
 
-  import { functions } from './firebase';
-  import { gamesForIds } from './lists';
-  import Cover from './components/Cover.svelte';
+  import { functions } from '../firebase';
+  import { gamesForIds } from '../lists';
+
+  import Cover from './Cover.svelte';
 
   let results = [];
   let timer;

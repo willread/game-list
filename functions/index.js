@@ -12,3 +12,4 @@ exports.fetchGames = igdb.fetchGames;
 exports.fetchPlatforms = igdb.fetchPlatforms;
 exports.searchGames = search.searchGames;
 exports.generateSearchDocuments = search.generateSearchDocuments;
+exports.lists = require('./lists')(admin, functions);

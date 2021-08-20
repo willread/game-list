@@ -1,8 +1,10 @@
 <script>
   import { Link, navigate } from 'svelte-routing';
 
-  import { auth, googleProvider } from './firebase';
-  import { user } from './auth';
+  import { auth, googleProvider } from '../firebase';
+  import { user } from '../auth';
+
+  import Search from './Search.svelte';
 
   function login() {
       auth.signInWithPopup(googleProvider);
@@ -28,6 +30,8 @@
         <Link to="profile" class="navbar-item">Profile</Link>
         <Link to="lists" class="navbar-item">Lists</Link>
       {/if}
+
+      <Search />
     </div>
   </div>
 

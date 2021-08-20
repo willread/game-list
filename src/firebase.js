@@ -22,3 +22,4 @@ export const db = firebase.firestore();
 export const firestore = firebase.firestore;
 
 // functions.useEmulator('localhost', 5001);
+// db.useEmulator('localhost', 8080);

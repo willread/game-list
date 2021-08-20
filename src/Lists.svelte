@@ -2,12 +2,19 @@
   import { Link } from 'svelte-routing';
 
   import { lists } from './lists';
+  import { toasts } from './services/toasts';
 
   let newListName = '';
 
   function addList() {
-    lists.add({ name: newListName });
-    newListName = '';
+    try {
+      lists.add({ name: newListName });
+      newListName = '';
+    } catch(e) {
+      if (e.name === 'NameTakenError') {
+        toasts.add({message: 'This name is already taken', color: 'danger'});
+      }
+    }
   }
 </script>
 
@@ -15,7 +22,9 @@
 <ul>
 	{#each $lists as list}
     <li>
-      <Link to="/lists/{list.id}">{list.name}</Link>
+      {#if list.slug}
+        <Link to="/lists/{list.slug}">{list.name}</Link>
+      {/if}
     </li>
 	{/each}
 </ul>

@@ -1,30 +1,17 @@
 <script>
-  import { gamesForIds, listItemsForId, lists } from './lists';
-  import MoveToList from './components/MoveToList.svelte';
-  import Search from './Search.svelte';
-  import { platforms } from './services/platforms';
+  import ListItems from './components/ListItems.svelte';
+  import { lists } from './lists';
 
-  export let id;
+  export let slug;
 
-  $: list = $lists.find(l => l.id === id);
-  $: listItems = listItemsForId(id);
-  $: games = gamesForIds($listItems.map(i => i.gameId));
+  $: list = $lists.find(l => l.slug === slug);
 
   function remove() {
     lists.remove(list.id);
   }
 
   function update() {
-    lists.update(list);
-  }
-
-  function removeListItem(listItem) {
-    listItems.remove(listItem.id);
-  }
-
-  function moveListItem(listItemId, newListId) {
-    console.log('moving', listItemId, 'to', newListId);
-    listItems.move(listItemId, newListId);
+    lists.update(list).then(newDoc => console.log('new doc', newDoc));
   }
 </script>
 
@@ -32,27 +19,6 @@
   <input bind:value={list.name}>
   <button on:click={update}>Update</button>
   <button on:click={remove}>X</button>
-  <ul>
-    {#if $listItems}
-      {#each $listItems as listItem}
-        <li>
-          {listItem.gameId}:
-          {#if $games && $games[listItem.gameId]}
-            {$games[listItem.gameId].name}
-            {#if $platforms[listItem.platformId]}
-              ({$platforms[listItem.platformId].name})
-            {/if}
-            {#if listItem.notes}
-              <p>{listItem.notes}</p>
-            {/if}
-          {/if}
 
-          <button on:click={removeListItem(listItem)}>Remove</button>
-          <MoveToList listItems={listItems} listItemId={listItem.id} />
-        </li>
-      {/each}
-    {/if}
-  </ul>
-
-  <Search />
+  <ListItems listId={list.id} />
 {/if}
