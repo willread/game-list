@@ -1,6 +1,6 @@
 - Backend
   - Search
-    - Switch to basic custom search
+    - Prioritize exact search matches
     - Allow partial game / search index updates based on only games that have been updates since the last run
     - Update search index when json file changes
   - Move firebase config to env

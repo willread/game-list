@@ -19,7 +19,7 @@
   $: games = gamesForIds(results.map(i => i.id));
 
   async function search(search) {
-    const searchGames = functions.httpsCallable('searchGames');
+    const searchGames = functions.httpsCallable('search-searchGames');
 
     lastSearchTime = (new Date()).getTime();
 

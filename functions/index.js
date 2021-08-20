@@ -6,10 +6,9 @@ admin.initializeApp({
 });
 
 const igdb = require('./igdb').functions(admin, functions);
-const search = require('./search').functions(admin, functions);
 
 exports.fetchGames = igdb.fetchGames;
 exports.fetchPlatforms = igdb.fetchPlatforms;
-exports.searchGames = search.searchGames;
-exports.generateSearchDocuments = search.generateSearchDocuments;
+
+exports.search = require('./search')(admin, functions);
 exports.lists = require('./lists')(admin, functions);

@@ -105,7 +105,6 @@ exports.functions = (admin, functions) => {
             if (!e) {
               functions.logger.log('Wrote games index to file');
               revokeToken(token);
-              functions.httpsCallable('generateSearchDocuments');
               response.status(200).send('done');
             } else {
               response.status(500).send(e.message);
