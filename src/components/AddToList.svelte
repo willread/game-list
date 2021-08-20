@@ -57,17 +57,19 @@
         </select>
       </div>
 
-      <div class="select">
-        <select bind:value={platformId}>
-          {#each game.platforms as platformId}
-            {#if $platforms[platformId]}
-              <option value={platformId}>
-                {$platforms[platformId].name}
-              </option>
-            {/if}
-          {/each}
-        </select>
-      </div>
+      {#if game.platforms}
+        <div class="select">
+          <select bind:value={platformId}>
+            {#each game.platforms as platformId}
+              {#if $platforms[platformId]}
+                <option value={platformId}>
+                  {$platforms[platformId].name}
+                </option>
+              {/if}
+            {/each}
+          </select>
+        </div>
+      {/if}
 
       <textarea class="textarea" placeholder="Notes..." bind:value={notes}></textarea>
 

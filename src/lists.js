@@ -109,6 +109,10 @@ export function listItemsForId(id) {
   }
 
   function add(listItem) {
+    if (!listItem.platformId) {
+      delete listItem.platformId;
+    }
+
     listItemsRef
       .add(listItem)
       .catch(e => {/* todo */});
