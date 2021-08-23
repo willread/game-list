@@ -5,10 +5,6 @@ admin.initializeApp({
   storageBucket: 'gamera-dev.appspot.com',
 });
 
-const igdb = require('./igdb').functions(admin, functions);
-
-exports.fetchGames = igdb.fetchGames;
-exports.fetchPlatforms = igdb.fetchPlatforms;
-
+exports.igdb = require('./igdb')(admin, functions);
 exports.search = require('./search')(admin, functions);
 exports.lists = require('./lists')(admin, functions);

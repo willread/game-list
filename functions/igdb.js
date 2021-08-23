@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-exports.functions = (admin, functions) => {
+module.exports = (admin, functions) => {
   const db = admin.firestore();
 
   function getToken() {
