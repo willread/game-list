@@ -7,10 +7,10 @@
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
 - Frontend
-  - Refactor functions to normalize syntax
-  - Bulma dark mode
   - ListItem page (manage attributes)
   - List sorting / filtering
+  - Refactor functions to normalize syntax
+  - Bulma dark mode
   - Page titles / SEO
   - Default to last list / platform when adding game
   - Move service code to services/stores folders

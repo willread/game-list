@@ -1,5 +1,7 @@
 <script>
   import { format, fromUnixTime } from 'date-fns';
+  import Icon from 'svelte-awesome';
+  import { search as searchIcon } from 'svelte-awesome/icons';
   import { link } from 'svelte-routing';
 
   import { clickOutside } from '../actions/clickOutside';
@@ -27,11 +29,12 @@
 
     try {
       resultsLoading = true;
+      openDropdown();
+
       const newResults = (await searchGames({ search: search })).data;
 
       if ((new Date()).getTime() >= lastSearchTime) {
         results = newResults;
-        openDropdown();
       }
     } catch(e) {
       results = [];
@@ -76,7 +79,12 @@
 
 <div class="dropdown {dropdownOpen ? 'is-active' : ''}" use:clickOutside on:click-outside={closeDropdown}>
   <div class="dropdown-trigger" aria-haspopup="true" aria-controls="dropdown-menu">
-    <input class="input" on:input={debounce} on:focus={openDropdown} bind:value={query} />
+    <span class="control has-icons-left">
+      <input class="input is-small is-rounded" on:input={debounce} on:focus={openDropdown} bind:value={query} />
+      <span class="icon is-small is-left">
+        <Icon data={searchIcon} />
+      </span>
+    </span>
   </div>
   <nav class="dropdown-menu" role="menu">
     <div class="dropdown-content is-flex is-justify-content-center is-flex-direction-column">

@@ -17,6 +17,13 @@
   }
 </script>
 
+<style lang="scss">
+  .search {
+    display: flex;
+    align-items: center;
+  }
+</style>
+
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
@@ -30,8 +37,6 @@
         <Link to="profile" class="navbar-item">Profile</Link>
         <Link to="lists" class="navbar-item">Lists</Link>
       {/if}
-
-      <Search />
     </div>
   </div>
 
@@ -39,7 +44,7 @@
     <div class="navbar-item">
       <div class="buttons">
         {#if !$user}
-          <a class="button is-primary" on:click={login}>
+          <a class="button is-primary is-small" on:click={login}>
             <strong>Sign in with Google</strong>
           </a>
         {:else}
@@ -49,5 +54,9 @@
         {/if}
       </div>
     </div>
+  </div>
+
+  <div class="search pr-2">
+    <Search />
   </div>
 </nav>
