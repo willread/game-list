@@ -10,6 +10,11 @@
   let platformId;
   let notes = '';
 
+  $: otherPlatforms = Object.keys($platforms)
+    .map(k => ({ id: k, ...$platforms[k] }))
+    .filter(p => !game.platforms.includes(p.id))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   function openModal() {
     modalActive = true;
   }
@@ -67,6 +72,16 @@
                 </option>
               {/if}
             {/each}
+
+            {#if otherPlatforms.length}
+              <option disabled>──────────</option>
+
+              {#each otherPlatforms as otherPlatform}
+                <option value={otherPlatform.id}>
+                  {otherPlatform.name}
+                </option>
+              {/each}
+            {/if}
           </select>
         </div>
       {/if}
