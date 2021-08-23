@@ -14,7 +14,7 @@ module.exports = (admin, functions) => {
         GAMES_INDEX_READ_PROMISE = new Promise((resolve, reject) => {
           try {
             const bucket = admin.storage().bucket();
-            const file = bucket.file('search-index.json', {}); // TODO: Rename to `games-index.json` after next run as file has changed names
+            const file = bucket.file('games-index.json', {});
             const readStream = file.createReadStream();
 
             functions.logger.log('Reading games index json');
