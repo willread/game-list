@@ -1,71 +1,112 @@
 const axios = require('axios');
 
+const TOKEN_EXPIRATION_THRESHOLD = 30000;
+let TOKEN;
+
 module.exports = (admin, functions) => {
   const db = admin.firestore();
+  const tokenDocRef = db.collection('igdb').doc('token');
 
-  function getToken() {
+  async function getStoredToken() {
+    return await tokenDocRef.get().then(r => r.data());
+  }
+
+  async function getTokenFromIGDB() {
     const path = `https://id.twitch.tv/oauth2/token?client_id=${functions.config().igdb.id}&client_secret=${functions.config().igbd.secret}&grant_type=client_credentials`;
 
-    return axios({
+    token = await axios({
       url: path,
       method: 'POST',
       headers: {
         'Accept': 'application/json',
       },
     })
-    .then(function(r) {
-      return r.data;
-    })
-    .catch(e => {
-      throw(e);
-    });
+    .then(r => r.data);
+    token.expiry = (new Date()).getTime() + (token.expires_in * 1000);
+    await tokenDocRef.set(token);
+
+    return token;
   }
 
-  function revokeToken(token) {
-    const path = `https://id.twitch.tv/oauth2/revoke?client_id=${functions.config().igdb.id}&token=${token}`;
+  async function getToken() {
+    let token;
 
-    return axios({
-      url: path,
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      },
-    })
-    .then(function(r) {
-      return r.data;
-    })
-    .catch(e => {
-      throw(e);
-    });
+    if (TOKEN) {
+      token = TOKEN;
+      functions.logger.log('Using global IGDB token');
+    } else {
+      token = await getStoredToken();
+
+      if (!token) {
+        token = await getTokenFromIGDB();
+        functions.logger.log('Fetching new IGDB token');
+      } else {
+        functions.logger.log('Using stored IGDB token');
+      }
+    }
+
+    const now = (new Date()).getTime();
+
+    if (token.expiry <= now + TOKEN_EXPIRATION_THRESHOLD) {
+      token = await getTokenFromIGDB();
+      functions.logger.log('IGDB token expired, fetching new one');
+    }
+
+    TOKEN = token;
+
+    return token;
   }
 
-  async function fetchPageOfGames(token, limit, offset) {
-    const fields = ['category', 'cover.*', 'first_release_date', 'genres', 'keywords.*', 'name', 'platforms', 'screenshots.*', 'summary', 'version_title', 'slug'];
-    const path = `https://api.igdb.com/v4/games?limit=${limit}&offset=${offset}&fields=${fields.join(',')}`;
+  async function revokeToken() {
+    const storedToken = await getStoredToken();
+
+    if (storedToken) {
+      const path = `https://id.twitch.tv/oauth2/revoke?client_id=${functions.config().igdb.id}&token=${storedToken}`;
+
+      await axios({
+        url: path,
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+
+      TOKEN = undefined;
+      await tokenDocRef.delete();
+    }
+  }
+
+  async function makeIGDBRequest(path, method) {
+    const token = await getToken();
 
     return await axios({
       url: path,
-      method: 'GET',
+      method,
       headers: {
         'Client-ID': functions.config().igdb.id,
         'Authorization': `Bearer ${token.access_token}`,
         'Accept': 'application/json',
       },
     })
-    .then(async function(r) {
-      return(r.data.map(game => {
-        if (game.cover) {
-          game.cover.url = game.cover.url.replace('/t_thumb/', '/t_cover_big/');
-        }
-        if (game.screenshots) {
-          game.screenshots = game.screenshots.map(s => s.url = s.url.replace('/t_thumb/', '/t_screenshot_big/'));
-        }
+    .then(r => r.data);
+  }
 
-        return game;
-      }));
-    })
-    .catch(function(e) {
-      throw(e);
+  async function fetchPageOfGames(limit, offset) {
+    const fields = ['category', 'cover.*', 'first_release_date', 'genres', 'keywords.*', 'name', 'platforms', 'screenshots.*', 'summary', 'version_title', 'slug'];
+    const path = `https://api.igdb.com/v4/games?limit=${limit}&offset=${offset}&fields=${fields.join(',')}`;
+
+    const games = await makeIGDBRequest(path, 'GET');
+
+    return games.map(game => {
+      if (game.cover) {
+        game.cover.url = game.cover.url.replace('/t_thumb/', '/t_cover_big/');
+      }
+
+      if (game.screenshots) {
+        game.screenshots = game.screenshots.map(s => s.url = s.url.replace('/t_thumb/', '/t_screenshot_big/'));
+      }
+
+      return game;
     });
   }
 
@@ -74,7 +115,6 @@ module.exports = (admin, functions) => {
     .https
     .onRequest(async (request, response) => {
       try {
-        const token = await getToken();
         const gamesIndex = [];
         const LIMIT = 500;
         const MAX_OFFSET = Infinity;
@@ -97,19 +137,7 @@ module.exports = (admin, functions) => {
           }
 
           finishing = true;
-
-          const bucket = admin.storage().bucket();
-          const file = bucket.file('games-index.json', {});
-
-          file.save(JSON.stringify(gamesIndex), e => {
-            if (!e) {
-              functions.logger.log('Wrote games index to file');
-              revokeToken(token);
-              response.status(200).send('done');
-            } else {
-              response.status(500).send(e.message);
-            }
-          });
+          response.status(200).send('done');
         }
 
         const fetch = async function() {
@@ -128,7 +156,7 @@ module.exports = (admin, functions) => {
 
           functions.logger.log(`Fetching games at offset ${o}`);
 
-          const games = await fetchPageOfGames(token, LIMIT, o);
+          const games = await fetchPageOfGames(LIMIT, o);
 
           if (!games || !games.length) {
             done = true;
@@ -178,6 +206,8 @@ module.exports = (admin, functions) => {
           next();
         }
 
+        // run 4 tasks in parallel
+
         next();
         next();
         next();
@@ -192,25 +222,10 @@ module.exports = (admin, functions) => {
 
   const fetchPlatforms = functions.https.onRequest(async (request, response) => {
     try {
-      const token = await getToken();
       const fields = ['name', 'id', 'abbreviation', ];
       const path = `https://api.igdb.com/v4/platforms?limit=500&fields=${fields.join(',')}`;
 
-      const platforms = await axios({
-        url: path,
-        method: 'GET',
-        headers: {
-          'Client-ID': functions.config().igdb.id,
-          'Authorization': `Bearer ${token.access_token}`,
-          'Accept': 'application/json',
-        },
-      })
-      .then(async function(r) {
-        return r.data;
-      })
-      .catch(function(e) {
-        throw(e);
-      });
+      const platforms = await makeIGDBRequest(path, 'GET');
 
       // Save new platforms
 
@@ -223,17 +238,25 @@ module.exports = (admin, functions) => {
 
       batch.commit();
 
-      revokeToken(token);
-
       response.status(200).send(platforms);
     } catch(e) {
       response.status(500).send(e.message);
     }
   });
 
+  const searchGames = async data => {
+    const query = (data.data ? data.data : data).search || '';
+    const fields = ['cover.*', 'first_release_date', 'name', 'platforms', 'slug'];
+    const path = `https://api.igdb.com/v4/games?search=${query}&fields=${fields.join(',')}`;
+    const games = await makeIGDBRequest(path, 'GET');
+
+    return games;
+  };
+
   return {
     fetchGames,
     fetchPlatforms,
+    searchGames: functions.https.onCall(searchGames),
   };
 };
 

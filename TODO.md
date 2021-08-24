@@ -1,14 +1,12 @@
 - Backend
-  - Search
-    - Prioritize exact search matches
-    - Allow partial game / search index updates based on only games that have been updates since the last run
-    - Update search index when json file changes
+  - Refactor search to use igdb api
+  - Games endpoint should look up 404 games in igdb
+  - Handle IGDB authentication errors
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
 - Frontend
   - ListItem page (manage attributes)
-  - List sorting / filtering
   - Bulma dark mode
   - Page titles / SEO
   - Default to last list / platform when adding game

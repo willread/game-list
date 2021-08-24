@@ -6,5 +6,4 @@ admin.initializeApp({
 });
 
 exports.igdb = require('./igdb')(admin, functions);
-exports.search = require('./search')(admin, functions);
 exports.lists = require('./lists')(admin, functions);

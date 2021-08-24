@@ -23,7 +23,7 @@
   $: games = gamesForIds(results.map(i => i.id));
 
   async function search(search) {
-    const searchGames = functions.httpsCallable('search-searchGames');
+    const searchGames = functions.httpsCallable('igdb-searchGames');
 
     lastSearchTime = (new Date()).getTime();
 
