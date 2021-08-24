@@ -1,7 +1,15 @@
 const axios = require('axios');
+const axiosRetry = require('axios-retry');
 
 const TOKEN_EXPIRATION_THRESHOLD = 30000;
+const REQUEST_RETRY_DELAY = 500;
 let TOKEN;
+
+axiosRetry(axios, {
+  retries: 3,
+  retryDelay: retryCount => REQUEST_RETRY_DELAY,
+  retryCondition: e => e.response.status === 429,
+});
 
 module.exports = (admin, functions) => {
   const db = admin.firestore();
