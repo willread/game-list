@@ -84,16 +84,19 @@ module.exports = (admin, functions) => {
     }
   }
 
-  async function makeIGDBRequest(path, method) {
+  async function makeIGDBRequest(path = '', query = {}) {
     const token = await getToken();
+    const data = Object.keys(query).map(k => `${k} ${query[k]};`).join('');
 
     return await axios({
-      url: path,
-      method,
+      url: `${path}`,
+      method: 'POST',
+      data,
       headers: {
         'Client-ID': functions.config().igdb.id,
         'Authorization': `Bearer ${token.access_token}`,
         'Accept': 'application/json',
+        'Content-Type': 'text/plain',
       },
     })
     .then(r => r.data);
@@ -118,117 +121,114 @@ module.exports = (admin, functions) => {
     });
   }
 
-  const fetchGames = functions
-    .runWith({ timeoutSeconds: 540, memory: '8GB' })
-    .https
-    .onRequest(async (request, response) => {
-      try {
-        const gamesIndex = [];
-        const LIMIT = 500;
-        const MAX_OFFSET = Infinity;
-        const TIME_BETWEEN_REQUESTS = 500;
-        const MAX_REQUESTS = 8;
-        let offset = 0;
-        let done = false;
-        let finishing = false;
-        let requestPromises = [];
-        let lastRequestTime = -Infinity;
+  async function fetchGames(request, response) {
+    try {
+      const gamesIndex = [];
+      const LIMIT = 500;
+      const MAX_OFFSET = Infinity;
+      const TIME_BETWEEN_REQUESTS = 500;
+      const MAX_REQUESTS = 8;
+      let offset = 0;
+      let done = false;
+      let finishing = false;
+      let requestPromises = [];
+      let lastRequestTime = -Infinity;
 
-        const finish = function() {
-          if (finishing) {
-            return;
-          }
-
-          if (requestPromises.length) {
-            setTimeout(finish);
-            return;
-          }
-
-          finishing = true;
-          response.status(200).send('done');
+      const finish = function() {
+        if (finishing) {
+          return;
         }
 
-        const fetch = async function() {
-          const o = offset;
-
-          offset += LIMIT;
-
-          if (offset >= MAX_OFFSET) {
-            done = true;
-            return;
-          }
-
-          if (done) {
-            return;
-          }
-
-          functions.logger.log(`Fetching games at offset ${o}`);
-
-          const games = await fetchPageOfGames(LIMIT, o);
-
-          if (!games || !games.length) {
-            done = true;
-          } else {
-            const batch = db.batch();
-
-            functions.logger.log(`Got ${games.length} games at offset ${o}`);
-
-            games.forEach(game => {
-              const { id, ...data } = game;
-              db.collection('games').doc(id.toString()).set(data);
-
-              gamesIndex.push({
-                id,
-                name: game.name,
-                slug: game.slug,
-              });
-            });
-
-            batch.commit();
-          }
+        if (requestPromises.length) {
+          setTimeout(finish);
+          return;
         }
 
-        const next = async function() {
-          if (done) {
-            finish();
-            return;
-          }
-
-          if (requestPromises.length >= MAX_REQUESTS) {
-            setTimeout(next, 100);
-            return;
-          }
-
-          const now = (new Date()).getTime();
-          const timeSinceLastRequest = now - lastRequestTime;
-
-          if (timeSinceLastRequest <= TIME_BETWEEN_REQUESTS) {
-            setTimeout(next, TIME_BETWEEN_REQUESTS - timeSinceLastRequest);
-            return
-          }
-
-          const promise = fetch();
-          requestPromises.push(promise);
-          await promise;
-          requestPromises = requestPromises.filter(p => p !== promise);
-          next();
-        }
-
-        // run 4 tasks in parallel
-
-        next();
-        next();
-        next();
-        next();
-      } catch(e) {
-        response.status(500).send(e.message);
+        finishing = true;
+        response.status(200).send('done');
       }
-    });
+
+      const fetch = async function() {
+        const o = offset;
+
+        offset += LIMIT;
+
+        if (offset >= MAX_OFFSET) {
+          done = true;
+          return;
+        }
+
+        if (done) {
+          return;
+        }
+
+        functions.logger.log(`Fetching games at offset ${o}`);
+
+        const games = await fetchPageOfGames(LIMIT, o);
+
+        if (!games || !games.length) {
+          done = true;
+        } else {
+          const batch = db.batch();
+
+          functions.logger.log(`Got ${games.length} games at offset ${o}`);
+
+          games.forEach(game => {
+            const { id, ...data } = game;
+            db.collection('games').doc(id.toString()).set(data);
+
+            gamesIndex.push({
+              id,
+              name: game.name,
+              slug: game.slug,
+            });
+          });
+
+          batch.commit();
+        }
+      }
+
+      const next = async function() {
+        if (done) {
+          finish();
+          return;
+        }
+
+        if (requestPromises.length >= MAX_REQUESTS) {
+          setTimeout(next, 100);
+          return;
+        }
+
+        const now = (new Date()).getTime();
+        const timeSinceLastRequest = now - lastRequestTime;
+
+        if (timeSinceLastRequest <= TIME_BETWEEN_REQUESTS) {
+          setTimeout(next, TIME_BETWEEN_REQUESTS - timeSinceLastRequest);
+          return
+        }
+
+        const promise = fetch();
+        requestPromises.push(promise);
+        await promise;
+        requestPromises = requestPromises.filter(p => p !== promise);
+        next();
+      }
+
+      // run 4 tasks in parallel
+
+      next();
+      next();
+      next();
+      next();
+    } catch(e) {
+      response.status(500).send(e.message);
+    }
+  }
 
   // fixme: There may some day be more than 500 platforms and exceed the max batch size
   //        allowed by firestore.
 
-  const fetchPlatforms = functions.https.onRequest(async (request, response) => {
+  async function fetchPlatforms(request, response) {
     try {
       const fields = ['name', 'id', 'abbreviation', ];
       const path = `https://api.igdb.com/v4/platforms?limit=500&fields=${fields.join(',')}`;
@@ -250,20 +250,24 @@ module.exports = (admin, functions) => {
     } catch(e) {
       response.status(500).send(e.message);
     }
-  });
+  }
 
   const searchGames = async data => {
-    const query = (data.data ? data.data : data).search || '';
-    const fields = ['cover.*', 'first_release_date', 'name', 'platforms', 'slug'];
-    const path = `https://api.igdb.com/v4/games?search=${query}&fields=${fields.join(',')}`;
-    const games = await makeIGDBRequest(path, 'GET');
+    const search = ((data.data ? data.data : data).search || '');
+    const fields = ['category', 'cover.*', 'first_release_date', 'name', 'platforms', 'slug'];
+    const path = `https://api.igdb.com/v4/games`;
+    const games = await makeIGDBRequest(path, {
+      search: `"${search.replace('"', '')}"`,
+      fields: fields.join(','),
+      limit: 20,
+    });
 
     return games;
   };
 
   return {
-    fetchGames,
-    fetchPlatforms,
+    fetchGames: functions.runWith({ timeoutSeconds: 540, memory: '8GB' }).https.onRequest(fetchGames),
+    fetchPlatforms: functions.https.onRequest(fetchPlatforms),
     searchGames: functions.https.onCall(searchGames),
   };
 };

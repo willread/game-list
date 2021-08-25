@@ -1,5 +1,4 @@
 - Backend
-  - Refactor search to use igdb api
   - Games endpoint should look up 404 games in igdb
   - Handle IGDB authentication errors
   - Move firebase config to env
@@ -7,13 +6,12 @@
   - Proper CORS policy
 - Frontend
   - ListItem page (manage attributes)
+  - Add time log
+  - Add condition
   - Bulma dark mode
   - Page titles / SEO
   - Default to last list / platform when adding game
   - Move service code to services/stores folders
-  - Move search to site header and style dropdown
-  - Add time log
-  - Add condition
   - Cache games
   - Cache platforms
   - Cache game images

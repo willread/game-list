@@ -6,7 +6,6 @@
 
   import { clickOutside } from '../actions/clickOutside';
   import { functions } from '../firebase';
-  import { gamesForIds } from '../lists';
 
   import Cover from './Cover.svelte';
 
@@ -19,8 +18,6 @@
 
   const DEBOUNCE_TIMEOUT = 200;
   const MIN_SEARCH_CHARACTERS = 3;
-
-  $: games = gamesForIds(results.map(i => i.id));
 
   async function search(search) {
     const searchGames = functions.httpsCallable('igdb-searchGames');
@@ -87,23 +84,21 @@
     </span>
   </div>
   <nav class="dropdown-menu" role="menu">
-    <div class="dropdown-content is-flex is-justify-content-center is-flex-direction-column">
+    <div class="dropdown-content is-flex is-flex-direction-column">
       {#if resultsLoading}
         <div class="button is-disabled is-white is-loading"></div>
       {:else}
         {#if results.length}
           {#each results as result}
-            {#if $games[result.id]}
-              <a href='/games/{result.slug}' use:link on:click={handleClickResult} class="dropdown-item is-flex is-align-items-center">
-                <span class="mr-1">
-                  <Cover game={$games[result.id]} size='micro' />
-                </span>
-                <span class="mr-1">{result.name}</span>
-                {#if $games[result.id].first_release_date}
-                  <span class="has-text-grey-light">({format(fromUnixTime($games[result.id].first_release_date), 'yyyy')})</span>
-                {/if}
-              </a>
-            {/if}
+            <a href='/games/{result.slug}' use:link on:click={handleClickResult} class="dropdown-item is-flex is-align-items-center">
+              <span class="mr-1">
+                <Cover game={result} size='micro' />
+              </span>
+              <span class="mr-1">{result.name}</span>
+              {#if result.first_release_date}
+                <span class="has-text-grey-light">({format(fromUnixTime(result.first_release_date), 'yyyy')})</span>
+              {/if}
+            </a>
           {/each}
         {:else}
           <span class="has-text-dark px-3">No results found</span>
