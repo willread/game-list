@@ -1,5 +1,4 @@
 <script>
-  import 'bulma/css/bulma.css';
   import { Route, Router } from 'svelte-routing';
 
   import Navbar from './components/Navbar.svelte';
@@ -12,6 +11,19 @@
 
   export let url = '';
 </script>
+
+<style global lang="scss">
+  @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,900&display=swap');
+
+  // $scheme-main: #222;
+
+  @import 'bulma/bulma.sass';
+
+  a:hover {
+    text-decoration: none;
+  }
+</style>
 
 <Router url="{url}">
   <Navbar />

@@ -43,7 +43,19 @@ export default {
 				// enable run-time checks when not in production
 				dev: !production
 			},
-      preprocess: preprocess(),
+      preprocess: preprocess({
+        scss: {
+          includePaths: [
+            'node_modules',
+            'src'
+          ]
+        },
+        postcss: {
+          plugins: [
+            require('autoprefixer'),
+          ]
+        }
+      }),
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance

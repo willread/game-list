@@ -1,5 +1,5 @@
 <script>
-  import { Link } from 'svelte-routing';
+  import { link } from 'svelte-routing';
 
   import { lists } from './lists';
   import { toasts } from './services/toasts';
@@ -7,6 +7,10 @@
   let newListName = '';
 
   function addList() {
+    if (!newListName) {
+      return;
+    }
+
     try {
       lists.add({ name: newListName });
       newListName = '';
@@ -18,18 +22,37 @@
   }
 </script>
 
-<h1>My Lists ({$lists.length})</h1>
-<ul>
-	{#each $lists as list}
-    <li>
-      {#if list.slug}
-        <Link to="/lists/{list.slug}">{list.name}</Link>
-      {/if}
-    </li>
-	{/each}
-</ul>
+<section class="section">
+  <h1 class="title">Lists</h1>
+  {#if $lists.length}
+    <div class="columns is-multiline">
+      {#each $lists as list}
+        {#if list.slug}
+          <div class="column is-one-quarter">
+            <a use:link href="/lists/{list.slug}">
+              <div class="card">
+                <div class="card-content">
+                  <p>{list.name}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        {/if}
+      {/each}
+    </div>
+  {:else}
+    <div class="content">You haven't created any lists</div>
+  {/if}
 
-<h1>New List</h1>
+  <h1 class="title">New List</h1>
 
-<input bind:value={newListName} placeholder="Name">
-<button on:click={addList}>Add</button>
+  <div class="field has-addons">
+    <div class="control">
+      <input class="input" bind:value={newListName} placeholder="Name">
+    </div>
+
+    <div class="control">
+      <button class="button" disabled={!newListName} on:click={addList}>Add</button>
+    </div>
+  </div>
+</section>
