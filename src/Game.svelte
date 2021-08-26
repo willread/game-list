@@ -7,8 +7,6 @@
   export let slug;
 
   $: game = gameForSlug(slug);
-
-  db.collection('games').doc('159171').get().then(doc => console.log(doc.data()));
 </script>
 
 {#if $game}
