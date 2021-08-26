@@ -2,7 +2,6 @@
   - Games endpoint should look up 404 games in igdb
   - Handle IGDB authentication errors
   - Move firebase config to env
-  - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
   - Switch to APICalypse for IGDB integration (should make consuming paginated content simpler)
 - Frontend
