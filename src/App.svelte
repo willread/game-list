@@ -14,11 +14,6 @@
 
 <style global lang="scss">
   @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,900&display=swap');
-
-  // $scheme-main: #222;
-
-  @import 'bulma/bulma.sass';
 
   a:hover {
     text-decoration: none;

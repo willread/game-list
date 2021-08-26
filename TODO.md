@@ -4,6 +4,7 @@
   - Move firebase config to env
   - Proper CORS policy
   - Switch to APICalypse for IGDB integration (should make consuming paginated content simpler)
+  - Keep search endpoint alive
 - Frontend
   - Switch to materialize
   - ListItem page (manage attributes)

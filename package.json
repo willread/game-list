@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "bulma": "^0.9.3",
     "date-fns": "^2.23.0",
     "firebase": "^8.7.1",
     "rxfire": "^4.0.0",
