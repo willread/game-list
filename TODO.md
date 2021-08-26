@@ -1,10 +1,10 @@
 - Backend
-  - Only fetch games updates / added since last run
   - Games endpoint should look up 404 games in igdb
   - Handle IGDB authentication errors
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
+  - Switch to APICalypse for IGDB integration (should make consuming paginated content simpler)
 - Frontend
   - Switch to materialize
   - ListItem page (manage attributes)

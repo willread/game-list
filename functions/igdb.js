@@ -102,11 +102,16 @@ module.exports = (admin, functions) => {
     .then(r => r.data);
   }
 
-  async function fetchPageOfGames(limit, offset) {
+  async function fetchPageOfGames(limit, offset, timestamp) {
     const fields = ['category', 'cover.*', 'first_release_date', 'genres', 'keywords.*', 'name', 'platforms', 'screenshots.*', 'summary', 'version_title', 'slug'];
-    const path = `https://api.igdb.com/v4/games?limit=${limit}&offset=${offset}&fields=${fields.join(',')}`;
+    const path = 'https://api.igdb.com/v4/games';
 
-    const games = await makeIGDBRequest(path, 'GET');
+    const games = await makeIGDBRequest(path, {
+      fields: fields.join(','),
+      limit,
+      offset,
+      where: `updated_at > ${timestamp}`,
+    });
 
     return games.map(game => {
       if (game.cover) {
@@ -123,7 +128,8 @@ module.exports = (admin, functions) => {
 
   async function fetchGames(request, response) {
     try {
-      const gamesIndex = [];
+      const updateStartedAt = Math.round((new Date()).getTime() / 1000);
+      const lastUpdatedAt = (await db.collection('igdb').doc('lastUpdatedAt').get().then(r => r.data())).timestamp;
       const LIMIT = 500;
       const MAX_OFFSET = Infinity;
       const TIME_BETWEEN_REQUESTS = 500;
@@ -134,7 +140,7 @@ module.exports = (admin, functions) => {
       let requestPromises = [];
       let lastRequestTime = -Infinity;
 
-      const finish = function() {
+      const finish = async () => {
         if (finishing) {
           return;
         }
@@ -145,10 +151,11 @@ module.exports = (admin, functions) => {
         }
 
         finishing = true;
+        await db.collection('igdb').doc('lastUpdatedAt').update({timestamp: updateStartedAt});
         response.status(200).send('done');
       }
 
-      const fetch = async function() {
+      const fetch = async () => {
         const o = offset;
 
         offset += LIMIT;
@@ -164,7 +171,7 @@ module.exports = (admin, functions) => {
 
         functions.logger.log(`Fetching games at offset ${o}`);
 
-        const games = await fetchPageOfGames(LIMIT, o);
+        const games = await fetchPageOfGames(LIMIT, o, lastUpdatedAt);
 
         if (!games || !games.length) {
           done = true;
@@ -176,12 +183,6 @@ module.exports = (admin, functions) => {
           games.forEach(game => {
             const { id, ...data } = game;
             db.collection('games').doc(id.toString()).set(data);
-
-            gamesIndex.push({
-              id,
-              name: game.name,
-              slug: game.slug,
-            });
           });
 
           batch.commit();
