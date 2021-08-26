@@ -1,14 +1,15 @@
 - Backend
+  - Only fetch games updates / added since last run
   - Games endpoint should look up 404 games in igdb
   - Handle IGDB authentication errors
   - Move firebase config to env
   - Make igdb functions non-https (scheduled?)
   - Proper CORS policy
 - Frontend
+  - Switch to materialize
   - ListItem page (manage attributes)
   - Add time log
   - Add condition
-  - Bulma dark mode
   - Page titles / SEO
   - Default to last list / platform when adding game
   - Move service code to services/stores folders

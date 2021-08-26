@@ -1,5 +1,5 @@
 <script>
-  import { Link, navigate } from 'svelte-routing';
+  import { Link, link, navigate } from 'svelte-routing';
 
   import { auth, googleProvider } from '../firebase';
   import { user } from '../auth';
@@ -65,7 +65,7 @@
 
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item logo" href="/">
+    <a class="navbar-item logo" href="/" use:link>
       <span>G</span>
       <span>a</span>
       <span>m</span>
