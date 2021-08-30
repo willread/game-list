@@ -1,0 +1,110 @@
+$line-height-multiplier: 1.5;
+
+@mixin line-height($font-size) {
+  line-height: $font-size * $line-height-multiplier;
+}
+
+@mixin xxxs() {
+  @include line-height(9px);
+
+  font-size: 9px;
+}
+
+@mixin xxs() {
+  @include line-height(11px);
+
+  font-size: 11px;
+}
+
+@mixin xs() {
+  @include line-height(12px);
+
+  font-size: 12px;
+}
+
+@mixin s() {
+  @include line-height(13px);
+
+  font-size: 13px;
+}
+
+@mixin m() {
+  @include line-height(14px);
+
+  font-size: 14px;
+}
+
+
+@mixin h1() {
+  @include bold();
+  @include line-height(32px);
+
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin h2() {
+  @include bold();
+  @include line-height(24px);
+
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin h3() {
+  @include bold();
+  @include line-height(219px);
+
+  font-size: 21px;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin h4() {
+  @include semibold();
+  @include line-height(16px);
+
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin h5() {
+  @include bold();
+  @include line-height(15px);
+
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin h6() {
+  @include bold();
+  @include line-height(14px);
+
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin regular() {
+  font-weight: 400;
+}
+
+@mixin medium() {
+  font-weight: 500;
+}
+
+@mixin semibold() {
+  font-weight: 600;
+}
+
+@mixin bold() {
+  font-weight: 700;
+}
+
+@mixin caps() {
+  text-transform: uppercase;
+}

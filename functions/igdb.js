@@ -140,16 +140,20 @@ module.exports = (admin, functions) => {
     let lastRequestTime = -Infinity;
 
     const finish = async () => {
+      functions.logger.log('Finishing updating games.');
       if (finishing) {
+        functions.logger.log('Already finishing.');
         return;
       }
 
       if (requestPromises.length) {
+        functions.logger.log(`Still waiting on ${requestPromises.length} requests.`);
         setTimeout(finish);
         return;
       }
 
       finishing = true;
+      functions.logger.log('Updating lastUpdatedAt timestamp.');
       await db.collection('igdb').doc('lastUpdatedAt').update({timestamp: updateStartedAt});
     }
 

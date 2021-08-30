@@ -1,0 +1,34 @@
+$border-radius: 10px;
+
+@mixin wrapper() {
+  position: relative;
+}
+
+@mixin container() {
+  background: var(--card-bg);
+  border-radius: $border-radius;
+  box-shadow: var(--shadow-far);
+  transition: opacity 0.15s, transform 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: var(--padding-m);
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+@mixin is-visible() {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+@mixin is-anchored-right() {
+  left: auto;
+  right: 0;
+}

@@ -2,9 +2,12 @@
   import { Link, link, navigate } from 'svelte-routing';
 
   import { auth, googleProvider } from '../firebase';
+  import { clickOutside } from '../actions/clickOutside';
   import { user } from '../auth';
 
   import Search from './Search.svelte';
+
+  let dropdownOpen = false;
 
   function login() {
       auth.signInWithPopup(googleProvider);
@@ -15,20 +18,40 @@
       navigate('/');
     });
   }
+
+  function closeDropdown() {
+    dropdownOpen = false;
+  }
+
+  function openDropdown(e) {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    dropdownOpen = true;
+  }
 </script>
 
 <style lang="scss">
-  .navbar {
-    background: #111;
-  }
+  @use '../styles/button';
+  @use '../styles/layout';
+  @use '../styles/dropdown';
+  @use '../styles/menu';
 
-  .search {
-    display: flex;
-    align-items: center;
+  .navbar {
+    background: var(--navbar-bg);
+
+    .container {
+      @include layout.container();
+
+      display: flex;
+      align-items: center;
+    }
   }
 
   .logo {
-    font-family: "Bungee";
+    font-family: "Bungee", sans-serif;
+    font-size: 20px;
     color: #fff;
     text-decoration: none;
     text-shadow: 3px 5px 0 rgba(#000, 0.75);
@@ -61,11 +84,44 @@
       }
     }
   }
+
+  .search {
+    flex: 1 1 auto;
+    margin: 0 var(--padding-m);
+  }
+
+  .dropdown-wrapper {
+    @include dropdown.wrapper();
+  }
+
+  .dropdown {
+    @include dropdown.container();
+    @include dropdown.is-anchored-right();
+
+    &.is-visible {
+      @include dropdown.is-visible();
+    }
+
+    ul {
+      @include menu.list();
+
+      li {
+        @include menu.item();
+      }
+    }
+
+    button {
+      @include button.button();
+      @include button.is-primary();
+
+      margin-top: var(--padding-m);
+    }
+  }
 </style>
 
-<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item logo" href="/" use:link>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <a class="logo" href="/" use:link>
       <span>G</span>
       <span>a</span>
       <span>m</span>
@@ -73,32 +129,27 @@
       <span>r</span>
       <span>a</span>
     </a>
-  </div>
 
-  <div class="navbar-menu">
-    <div class="navbar-start">
-      {#if $user}
-        <Link to="profile" class="navbar-item">Profile</Link>
-        <Link to="lists" class="navbar-item">Lists</Link>
-      {/if}
+    <div class="search">
+      <Search />
     </div>
-  </div>
 
-  <div class="search">
-    <Search />
-  </div>
-
-  <div class="navbar-end">
-    <div class="navbar-item">
-      <div class="buttons">
+    <div class="dropdown-wrapper" use:clickOutside on:click-outside={closeDropdown} on:click={closeDropdown}>
+      <button class="dropdown-trigger" on:click={openDropdown}></button>
+      <div class="dropdown {dropdownOpen ? 'is-visible' : ''}">
         {#if !$user}
-          <a class="button is-primary is-small" on:click={login}>
-            <strong>Sign in with Google</strong>
-          </a>
+          <button class="waves-effect waves-light btn" on:click={login}>
+            Sign in with Google
+          </button>
         {:else}
-          <a class="button is-primary is-small" on:click={logout}>
-            <strong>Sign out</strong>
-          </a>
+          <ul>
+            <li><Link to="profile" class="navbar-item">Profile</Link></li>
+            <li><Link to="lists" class="navbar-item">Lists</Link></li>
+          </ul>
+
+          <button class="waves-effect waves-light btn" on:click={logout}>
+            Sign out
+          </button>
         {/if}
       </div>
     </div>

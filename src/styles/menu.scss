@@ -1,0 +1,23 @@
+@use 'type';
+
+@mixin list() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin item() {
+  @include type.s();
+
+  display: flex;
+
+  &, a {
+    color: var(--content);
+  }
+
+  a {
+    flex: 1 1 auto;
+  }
+}

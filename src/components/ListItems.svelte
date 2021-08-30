@@ -1,7 +1,5 @@
 <script>
   import { writable } from 'svelte/store';
-  import Icon from 'svelte-awesome';
-  import { search as searchIcon } from 'svelte-awesome/icons';
 
   import { gamesForIds, listItemsForId } from '../lists';
   import MoveToList from './MoveToList.svelte';
@@ -61,9 +59,7 @@
 
 <span class="control has-icons-left">
   <input class="input is-small is-rounded" bind:value={$filters.search} />
-  <span class="icon is-small is-left">
-    <Icon data={searchIcon} />
-  </span>
+  <span class="icon is-small is-left"></span>
 </span>
 
 <div class="select">

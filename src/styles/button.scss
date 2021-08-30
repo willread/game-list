@@ -1,0 +1,18 @@
+@use 'type';
+@use 'util';
+
+@mixin button {
+  @include util.clickable();
+  @include type.s();
+
+  padding: var(--padding-s) var(--padding-m);
+  color: var(--content);
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+@mixin is-primary() {
+  background: var(--primary-bg);
+  color: var(--primary-content);
+  border-color: var(--primary-border);
+}

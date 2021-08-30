@@ -1,7 +1,5 @@
 <script>
   import { format, fromUnixTime } from 'date-fns';
-  import Icon from 'svelte-awesome';
-  import { search as searchIcon } from 'svelte-awesome/icons';
   import { link } from 'svelte-routing';
 
   import { clickOutside } from '../actions/clickOutside';
@@ -68,40 +66,52 @@
 </script>
 
 <style lang="scss">
+  @use '../styles/dropdown';
+
+  .dropdown-wrapper {
+    @include dropdown.wrapper();
+  }
+
+  .dropdown-menu {
+    @include dropdown.container();
+
+    &.is-visible {
+      @include dropdown.is-visible();
+    }
+  }
+
   .dropdown-content {
     max-height: 200px;
     overflow: auto;
   }
 </style>
 
-<div class="dropdown {dropdownOpen ? 'is-active' : ''}" use:clickOutside on:click-outside={closeDropdown}>
+<div class="dropdown-wrapper" use:clickOutside on:click-outside={closeDropdown}>
   <div class="dropdown-trigger" aria-haspopup="true" aria-controls="dropdown-menu">
-    <span class="control has-icons-left">
+    <div class="input-field">
       <input class="input is-small is-rounded" on:input={debounce} on:focus={openDropdown} bind:value={query} />
-      <span class="icon is-small is-left">
-        <Icon data={searchIcon} />
-      </span>
-    </span>
+      <span class="icon is-small is-left"></span>
+    </div>
   </div>
-  <nav class="dropdown-menu" role="menu">
-    <div class="dropdown-content is-flex is-flex-direction-column">
+  <nav class="dropdown-menu {dropdownOpen ? 'is-visible' : ''}" role="menu">
+    <div class="dropdown-content">
       {#if resultsLoading}
-        <div class="button is-disabled is-white is-loading"></div>
+        <div class="spinner"></div>
       {:else}
         {#if results.length}
           {#each results as result}
-            <a href='/games/{result.slug}' use:link on:click={handleClickResult} class="dropdown-item is-flex is-align-items-center">
-              <span class="mr-1">
+            <a href='/games/{result.slug}' use:link on:click={handleClickResult}>
+              <span class="cover">
                 <Cover game={result} size='micro' />
               </span>
-              <span class="mr-1">{result.name}</span>
+              <span class="name">{result.name}</span>
               {#if result.first_release_date}
-                <span class="has-text-grey-light">({format(fromUnixTime(result.first_release_date), 'yyyy')})</span>
+                <span class="meta">({format(fromUnixTime(result.first_release_date), 'yyyy')})</span>
               {/if}
             </a>
           {/each}
         {:else}
-          <span class="has-text-dark px-3">No results found</span>
+          <span class="no-results">No results found</span>
         {/if}
       {/if}
     </div>

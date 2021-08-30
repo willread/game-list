@@ -13,20 +13,18 @@
 </script>
 
 <style global lang="scss">
-  @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
-
-  a:hover {
-    text-decoration: none;
-  }
+  @import 'styles/global';
 </style>
 
 <Router url="{url}">
   <Navbar />
 
-  <ProtectedRoute path="profile" component="{Profile}" />
-  <ProtectedRoute path="lists" component="{Lists}" />
-  <ProtectedRoute path="lists/:slug" component="{List}" />
-  <Route path="games/:slug" component="{Game}" />
+  <div class="container">
+    <ProtectedRoute path="profile" component="{Profile}" />
+    <ProtectedRoute path="lists" component="{Lists}" />
+    <ProtectedRoute path="lists/:slug" component="{List}" />
+    <Route path="games/:slug" component="{Game}" />
+  </div>
 
   <Toasts />
 </Router>
