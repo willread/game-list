@@ -12,10 +12,19 @@
   --primary-content: #fff;
   --primary-border: #000;
   --alert: #b73225;
+
   --shadow-near: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   --shadow-far: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+  --input-radius: 3px;
+  --input-bg: #fff;
+  --input-border: #0c0d0d;
+  --input-content: #0c0d0d;
 
   --padding-s: 5px;
   --padding-m: 10px;
   --padding-l: 20px;
+
+  --card-radius: 5px;
+  --button-radius: 3px;
 }

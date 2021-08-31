@@ -5,7 +5,10 @@
 body {
   background: var(--background);
   color: var(--content);
-  font-family: Asap;
+
+  &, input {
+    font-family: Asap;
+  }
 }
 
 a, a:hover {

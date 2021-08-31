@@ -1,0 +1,34 @@
+@use 'type';
+
+@mixin wrapper() {
+  position: relative;
+}
+
+@mixin control() {
+  @include type.xs();
+  @include type.medium();
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  align-items: center;
+  color: var(--input-content);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  box-shadow: none;
+  display: inline-flex;
+  justify-content: flex-start;
+  padding: var(--padding-s) var(--padding-m);
+  position: relative;
+  vertical-align: top;
+
+  &:focus,
+  &:active {
+    outline: none
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: not-allowed
+  }
+}

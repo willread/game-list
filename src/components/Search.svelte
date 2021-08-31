@@ -67,6 +67,7 @@
 
 <style lang="scss">
   @use '../styles/dropdown';
+  @use '../styles/input';
 
   .dropdown-wrapper {
     @include dropdown.wrapper();
@@ -84,13 +85,20 @@
     max-height: 200px;
     overflow: auto;
   }
+
+  .input {
+    @include input.wrapper();
+
+    input {
+      @include input.control();
+    }
+  }
 </style>
 
 <div class="dropdown-wrapper" use:clickOutside on:click-outside={closeDropdown}>
   <div class="dropdown-trigger" aria-haspopup="true" aria-controls="dropdown-menu">
-    <div class="input-field">
-      <input class="input is-small is-rounded" on:input={debounce} on:focus={openDropdown} bind:value={query} />
-      <span class="icon is-small is-left"></span>
+    <div class="input">
+      <input on:input={debounce} on:focus={openDropdown} bind:value={query} />
     </div>
   </div>
   <nav class="dropdown-menu {dropdownOpen ? 'is-visible' : ''}" role="menu">
